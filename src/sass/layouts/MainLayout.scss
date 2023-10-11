@@ -1,0 +1,25 @@
+@use "sass:map";
+@use "../vars";
+
+.main-layout {
+	height: 100%;
+
+	> header {
+		position: sticky;
+		top: 0;
+		z-index: 1;
+		width: 100%;
+		display: flex;
+		align-items: center;
+	}
+
+	> main {
+		margin: vars.$space-6;
+		background-color: map.get(vars.$colors, "surface", "light");
+	}
+
+	> footer {
+		display: flex;
+		align-items: end;
+	}
+}

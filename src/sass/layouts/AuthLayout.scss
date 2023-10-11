@@ -1,0 +1,13 @@
+.auth-layout {
+	background: rgb(240, 245, 255);
+	background: linear-gradient(151deg, rgba(240, 245, 255, 1) 0%, rgba(89, 126, 247, 0.865983893557423) 100%);
+	background-attachment: fixed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+
+	> * {
+		width: min(100vw, 375px);
+	}
+}

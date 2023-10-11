@@ -1,0 +1,47 @@
+@use "../vars";
+
+@each $name, $value in vars.$spaces {
+	.p-#{$name} {
+		padding: $value;
+	}
+	.py-#{$name} {
+		padding-block: $value;
+	}
+	.px-#{$name} {
+		padding-inline: $value;
+	}
+	.pt-#{$name} {
+		padding-top: $value;
+	}
+	.pb-#{$name} {
+		padding-bottom: $value;
+	}
+	.pl-#{$name} {
+		padding-left: $value;
+	}
+	.pr-#{$name} {
+		padding-right: $value;
+	}
+
+	.m-#{$name} {
+		margin: $value;
+	}
+	.my-#{$name} {
+		margin-block: $value;
+	}
+	.mx-#{$name} {
+		margin-inline: $value;
+	}
+	.mt-#{$name} {
+		margin-top: $value;
+	}
+	.mb-#{$name} {
+		margin-bottom: $value;
+	}
+	.ml-#{$name} {
+		margin-left: $value;
+	}
+	.mr-#{$name} {
+		margin-right: $value;
+	}
+}
