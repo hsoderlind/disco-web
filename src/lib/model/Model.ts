@@ -7,5 +7,6 @@ export class Model<T extends object, K extends keyof T> extends BaseModel<T, K> 
 	
 	constructor(key: K, data?: Partial<T>) {
 		super(key, data);
+		this.httpClient = makeHttpClientForApi();
 	}
 }

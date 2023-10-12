@@ -28,6 +28,7 @@ const AuthProvider: FC<ReactCommonProps> = ({ children }) => {
 
 	useQuery(fetchUserQueryKey, fetchUserQueryFn, {
 		enabled: fetchUser,
+		retry: false,
 		onSuccess: (data) => {
 			setUser(data);
 			setIsAuthenticating(false);

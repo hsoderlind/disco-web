@@ -11,6 +11,7 @@
 		width: 100%;
 		display: flex;
 		align-items: center;
+		padding: 0 map.get(vars.$spaces, 6);
 	}
 
 	> main {

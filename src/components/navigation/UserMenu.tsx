@@ -1,6 +1,6 @@
-import { MenuProps, Avatar, Menu } from 'antd';
+import { MenuProps, Menu } from 'antd';
 import { FC } from 'react';
-import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
+import { UserOutlined } from '@ant-design/icons';
 import { useLogout } from '../../services/auth/hooks/useLogout';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -30,13 +30,18 @@ const UserMenu: FC = () => {
 
 	const items: MenuProps['items'] = [
 		{
-			label: <Avatar size={32} icon={<UserOutlined style={{ fontSize: '24px' }} />} />,
+			// label: <Avatar size={32} icon={<UserOutlined style={{ fontSize: '24px' }} />} />,
+			icon: <UserOutlined style={{ fontSize: '24px' }} />,
 			key: 'user',
+			theme: 'light',
 			children: [
 				{
+					label: 'Min profil',
+					key: 'profile'
+				},
+				{
 					label: 'Logga ut',
-					key: 'logout',
-					icon: <LogoutOutlined />
+					key: 'logout'
 				}
 			]
 		}
