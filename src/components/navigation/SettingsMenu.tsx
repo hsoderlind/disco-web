@@ -4,7 +4,7 @@ import { SettingOutlined } from '@ant-design/icons';
 import { useShopsContext } from '../../contexts/shops/useShopsContext';
 
 const SettingsMenu: FC = () => {
-	const { hasShops } = useShopsContext();
+	const { hasShops, selectedShop } = useShopsContext();
 	const items: MenuProps['items'] = [
 		{
 			icon: <SettingOutlined style={{ fontSize: '24px' }} />,
@@ -38,7 +38,7 @@ const SettingsMenu: FC = () => {
 		}
 	];
 
-	return <Menu disabled={!hasShops} items={items} mode='horizontal' theme='dark' />;
+	return <Menu disabled={!hasShops || !selectedShop} items={items} mode='horizontal' theme='dark' />;
 };
 
 export default SettingsMenu;

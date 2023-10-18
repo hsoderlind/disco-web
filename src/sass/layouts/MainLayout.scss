@@ -15,8 +15,7 @@
 	}
 
 	> main {
-		margin: vars.$space-6;
-		background-color: map.get(vars.$colors, "surface", "light");
+		margin: vars.$space-5 vars.$space-6;
 	}
 
 	> footer {

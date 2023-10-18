@@ -3,7 +3,7 @@ import RegisterShopContainer from '../components/onboarding/RegisterShopContaine
 
 const Dashboard: FC = () => {
 	return (
-		<div className='p-5'>
+		<div>
 			Dashboard
 			<RegisterShopContainer />
 		</div>
