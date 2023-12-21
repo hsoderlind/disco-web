@@ -2,9 +2,12 @@ import { FC } from 'react';
 import { MenuProps, Menu } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { useShopsContext } from '../../contexts/shops/useShopsContext';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const SettingsMenu: FC = () => {
 	const { hasShops, selectedShop } = useShopsContext();
+	const params = useParams();
+	const navigate = useNavigate();
 	const items: MenuProps['items'] = [
 		{
 			icon: <SettingOutlined style={{ fontSize: '24px' }} />,
@@ -13,7 +16,7 @@ const SettingsMenu: FC = () => {
 			children: [
 				{
 					label: 'Butiksprofil',
-					key: 'shop-profile'
+					key: 'profile'
 				},
 				{
 					label: 'Användare',
@@ -22,6 +25,10 @@ const SettingsMenu: FC = () => {
 				{
 					label: 'Betalningssätt',
 					key: 'payment-methods'
+				},
+				{
+					label: 'Discogs',
+					key: 'discogs'
 				},
 				{
 					type: 'divider'
@@ -38,7 +45,12 @@ const SettingsMenu: FC = () => {
 		}
 	];
 
-	return <Menu disabled={!hasShops || !selectedShop} items={items} mode='horizontal' theme='dark' />;
+	const onClick: MenuProps['onClick'] = (e) => {
+		const uri = `/${params.urlAlias}/${e.key}`;
+		navigate(uri);
+	};
+
+	return <Menu onClick={onClick} disabled={!hasShops || !selectedShop} items={items} mode='horizontal' theme='dark' />;
 };
 
 export default SettingsMenu;

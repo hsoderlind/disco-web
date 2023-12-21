@@ -31,6 +31,7 @@ class ApplicationBuilder {
 
 	build() {
 		this.initI18n();
+		this.validationSchemaBuilder = initValidationSchemaBuilder();
 	}
 }
 
