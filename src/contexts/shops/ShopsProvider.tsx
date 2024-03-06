@@ -7,6 +7,7 @@ import { ShopsContextType } from './types';
 import { ShopsContext } from './ShopsContext';
 import Shop from '../../services/shop/Shop';
 import { useParams } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const ShopsProvider: FC<ReactCommonProps> = ({ children }) => {
 	const [selectedShop, setSelectedShop] = useState<Shop | undefined>();
@@ -18,6 +19,14 @@ const ShopsProvider: FC<ReactCommonProps> = ({ children }) => {
 		enabled: !!user,
 		retry: false
 	});
+
+	const _setSelectedShop = (shop: Shop | undefined) => {
+		setSelectedShop(shop);
+
+		if (shop) {
+			Cookies.set('shopId', shop.get<string>('id')!);
+		}
+	};
 
 	useEffect(() => {
 		if (urlAlias && data && data.length > 0) {
@@ -32,7 +41,7 @@ const ShopsProvider: FC<ReactCommonProps> = ({ children }) => {
 	const value: ShopsContextType = {
 		shops: data,
 		selectedShop,
-		setSelectedShop,
+		setSelectedShop: _setSelectedShop,
 		hasShops: data ? data.length > 0 : false,
 		isLoading,
 		isSuccess,

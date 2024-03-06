@@ -23,6 +23,11 @@ const AuthProvider: FC<ReactCommonProps> = ({ children }) => {
 			if (!inAuth) {
 				setFetchUser(true);
 			}
+		},
+		onError: () => {
+			if (!inAuth) {
+				window.location.href = '/login';
+			}
 		}
 	});
 

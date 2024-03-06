@@ -9,13 +9,13 @@ const ShopsMenu: FC = () => {
 	const { shops, hasShops, selectedShop, setSelectedShop } = useShopsContext();
 	const navigate = useNavigate();
 	const items: MenuProps['items'] = hasShops
-		? shops?.map((shop) => ({
+		? shops!.map((shop) => ({
 				label: shop.get<string>('name')!,
 				key: shop.get<string>('url_alias')!
 		  }))
 		: [];
 
-	items?.push({
+	items!.push({
 		label: <Button type='primary'>Registrera ny butik</Button>,
 		key: 'new'
 	});
