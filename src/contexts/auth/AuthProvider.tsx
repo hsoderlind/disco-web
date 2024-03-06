@@ -6,25 +6,34 @@ import { useQuery } from '@tanstack/react-query';
 import { User } from '../../services/user/User';
 import { AuthContext as AuthContextType } from './types';
 import { AuthContext } from './AuthContext';
+import { Spin } from 'antd';
 
 const AuthProvider: FC<ReactCommonProps> = ({ children }) => {
 	const [fetchCsrfTokenQueryKey, fetchCsrfTokenQueryFn] = useFetchCsrfToken();
 	const [fetchUserQueryKey, fetchUserQueryFn] = useFetchUser();
 	const [fetchUser, setFetchUser] = useState(false);
 	const [user, setUser] = useState<User | null>(null);
+	const [isFetchingCsrfToken, setIsFetchingCsrfToken] = useState(true);
 	const [isAuthenticating, setIsAuthenticating] = useState(true);
 	const inAuth =
 		window.location.pathname === '/login' ||
 		window.location.pathname === '/register' ||
 		window.location.pathname === '/reset-password';
+	const [allProcessesDone, setAllProcessesDone] = useState(false);
 
 	useQuery(fetchCsrfTokenQueryKey, fetchCsrfTokenQueryFn, {
 		onSuccess: () => {
+			setIsFetchingCsrfToken(false);
+
 			if (!inAuth) {
 				setFetchUser(true);
+			} else {
+				setAllProcessesDone(true);
 			}
 		},
 		onError: () => {
+			setIsFetchingCsrfToken(false);
+
 			if (!inAuth) {
 				window.location.href = '/login';
 			}
@@ -38,6 +47,7 @@ const AuthProvider: FC<ReactCommonProps> = ({ children }) => {
 			setUser(data);
 			setIsAuthenticating(false);
 			setFetchUser(false);
+			setAllProcessesDone(true);
 
 			if (inAuth) {
 				window.location.href = '/';
@@ -51,6 +61,7 @@ const AuthProvider: FC<ReactCommonProps> = ({ children }) => {
 	});
 
 	const value: AuthContextType = {
+		isFetchingCsrfToken,
 		isAuthenticating,
 		user,
 		fetchUser: () => {
@@ -61,7 +72,17 @@ const AuthProvider: FC<ReactCommonProps> = ({ children }) => {
 		}
 	};
 
-	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+	return (
+		<AuthContext.Provider value={value}>
+			{!allProcessesDone ? (
+				<div className='page-loader'>
+					<Spin size='large' />
+				</div>
+			) : (
+				children
+			)}
+		</AuthContext.Provider>
+	);
 };
 
 export default AuthProvider;
