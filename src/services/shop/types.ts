@@ -29,3 +29,7 @@ export interface Shop {
 	created_at: string;
 }
 
+export type ShopStore = {
+	shop: Shop;
+	update: (shop: Shop) => void;
+}

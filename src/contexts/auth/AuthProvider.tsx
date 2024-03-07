@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { User } from '../../services/user/User';
 import { AuthContext as AuthContextType } from './types';
 import { AuthContext } from './AuthContext';
-import { Spin } from 'antd';
+import { PageLoader } from '../../components/page-loader/PageLoader';
 
 const AuthProvider: FC<ReactCommonProps> = ({ children }) => {
 	const [fetchCsrfTokenQueryKey, fetchCsrfTokenQueryFn] = useFetchCsrfToken();
@@ -72,17 +72,7 @@ const AuthProvider: FC<ReactCommonProps> = ({ children }) => {
 		}
 	};
 
-	return (
-		<AuthContext.Provider value={value}>
-			{!allProcessesDone ? (
-				<div className='page-loader'>
-					<Spin size='large' />
-				</div>
-			) : (
-				children
-			)}
-		</AuthContext.Provider>
-	);
+	return <AuthContext.Provider value={value}>{!allProcessesDone ? <PageLoader /> : children}</AuthContext.Provider>;
 };
 
 export default AuthProvider;

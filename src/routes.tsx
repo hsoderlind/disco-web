@@ -8,6 +8,8 @@ import ResetPassword from './pages/auth/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import LandingPage from './pages/shop/LandingPage';
 import { OverviewPage } from './pages/products/OverviewPage';
+import { LoadingPage } from './pages/shop/LoadingPage';
+import { NewProductPage } from './pages/products/NewProductPage';
 
 // const _notYetImplemented = (path?: string) => {
 // 	return <div>not yet implemented{` ${path ? `@ ${path}` : ''}`}</div>;
@@ -24,9 +26,12 @@ const routes = createBrowserRouter(
 			</Route>
 			<Route element={<MainLayout />}>
 				<Route path='/' element={<Dashboard />} handle={{ menuKey: 'dashboard' }} />
-				<Route path='/:urlAlias'>
+				<Route path='/:urlAlias' element={<LoadingPage />}>
 					<Route index element={<LandingPage />} handle={{ menuKey: 'landingPage' }} />
-					<Route path='products' element={<OverviewPage />} handle={{ menuKey: 'products' }} />
+					<Route path='products' handle={{ menuKey: 'products' }}>
+						<Route index element={<OverviewPage />} />
+						<Route path='new' element={<NewProductPage />} />
+					</Route>
 				</Route>
 			</Route>
 		</Route>
