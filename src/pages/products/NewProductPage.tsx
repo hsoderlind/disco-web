@@ -10,6 +10,7 @@ import { ExtractErrors } from '../../lib/error/ExtractErrors';
 import { SubmitHandler } from 'react-hook-form';
 import { Form, Input, InputNumber } from 'antd';
 import FormItem from '../../lib/form/FormItem';
+import { TaxSelect } from '../../components/tax/TaxSelect';
 
 export const NewProductPage = () => {
 	const navigate = useNavigate();
@@ -48,6 +49,9 @@ export const NewProductPage = () => {
 			</FormItem>
 			<FormItem control={control} name='price' label='Pris (exkl. moms)'>
 				<InputNumber />
+			</FormItem>
+			<FormItem control={control} name='tax_id' label='Moms'>
+				<TaxSelect />
 			</FormItem>
 		</Form>
 	);
