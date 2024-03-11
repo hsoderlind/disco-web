@@ -80,7 +80,7 @@ export const NewProductPage = () => {
 				</Col>
 				<Col xl={3}>
 					<UncontrolledLabel label='Bruttopris' htmlFor='price_inc_vat'>
-						<InputNumber id='price_inc_vat' precision={2} addonAfter={'kr'} value={priceInclVat} readOnly />
+						<InputNumber precision={2} addonAfter={'kr'} value={priceInclVat} readOnly />
 					</UncontrolledLabel>
 				</Col>
 			</Row>

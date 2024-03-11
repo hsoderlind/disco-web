@@ -1,4 +1,4 @@
-import { FC, LabelHTMLAttributes } from 'react';
+import { Children, FC, LabelHTMLAttributes, cloneElement, isValidElement } from 'react';
 import { ReactCommonProps } from '../../types/common';
 
 export type UncontrolledLabelProps = {
@@ -15,7 +15,11 @@ export const UncontrolledLabel: FC<UncontrolledLabelProps> = ({ htmlFor, childre
 					{label}
 				</label>
 			</div>
-			{children}
+			{Children.map(
+				children,
+				//@ts-expect-error ID may not be a valid HTML attribute
+				(child) => isValidElement(child) && cloneElement(child, { id: htmlFor })
+			)}
 		</div>
 	);
 };
