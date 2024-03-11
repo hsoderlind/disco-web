@@ -11,24 +11,24 @@ import { SubmitHandler } from 'react-hook-form';
 import { Form, Input, InputNumber, Row, Col } from 'antd';
 import FormItem from '../../lib/form/FormItem';
 import { TaxSelect } from '../../components/forms/controls/TaxSelect';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetTaxes } from '../../services/tax/hooks/useGetTaxes';
+import { UncontrolledLabel } from '../../components/forms/UncontrolledLabel';
 
 export const NewProductPage = () => {
 	const navigate = useNavigate();
+	const [priceInclVat, setPriceInclVat] = useState(0);
 	const shopId = useShopStore((state) => state.shop.id);
 	const [taxesQueryKey, taxesQueryFn] = useGetTaxes(shopId);
 	const { data: taxes } = useQuery(taxesQueryKey, taxesQueryFn);
 	const [mutationFn] = useCreateProduct(shopId);
-	const { control, handleSubmit, setError, setValue, getValues, watch } = useForm<ProductSchemaType>({
+	const { control, handleSubmit, setError, watch } = useForm<ProductSchemaType>({
 		defaultValues: {
 			reference: '',
 			supplier_reference: '',
 			name: '',
 			description: '',
-			price: 0,
-			price_incl_vat: 0,
-			tax_id: 0
+			price: 0
 		},
 		schema: productSchema
 	});
@@ -53,16 +53,14 @@ export const NewProductPage = () => {
 
 	useEffect(() => {
 		const tax = taxId && taxes?.find(taxId);
-		console.log('price', price);
-		console.log('taxId', taxId);
 
 		if (tax && typeof price !== 'undefined') {
 			const taxValue = tax.get<number>('value')! / 100 + 1.0;
 			const priceInclVat = price * taxValue;
 			console.log('priceInclVat', priceInclVat);
-			setValue('price_incl_vat', priceInclVat);
+			setPriceInclVat(priceInclVat);
 		}
-	}, [watch, getValues, setValue, taxes, price, taxId]);
+	}, [watch, taxes, price, taxId]);
 
 	return (
 		<Form onFinish={handleSubmit(onSubmit)} layout='vertical'>
@@ -71,7 +69,7 @@ export const NewProductPage = () => {
 			</FormItem>
 			<Row gutter={[12, 0]}>
 				<Col xl={3}>
-					<FormItem control={control} name='price' label='Pris (exkl. moms)'>
+					<FormItem control={control} name='price' label='Nettopris'>
 						<InputNumber precision={2} addonAfter='kr' />
 					</FormItem>
 				</Col>
@@ -79,6 +77,11 @@ export const NewProductPage = () => {
 					<FormItem control={control} name='tax_id' label='Moms'>
 						<TaxSelect creatable />
 					</FormItem>
+				</Col>
+				<Col xl={3}>
+					<UncontrolledLabel label='Bruttopris' htmlFor='price_inc_vat'>
+						<InputNumber id='price_inc_vat' precision={2} addonAfter={'kr'} value={priceInclVat} readOnly />
+					</UncontrolledLabel>
 				</Col>
 			</Row>
 		</Form>
