@@ -8,6 +8,7 @@ export const productSchema = vsb.object({
 	supplier_id: vsb.number().optional(),
 	manufacturer_id: vsb.number().optional(),
 	price: vsb.number().min(0),
+	price_incl_vat: vsb.number().min(0),
 	reference: vsb.string().max(255).optional(),
 	supplier_reference: vsb.string().max(255).optional(),
 	available_for_order: vsb.boolean().default(true),
@@ -25,6 +26,7 @@ export type ProductType = {
 	supplier_id: number;
 	manufacturer_id: number;
 	price: number;
+	price_incl_vat: number;
 	reference: string;
 	supplier_reference: string;
 	available_for_order: boolean;

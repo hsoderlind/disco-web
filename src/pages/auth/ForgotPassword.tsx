@@ -8,7 +8,7 @@ import { ExtractErrors } from '../../lib/error/ExtractErrors';
 import { SubmitHandler } from 'react-hook-form';
 import { Button, Card, Form, Input, message } from 'antd';
 import FormItem from '../../lib/form/FormItem';
-import Link from '../../components/Link';
+import Link from '../../components/navigation/Link';
 import { Message } from '../../types/common';
 
 const ForgotPassword: FC = () => {

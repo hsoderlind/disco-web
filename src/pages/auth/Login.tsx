@@ -4,7 +4,7 @@ import { useForm } from '../../hooks/useForm';
 import { LoginSchema, loginSchema } from '../../services/auth/types';
 import FormItem from '../../lib/form/FormItem';
 import { useNavigate } from 'react-router-dom';
-import Link from '../../components/Link';
+import Link from '../../components/navigation/Link';
 import { useLogin } from '../../services/auth/hooks/useLogin';
 import { useMutation } from '@tanstack/react-query';
 import { ExtractErrors } from '../../lib/error/ExtractErrors';
