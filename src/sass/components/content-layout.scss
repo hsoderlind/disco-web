@@ -1,0 +1,19 @@
+@use "sass:map";
+@use "../_vars.scss";
+
+.content-layout {
+	display: flex;
+	gap: 2vw;
+
+	.main-content-layout {
+		flex: 1;
+		max-width: 75vw;
+		background-color: map.get(vars.$colors, "surface", "light");
+		padding: 5vh 3vw;
+		border-radius: 6px;
+	}
+
+	.sidebar-content-layout {
+		min-width: 250px;
+	}
+}

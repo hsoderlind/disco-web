@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { useResetPassword } from '../../services/auth/hooks/useResetPassword';
 import { useForm } from '../../hooks/useForm';
 import { ResetPasswordSchema, resetPasswordSchema } from '../../services/auth/types';
@@ -11,7 +10,7 @@ import FormItem from '../../lib/form/FormItem';
 import { Message } from '../../types/common';
 import { useNavigate } from 'react-router-dom';
 
-const ResetPassword: FC = () => {
+export function Component() {
 	const navigate = useNavigate();
 	const [messageApi, contextHolder] = message.useMessage();
 	const [mutationFn] = useResetPassword();
@@ -54,6 +53,4 @@ const ResetPassword: FC = () => {
 			</Form>
 		</Card>
 	);
-};
-
-export default ResetPassword;
+}

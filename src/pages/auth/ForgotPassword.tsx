@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { useSendResetPasswordLink } from '../../services/auth/hooks/useSendResetPasswordLink';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from '../../hooks/useForm';
@@ -11,7 +10,7 @@ import FormItem from '../../lib/form/FormItem';
 import Link from '../../components/navigation/Link';
 import { Message } from '../../types/common';
 
-const ForgotPassword: FC = () => {
+export function Component() {
 	const [messageApi, contextHolder] = message.useMessage();
 	const [mutationFn] = useSendResetPasswordLink();
 	const { control, handleSubmit, setError } = useForm<ForgotPasswordSchema>({
@@ -54,6 +53,4 @@ const ForgotPassword: FC = () => {
 			</Form>
 		</Card>
 	);
-};
-
-export default ForgotPassword;
+}

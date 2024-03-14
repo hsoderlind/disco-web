@@ -1,7 +1,6 @@
 import { Card, Col, Row } from 'antd';
-import { FC } from 'react';
 
-const LandingPage: FC = () => {
+export function Component() {
 	return (
 		<Row gutter={[24, 24]}>
 			<Col xs={24} xl={12}>
@@ -30,6 +29,4 @@ const LandingPage: FC = () => {
 			</Col>
 		</Row>
 	);
-};
-
-export default LandingPage;
+}

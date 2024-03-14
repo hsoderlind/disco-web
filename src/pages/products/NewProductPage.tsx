@@ -7,15 +7,19 @@ import { ServerValidationError } from '../../lib/error/types';
 import { Product } from '../../services/product/Product';
 import { useNavigate } from 'react-router-dom';
 import { ExtractErrors } from '../../lib/error/ExtractErrors';
-import { SubmitHandler } from 'react-hook-form';
+import { Controller, SubmitHandler } from 'react-hook-form';
 import { Form, Input, InputNumber, Row, Col } from 'antd';
 import FormItem from '../../lib/form/FormItem';
 import { TaxSelect } from '../../components/forms/controls/TaxSelect';
 import { useEffect, useState } from 'react';
 import { useGetTaxes } from '../../services/tax/hooks/useGetTaxes';
 import { UncontrolledLabel } from '../../components/forms/UncontrolledLabel';
+import { Editor } from '../../components/forms/controls/Editor';
+import { ContentLayout } from '../../components/layout/content-layout/ContentLayout';
+import { MainContentLayout } from '../../components/layout/content-layout/MainContentLayout';
+import { SidebarContentLayout } from '../../components/layout/content-layout/SidebarContentLayout';
 
-export const NewProductPage = () => {
+export function Component() {
 	const navigate = useNavigate();
 	const [priceInclVat, setPriceInclVat] = useState(0);
 	const shopId = useShopStore((state) => state.shop.id);
@@ -57,33 +61,46 @@ export const NewProductPage = () => {
 		if (tax && typeof price !== 'undefined') {
 			const taxValue = tax.get<number>('value')! / 100 + 1.0;
 			const priceInclVat = price * taxValue;
-			console.log('priceInclVat', priceInclVat);
 			setPriceInclVat(priceInclVat);
 		}
 	}, [watch, taxes, price, taxId]);
 
 	return (
-		<Form onFinish={handleSubmit(onSubmit)} layout='vertical'>
-			<FormItem control={control} name='name' label='Benämning'>
-				<Input />
-			</FormItem>
-			<Row gutter={[12, 0]}>
-				<Col xl={3}>
-					<FormItem control={control} name='price' label='Nettopris'>
-						<InputNumber precision={2} addonAfter='kr' />
+		<ContentLayout>
+			<MainContentLayout>
+				<Form onFinish={handleSubmit(onSubmit)} layout='vertical'>
+					<FormItem control={control} name='name' label='Benämning'>
+						<Input autoFocus />
 					</FormItem>
-				</Col>
-				<Col xl={4}>
-					<FormItem control={control} name='tax_id' label='Moms'>
-						<TaxSelect creatable />
-					</FormItem>
-				</Col>
-				<Col xl={3}>
-					<UncontrolledLabel label='Bruttopris' htmlFor='price_inc_vat'>
-						<InputNumber precision={2} addonAfter={'kr'} value={priceInclVat} readOnly />
-					</UncontrolledLabel>
-				</Col>
-			</Row>
-		</Form>
+					<Row gutter={[12, 0]}>
+						<Col xl={3}>
+							<FormItem control={control} name='price' label='Nettopris'>
+								<InputNumber precision={2} addonAfter='kr' />
+							</FormItem>
+						</Col>
+						<Col xl={4}>
+							<FormItem control={control} name='tax_id' label='Moms'>
+								<TaxSelect creatable />
+							</FormItem>
+						</Col>
+						<Col xl={3}>
+							<UncontrolledLabel label='Bruttopris' htmlFor='price_inc_vat'>
+								<InputNumber precision={2} addonAfter={'kr'} value={priceInclVat} readOnly />
+							</UncontrolledLabel>
+						</Col>
+					</Row>
+					<Controller
+						control={control}
+						name='description'
+						render={({ field }) => (
+							<UncontrolledLabel htmlFor='description' label='Beskrivning'>
+								<Editor onChange={field.onChange} value={field.value} />
+							</UncontrolledLabel>
+						)}
+					/>
+				</Form>
+			</MainContentLayout>
+			<SidebarContentLayout>&nbsp;</SidebarContentLayout>
+		</ContentLayout>
 	);
-};
+}

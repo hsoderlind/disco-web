@@ -2,7 +2,7 @@
 @use "../vars";
 
 .main-layout {
-	height: 100%;
+	min-height: 100%;
 
 	> header {
 		position: sticky;

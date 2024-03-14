@@ -1,4 +1,3 @@
-import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { RegisterSchema, registerSchema } from '../../services/auth/types';
@@ -11,7 +10,7 @@ import { ExtractErrors } from '../../lib/error/ExtractErrors';
 import { SubmitHandler } from 'react-hook-form';
 import { useAuthContext } from '../../contexts/auth/useAuthContext';
 
-const Register: FC = () => {
+export function Component() {
 	const { fetchUser } = useAuthContext();
 	const [mutationFn] = useRegisterUser();
 	const navigate = useNavigate();
@@ -64,6 +63,4 @@ const Register: FC = () => {
 			</Form>
 		</Card>
 	);
-};
-
-export default Register;
+}

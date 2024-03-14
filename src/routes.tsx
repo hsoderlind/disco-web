@@ -1,15 +1,6 @@
 import { Route, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import AuthLayout from './layouts/AuthLayout';
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-import ForgotPassword from './pages/auth/ForgotPassword';
 import MainLayout from './layouts/MainLayout';
-import ResetPassword from './pages/auth/ResetPassword';
-import Dashboard from './pages/Dashboard';
-import LandingPage from './pages/shop/LandingPage';
-import { OverviewPage } from './pages/products/OverviewPage';
-import { LoadingPage } from './pages/shop/LoadingPage';
-import { NewProductPage } from './pages/products/NewProductPage';
 
 // const _notYetImplemented = (path?: string) => {
 // 	return <div>not yet implemented{` ${path ? `@ ${path}` : ''}`}</div>;
@@ -19,18 +10,18 @@ const routes = createBrowserRouter(
 	createRoutesFromElements(
 		<Route>
 			<Route element={<AuthLayout />}>
-				<Route path='register' element={<Register />} />
-				<Route path='login' element={<Login />} />
-				<Route path='forgot-password' element={<ForgotPassword />} />
-				<Route path='reset-password' element={<ResetPassword />} />
+				<Route path='register' lazy={() => import('./pages/auth/Register')} />
+				<Route path='login' lazy={() => import('./pages/auth/Login')} />
+				<Route path='forgot-password' lazy={() => import('./pages/auth/ForgotPassword')} />
+				<Route path='reset-password' lazy={() => import('./pages/auth/ResetPassword')} />
 			</Route>
 			<Route element={<MainLayout />}>
-				<Route path='/' element={<Dashboard />} handle={{ menuKey: 'dashboard' }} />
-				<Route path='/:urlAlias' element={<LoadingPage />}>
-					<Route index element={<LandingPage />} handle={{ menuKey: 'landingPage' }} />
+				<Route path='/' handle={{ menuKey: 'dashboard' }} lazy={() => import('./pages/Dashboard')} />
+				<Route path='/:urlAlias' lazy={() => import('./pages/shop/LoadingPage')}>
+					<Route index handle={{ menuKey: 'landingPage' }} lazy={() => import('./pages/shop/LandingPage')} />
 					<Route path='products' handle={{ menuKey: 'products' }}>
-						<Route index element={<OverviewPage />} />
-						<Route path='new' element={<NewProductPage />} />
+						<Route index lazy={() => import('./pages/products/OverviewPage')} />
+						<Route path='new' lazy={() => import('./pages/products/NewProductPage')} />
 					</Route>
 				</Route>
 			</Route>

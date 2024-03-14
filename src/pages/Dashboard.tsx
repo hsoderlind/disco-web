@@ -1,13 +1,10 @@
-import { FC } from 'react';
 import RegisterShopContainer from '../components/onboarding/RegisterShopContainer';
 
-const Dashboard: FC = () => {
+export function Component() {
 	return (
 		<div>
 			Dashboard
 			<RegisterShopContainer />
 		</div>
 	);
-};
-
-export default Dashboard;
+}

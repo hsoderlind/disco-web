@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { PageLoader } from '../../components/page-loader/PageLoader';
 import { useShopStore } from '../../services/shop/store';
 
-export const LoadingPage = () => {
+export function Component() {
 	const params = useParams<Record<string, string>>();
 	const [queryKey, queryFn] = useGetShopByUrlAlias(params.urlAlias!);
 	const updateStore = useShopStore((state) => state.update);
@@ -13,4 +13,4 @@ export const LoadingPage = () => {
 	});
 
 	return <>{isFetching ? <PageLoader /> : <Outlet />}</>;
-};
+}

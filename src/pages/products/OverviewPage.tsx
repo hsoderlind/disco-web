@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import { useGetProducts } from '../../services/product/hooks/useGetProducts';
 import { useQuery } from '@tanstack/react-query';
 import { GridOptions } from 'ag-grid-community';
@@ -9,7 +9,7 @@ import { ArrowRightOutlined, PlusOutlined } from '@ant-design/icons';
 import { useShopStore } from '../../services/shop/store';
 import { useNavigate } from 'react-router-dom';
 
-export const OverviewPage: FC = () => {
+export function Component() {
 	const navigate = useNavigate();
 	const shopId = useShopStore((state) => state.shop.id);
 	const [queryKey, queryFn] = useGetProducts(shopId);
@@ -50,4 +50,4 @@ export const OverviewPage: FC = () => {
 			<FloatButton icon={<PlusOutlined />} type='primary' tooltip='Ny produkt' onClick={goToNewProductPage} />
 		</>
 	);
-};
+}
