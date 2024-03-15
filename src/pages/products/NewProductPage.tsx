@@ -17,7 +17,6 @@ import { UncontrolledLabel } from '../../components/forms/UncontrolledLabel';
 import { Editor } from '../../components/forms/controls/Editor';
 import { ContentLayout } from '../../components/layout/content-layout/ContentLayout';
 import { MainContentLayout } from '../../components/layout/content-layout/MainContentLayout';
-import { SidebarContentLayout } from '../../components/layout/content-layout/SidebarContentLayout';
 
 export function Component() {
 	const navigate = useNavigate();
@@ -69,9 +68,14 @@ export function Component() {
 		<ContentLayout>
 			<MainContentLayout>
 				<Form onFinish={handleSubmit(onSubmit)} layout='vertical'>
-					<FormItem control={control} name='name' label='Benämning'>
-						<Input autoFocus />
-					</FormItem>
+					<Row gutter={[12, 0]}>
+						<Col xl={6}>&nbsp;</Col>
+						<Col xl={18}>
+							<FormItem control={control} name='name' label='Benämning'>
+								<Input autoFocus />
+							</FormItem>
+						</Col>
+					</Row>
 					<Row gutter={[12, 0]}>
 						<Col xl={3}>
 							<FormItem control={control} name='price' label='Nettopris'>
@@ -100,7 +104,6 @@ export function Component() {
 					/>
 				</Form>
 			</MainContentLayout>
-			<SidebarContentLayout>&nbsp;</SidebarContentLayout>
 		</ContentLayout>
 	);
 }
