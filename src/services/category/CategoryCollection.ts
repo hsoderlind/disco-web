@@ -26,4 +26,23 @@ export class CategoryCollection extends Collection<CategoryType, 'id', Category>
 		const children = this.items.filter((category) => category.get<number>('parent') === parentId)
 		return new CategoryCollection(children, this.shopId);
 	}
+
+	ancestors(childId: number) {
+		const ancestors = new CategoryCollection([], this.shopId);
+		let parent: number;
+
+		do {
+			const category = this.find(childId);
+
+			if (!category) {
+				break;
+			}
+
+			parent = category.get<number>('parent');
+
+			ancestors.add(category);
+		} while (parent > 0);
+
+		return ancestors;
+	}
 }
