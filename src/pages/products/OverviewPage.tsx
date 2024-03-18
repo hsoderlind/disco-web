@@ -8,6 +8,10 @@ import { Button, Row, Col, FloatButton } from 'antd';
 import { ArrowRightOutlined, PlusOutlined } from '@ant-design/icons';
 import { useShopStore } from '../../services/shop/store';
 import { useNavigate } from 'react-router-dom';
+import { ContentLayout } from '../../components/layout/content-layout/ContentLayout';
+import { SidebarContentLayout } from '../../components/layout/content-layout/SidebarContentLayout';
+import { MainContentLayout } from '../../components/layout/content-layout/MainContentLayout';
+import { CategoryMenu } from '../../components/category-menu/CategoryMenu';
 
 export function Component() {
 	const navigate = useNavigate();
@@ -41,12 +45,20 @@ export function Component() {
 
 	return (
 		<>
-			<Row gutter={24}>
-				<Col span={24}></Col>
-				<Col span={24}>
-					<DataGrid containerWidth={'100%'} containerHeight={'500px'} columnDefs={columnDefs} rowData={rowData} />
-				</Col>
-			</Row>
+			<ContentLayout>
+				<SidebarContentLayout>
+					<CategoryMenu />
+				</SidebarContentLayout>
+				<MainContentLayout>
+					<Row gutter={24}>
+						<Col span={24}></Col>
+						<Col span={24}>
+							<DataGrid containerWidth={'100%'} containerHeight={'500px'} columnDefs={columnDefs} rowData={rowData} />
+						</Col>
+					</Row>
+				</MainContentLayout>
+			</ContentLayout>
+
 			<FloatButton icon={<PlusOutlined />} type='primary' tooltip='Ny produkt' onClick={goToNewProductPage} />
 		</>
 	);
