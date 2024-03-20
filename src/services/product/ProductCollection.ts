@@ -10,9 +10,9 @@ export class ProductCollection extends Collection<ProductType, 'id', Product> {
 		ProductCollection.httpClient.setHeaders({'x-shop-id': shopId});
 	}
 
-	static async fetchAll(shopId: number) {
+	static async fetchAll(shopId: number, category = 0) {
 		this.httpClient.setHeaders({'x-shop-id': shopId});
-		const response = await this.httpClient.get<ProductType[]>(this.GET_PRODUCTS_URI);
+		const response = await this.httpClient.get<ProductType[]>(`${this.GET_PRODUCTS_URI}?category=${category}`);
 
 		if (response.data) {
 			const products = response.data.map((productData) => new Product(productData, shopId));

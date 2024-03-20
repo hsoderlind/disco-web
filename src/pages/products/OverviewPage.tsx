@@ -7,16 +7,18 @@ import { DataGrid } from '../../components/data-grid/DataGrid';
 import { Button, Row, Col, FloatButton } from 'antd';
 import { ArrowRightOutlined, PlusOutlined } from '@ant-design/icons';
 import { useShopStore } from '../../services/shop/store';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ContentLayout } from '../../components/layout/content-layout/ContentLayout';
 import { SidebarContentLayout } from '../../components/layout/content-layout/SidebarContentLayout';
 import { MainContentLayout } from '../../components/layout/content-layout/MainContentLayout';
 import { CategoryMenu } from '../../components/category-menu/CategoryMenu';
 
 export function Component() {
+	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
 	const shopId = useShopStore((state) => state.shop.id);
-	const [queryKey, queryFn] = useGetProducts(shopId);
+	const category = searchParams.has('category') ? parseInt(searchParams.get('category')!) : 0;
+	const [queryKey, queryFn] = useGetProducts(shopId, category);
 	const { data, isSuccess, isLoading } = useQuery(queryKey, queryFn);
 	const rowData = isSuccess ? data?.toJSON() : isLoading ? undefined : [];
 

@@ -37,10 +37,12 @@ export class CategoryCollection extends Collection<CategoryType, 'id', Category>
 			if (!category) {
 				break;
 			}
+			
+			ancestors.add(category);
 
 			parent = category.get<number>('parent');
+			childId = parent;
 
-			ancestors.add(category);
 		} while (parent > 0);
 
 		return ancestors;

@@ -1,3 +1,5 @@
+@use "./vars";
+
 html,
 body {
 	width: 100%;
@@ -7,4 +9,12 @@ body {
 #root {
 	width: 100%;
 	height: 100%;
+}
+
+.label {
+	font-weight: vars.$fw-bold;
+}
+
+.output {
+	font-weight: vars.$fw-light;
 }
