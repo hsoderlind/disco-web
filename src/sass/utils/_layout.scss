@@ -22,6 +22,10 @@
 	flex-wrap: wrap-reverse;
 }
 
+.flex-1 {
+	flex: 1;
+}
+
 .flex-grow-0 {
 	flex-grow: 0;
 }
@@ -106,14 +110,18 @@
 	align-items: center;
 }
 
-.justify-content-start {
+.justify-start {
 	justify-content: start;
 }
 
-.justify-content-end {
+.justify-end {
 	justify-content: end;
 }
 
-.justify-content-center {
+.justify-center {
 	justify-content: center;
+}
+
+.justify-between {
+	justify-content: space-between;
 }

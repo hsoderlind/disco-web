@@ -12,8 +12,7 @@ export abstract class Auth {
 
 	static async fetchCsrfToken() {
 		const httpClient = makeHttpClientForApi();
-		await httpClient.get(this.CSRF_TOKEN_URI);
-		return true;
+		return await httpClient.get(this.CSRF_TOKEN_URI);
 	}
 
 	static async login(data: LoginSchema) {

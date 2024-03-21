@@ -12,9 +12,30 @@ body {
 }
 
 .label {
-	font-weight: vars.$fw-bold;
+	font-weight: vars.$fw-regular;
+	color: var(--ant-color-text-secondary);
+
+	&.label-sm {
+		font-size: var(--ant-font-size-sm, vars.$fs-sm);
+	}
+
+	&.label-smooth {
+		font-weight: vars.$fw-light;
+	}
 }
 
 .output {
-	font-weight: vars.$fw-light;
+	font-weight: vars.$fw-regular;
+
+	&.output-lg {
+		font-size: var(---ant-font-size-lg, vars.$fs-lg);
+	}
+
+	&.output-xl {
+		font-size: vars.$fs-xl;
+	}
+
+	&.output-rough {
+		font-weight: vars.$fw-bold;
+	}
 }

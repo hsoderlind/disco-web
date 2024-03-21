@@ -44,4 +44,16 @@
 	.mr-#{$name} {
 		margin-right: $value;
 	}
+
+	.gap-#{$name} {
+		gap: $value;
+	}
+
+	.column-gap-#{$name} {
+		column-gap: $value;
+	}
+
+	.row-gap-#{$name} {
+		row-gap: $value;
+	}
 }

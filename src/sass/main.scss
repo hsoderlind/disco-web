@@ -4,16 +4,16 @@
 // Utilities
 @import "utils/spacing";
 @import "utils/layout";
+@import "utils/effects";
 
 // Layouts
 @import "layouts/AuthLayout";
 @import "layouts/MainLayout";
+@import "layouts/content-layout";
 
 // Components
-@import "components/content-layout";
 @import "components/form";
 @import "components/page-loader";
-
-// Pages
+@import "components/toolbar"; // Pages
 
 // Vendors

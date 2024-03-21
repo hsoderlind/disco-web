@@ -42,7 +42,7 @@ export function Component() {
 	]);
 
 	const goToNewProductPage = () => {
-		navigate('./new');
+		navigate(`./new?category=${category}`);
 	};
 
 	return (

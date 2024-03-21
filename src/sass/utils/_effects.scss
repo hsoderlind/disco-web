@@ -1,0 +1,8 @@
+.is-visible-on-hover {
+	opacity: 0;
+	transition: opacity 500ms;
+}
+
+*:hover > .is-visible-on-hover {
+	opacity: 1;
+}
