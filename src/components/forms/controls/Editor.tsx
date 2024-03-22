@@ -8,7 +8,7 @@ export type EditorProps = {
 	height?: CSSProperties['height'];
 };
 
-export const Editor: FC<EditorProps> = ({ onChange, value, height = '50vh' }) => {
+export const Editor: FC<EditorProps> = ({ onChange, value, height = '80vh' }) => {
 	return (
 		<TinyMCEEditor
 			apiKey={import.meta.env.VITE_TINYMCE_API_KEY}

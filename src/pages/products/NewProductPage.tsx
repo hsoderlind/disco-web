@@ -33,9 +33,11 @@ export function Component() {
 		defaultValues: {
 			reference: '',
 			supplier_reference: '',
-			name: 'Bruce Springsteen - Darkness on the edge of town',
+			name: '',
+			summary: '',
 			description: '',
 			price: 0,
+			cost_price: 0,
 			categories: category > 0 ? [category] : []
 		},
 		schema: productSchema
@@ -103,6 +105,9 @@ export function Component() {
 							</UncontrolledLabel>
 						</Col>
 					</Row>
+					<FormItem control={control} name='summary' label='Kort beskrivning'>
+						<Input.TextArea rows={6} />
+					</FormItem>
 					<Controller
 						control={control}
 						name='description'

@@ -4,6 +4,9 @@ import { useShopsContext } from '../../contexts/shops/useShopsContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMatches } from '../../hooks/useMatches';
 
+type OnClickType = MenuProps['onClick'];
+type OnTitleClickType = (info: { key: string }) => void;
+
 const MainMenu: FC = () => {
 	const navigate = useNavigate();
 	const params = useParams();
@@ -11,6 +14,27 @@ const MainMenu: FC = () => {
 	const selectedKeys = matches.filter((match) => !!match.handle?.menuKey).map((match) => match.handle?.menuKey);
 
 	const { hasShops, selectedShop } = useShopsContext();
+
+	const makeUri = (key: string) => {
+		return `/${params.urlAlias}/${key}`;
+	};
+
+	const onClick: OnClickType = (e) => {
+		let uri = '';
+
+		if (e.key === 'dashboard') {
+			uri = '/';
+		} else {
+			uri = makeUri(e.key);
+		}
+
+		navigate(uri);
+	};
+
+	const onTitleClick: OnTitleClickType = (info) => {
+		const uri = makeUri(info.key);
+		navigate(uri);
+	};
 
 	const items: MenuProps['items'] = [
 		{
@@ -20,39 +44,63 @@ const MainMenu: FC = () => {
 		{
 			label: 'Produkter',
 			key: 'products',
-			disabled: !hasShops || !selectedShop
+			onTitleClick,
+			disabled: !hasShops || !selectedShop,
+			children: [
+				{
+					label: 'Kategorier',
+					key: 'categories'
+				},
+				{
+					label: 'Tillverkare',
+					key: 'manufacturers'
+				},
+				{
+					label: 'Leverantörer',
+					key: 'suppliers'
+				}
+			]
+		},
+		{
+			label: 'Lager',
+			key: 'stock'
 		},
 		{
 			label: 'Kunder',
 			key: 'customers',
-			disabled: !hasShops || !selectedShop
+			disabled: !hasShops || !selectedShop,
+			children: [
+				{
+					label: 'Kundgrupper',
+					key: 'customer-groups'
+				}
+			]
 		},
 		{
 			label: 'Försäljning',
 			key: 'sales',
-			disabled: !hasShops || !selectedShop
+			disabled: !hasShops || !selectedShop,
+			onTitleClick,
+			children: [
+				{
+					label: 'Nyinkomna beställningar',
+					key: 'sales?status=new'
+				},
+				{
+					label: 'Beställningar under process',
+					key: 'sales?status=processing'
+				},
+				{
+					label: 'Levererade beställningar',
+					key: 'sales?status=delivered'
+				},
+				{
+					label: 'Historiska beställningar',
+					key: 'sales?status=historic'
+				}
+			]
 		}
 	];
-
-	const onClick: MenuProps['onClick'] = (e) => {
-		let uri = '';
-		switch (e.key) {
-			case 'dashboard':
-				uri = '/';
-				break;
-			case 'products':
-				uri = `/${params.urlAlias}/products`;
-				break;
-			case 'customers':
-				uri = `/${params.urlAlias}/customers`;
-				break;
-			case 'sales':
-				uri = `/${params.urlAlias}/sales`;
-				break;
-		}
-
-		navigate(uri);
-	};
 
 	return <Menu onClick={onClick} items={items} mode='horizontal' theme='dark' selectedKeys={selectedKeys} />;
 };

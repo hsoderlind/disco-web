@@ -12,3 +12,13 @@ export interface Message {
 export type RouteMatch = UIMatch<unknown, {
 	menuKey: string
 }>
+
+export abstract class Enum {
+	static values(): Readonly<[string, ...string[]] | [number, ...number[]]> {
+		return [''] as const;
+	}
+
+	static asObject(): Readonly<Record<string, string> | Record<number, number>> {
+		return {};
+	}
+}
