@@ -11,6 +11,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { Form, Input, InputNumber, Modal, Switch } from 'antd';
 import FormItem from '../../lib/form/FormItem';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import app from '../../lib/application-builder/ApplicationBuilder';
 
 export type CreateTaxClassModalProps = {
 	open: boolean;
@@ -32,10 +33,12 @@ export const CreateTaxClassModal: FC<CreateTaxClassModalProps> = ({ open, onFini
 	const [mutationFn] = useCreateTaxClass(shopId);
 	const mutation = useMutation<Tax, ServerValidationError, TaxSchemaType>(mutationFn, {
 		onSuccess() {
+			app.addSuccessNoitication({ description: 'Momsklassen har nu skapats.' });
 			onFinish?.();
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<TaxSchemaType>(error)(setError);
+			app.addErrorNoitication({ description: error.message });
 		}
 	});
 

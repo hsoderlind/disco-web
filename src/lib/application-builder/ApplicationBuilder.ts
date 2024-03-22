@@ -1,8 +1,7 @@
 import i18next, { InitOptions } from "i18next";
 import { ValidationSchemaBuilder, initValidationSchemaBuilder } from "../validation/validation-schema-builder";
 import zodTranslation from 'zod-i18n-map/locales/sv/zod.json';
-import { NotificationInstance } from "antd/es/notification/interface";
-import { ReactNode } from "react";
+import { ArgsProps, NotificationInstance } from "antd/es/notification/interface";
 
 class ApplicationBuilder {
 	private i18nConfig: InitOptions = {};
@@ -32,30 +31,30 @@ class ApplicationBuilder {
 		this.notificationApi = api;
 	}
 
-	addInfoNoitication(title: string, description: ReactNode) {
+	addInfoNoitication({description, message = 'Info'}: Pick<ArgsProps,  'description'> & {message?: ArgsProps['message']}) {
 		this.notificationApi.info({
-			message: title,
+			message,
 			description
 		});
 	}
 
-	addSuccessNoitication(title: string, description: ReactNode) {
+	addSuccessNoitication({description, message = 'Lyckades!'}: Pick<ArgsProps,  'description'> & {message?: ArgsProps['message']}) {
 		this.notificationApi.success({
-			message: title,
+			message,
 			description
 		});
 	}
 
-	addErrorNoitication(title: string, description: ReactNode) {
+	addErrorNoitication({description, message = 'Fel!'}: Pick<ArgsProps,  'description'> & {message?: ArgsProps['message']}) {
 		this.notificationApi.error({
-			message: title,
+			message,
 			description
 		});
 	}
 
-	addWarningNoitication(title: string, description: ReactNode) {
+	addWarningNoitication({description, message = 'Varning!'}: Pick<ArgsProps,  'description'> & {message?: ArgsProps['message']}) {
 		this.notificationApi.warning({
-			message: title,
+			message,
 			description
 		});
 	}

@@ -14,7 +14,8 @@ export const productSchema = vsb.object({
 	available_at: vsb.date(),
 	condition: vsb.enum(['new', 'used', 'refurbished']),
 	name: vsb.string().max(255).nonempty(),
-	description: vsb.string().optional()
+	description: vsb.string().optional(),
+	categories: vsb.array(vsb.number()).optional()
 });
 
 export type ProductSchemaType = vsbInfer<typeof productSchema>

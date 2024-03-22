@@ -5,7 +5,7 @@ import { ProductSchemaType, productSchema } from '../../services/product/types';
 import { useShopStore } from '../../services/shop/store';
 import { ServerValidationError } from '../../lib/error/types';
 import { Product } from '../../services/product/Product';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ExtractErrors } from '../../lib/error/ExtractErrors';
 import { Controller, SubmitHandler } from 'react-hook-form';
 import { Form, Input, InputNumber, Row, Col } from 'antd';
@@ -17,9 +17,13 @@ import { UncontrolledLabel } from '../../components/forms/UncontrolledLabel';
 import { Editor } from '../../components/forms/controls/Editor';
 import { ContentLayout } from '../../components/layout/content-layout/ContentLayout';
 import { MainContentLayout } from '../../components/layout/content-layout/MainContentLayout';
+import { CategorySelect } from '../../components/forms/controls/CategorySelect';
+import app from '../../lib/application-builder/ApplicationBuilder';
 
 export function Component() {
 	const navigate = useNavigate();
+	const [searchParams] = useSearchParams();
+	const category = searchParams.has('category') ? parseInt(searchParams.get('category')!) : 0;
 	const [priceInclVat, setPriceInclVat] = useState(0);
 	const shopId = useShopStore((state) => state.shop.id);
 	const [taxesQueryKey, taxesQueryFn] = useGetTaxes(shopId);
@@ -29,21 +33,23 @@ export function Component() {
 		defaultValues: {
 			reference: '',
 			supplier_reference: '',
-			name: '',
+			name: 'Bruce Springsteen - Darkness on the edge of town',
 			description: '',
-			price: 0
+			price: 0,
+			categories: category > 0 ? [category] : []
 		},
 		schema: productSchema
 	});
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
-			// TODO: notification as feedback
+			app.addSuccessNoitication({ description: 'Produkten har nu skapats.' });
 			const productId = product.getKey();
 			navigate(`./${productId}`);
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<ProductSchemaType>(error)(setError);
+			app.addErrorNoitication({ description: error.message });
 		}
 	});
 
@@ -69,10 +75,14 @@ export function Component() {
 			<MainContentLayout>
 				<Form onFinish={handleSubmit(onSubmit)} layout='vertical'>
 					<Row gutter={[12, 0]}>
-						<Col xl={6}>&nbsp;</Col>
-						<Col xl={18}>
+						<Col xl={12}>
 							<FormItem control={control} name='name' label='Benämning'>
 								<Input autoFocus />
+							</FormItem>
+						</Col>
+						<Col xl={12}>
+							<FormItem control={control} name='categories' label='Kategori(er)'>
+								<CategorySelect treeCheckable />
 							</FormItem>
 						</Col>
 					</Row>

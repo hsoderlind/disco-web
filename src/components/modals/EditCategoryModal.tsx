@@ -9,6 +9,7 @@ import { ExtractErrors } from '../../lib/error/ExtractErrors';
 import { SubmitHandler } from 'react-hook-form';
 import { Form, Input, InputNumber, Modal } from 'antd';
 import FormItem from '../../lib/form/FormItem';
+import app from '../../lib/application-builder/ApplicationBuilder';
 
 export type EditCategoryModalProps = {
 	category: Category;
@@ -31,10 +32,12 @@ export const EditCategoryModal: FC<EditCategoryModalProps> = ({ category, open, 
 
 	const mutation = useMutation<Category, ServerValidationError, CategorySchemaType>(mutationFn, {
 		onSuccess() {
+			app.addSuccessNoitication({ description: 'Kategorin har nu uppdaterats.' });
 			onFinish?.();
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<CategorySchemaType>(error)(setError);
+			app.addErrorNoitication({ description: error.message });
 		}
 	});
 
