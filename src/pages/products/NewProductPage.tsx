@@ -7,8 +7,8 @@ import { ServerValidationError } from '../../lib/error/types';
 import { Product } from '../../services/product/Product';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ExtractErrors } from '../../lib/error/ExtractErrors';
-import { Controller, SubmitHandler } from 'react-hook-form';
-import { Form, Input, InputNumber, Row, Col } from 'antd';
+import { Controller, SubmitHandler, useFieldArray } from 'react-hook-form';
+import { Form, Input, InputNumber, Row, Col, Menu, Segmented, Switch, DatePicker, Select } from 'antd';
 import FormItem from '../../lib/form/FormItem';
 import { TaxSelect } from '../../components/forms/controls/TaxSelect';
 import { useEffect, useState } from 'react';
@@ -19,10 +19,17 @@ import { ContentLayout } from '../../components/layout/content-layout/ContentLay
 import { MainContentLayout } from '../../components/layout/content-layout/MainContentLayout';
 import { CategorySelect } from '../../components/forms/controls/CategorySelect';
 import app from '../../lib/application-builder/ApplicationBuilder';
+import { SidebarContentLayout } from '../../components/layout/content-layout/SidebarContentLayout';
+import { ProductConditions } from '../../services/product/ProductConditions';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { Str } from '../../lib/string/Str';
+
+const DEFAULT_SECTION = 'details';
 
 export function Component() {
 	const navigate = useNavigate();
-	const [searchParams] = useSearchParams();
+	const [searchParams, setSearchParams] = useSearchParams({ section: DEFAULT_SECTION });
+	const section = searchParams.get('section');
 	const category = searchParams.has('category') ? parseInt(searchParams.get('category')!) : 0;
 	const [priceInclVat, setPriceInclVat] = useState(0);
 	const shopId = useShopStore((state) => state.shop.id);
@@ -38,10 +45,25 @@ export function Component() {
 			description: '',
 			price: 0,
 			cost_price: 0,
-			categories: category > 0 ? [category] : []
+			categories: category > 0 ? [category] : [],
+			available_for_order: true,
+			barcodes: [
+				{
+					id: Str.uuid()
+				}
+			]
 		},
 		schema: productSchema
 	});
+	const {
+		fields: barcodeFields,
+		append: appendBarcode,
+		remove: removeBarcode
+	} = useFieldArray({
+		control,
+		name: 'barcodes'
+	});
+	console.log('barcodeFields', barcodeFields);
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
@@ -73,52 +95,148 @@ export function Component() {
 	}, [watch, taxes, price, taxId]);
 
 	return (
-		<ContentLayout>
-			<MainContentLayout>
-				<Form onFinish={handleSubmit(onSubmit)} layout='vertical'>
-					<Row gutter={[12, 0]}>
-						<Col xl={12}>
-							<FormItem control={control} name='name' label='Benämning'>
-								<Input autoFocus />
+		<Form onFinish={handleSubmit(onSubmit)} layout='vertical'>
+			<ContentLayout>
+				<MainContentLayout>
+					{/* SECTION: DESCRIPTION */}
+					{section === 'description' && (
+						<>
+							<Row gutter={[12, 0]}>
+								<Col xl={12}>
+									<FormItem control={control} name='name' label='Benämning'>
+										<Input autoFocus />
+									</FormItem>
+								</Col>
+								<Col xl={12}>
+									<FormItem control={control} name='categories' label='Kategori(er)'>
+										<CategorySelect treeCheckable />
+									</FormItem>
+								</Col>
+							</Row>
+							<Row gutter={[12, 0]}>
+								<Col xl={3}>
+									<FormItem control={control} name='price' label='Nettopris'>
+										<InputNumber precision={2} addonAfter='kr' />
+									</FormItem>
+								</Col>
+								<Col xl={4}>
+									<FormItem control={control} name='tax_id' label='Moms'>
+										<TaxSelect creatable />
+									</FormItem>
+								</Col>
+								<Col xl={3}>
+									<UncontrolledLabel label='Bruttopris' htmlFor='price_inc_vat'>
+										<InputNumber precision={2} addonAfter={'kr'} value={priceInclVat} readOnly />
+									</UncontrolledLabel>
+								</Col>
+							</Row>
+							<FormItem control={control} name='summary' label='Kort beskrivning'>
+								<Input.TextArea rows={6} />
 							</FormItem>
-						</Col>
-						<Col xl={12}>
-							<FormItem control={control} name='categories' label='Kategori(er)'>
-								<CategorySelect treeCheckable />
+							<Controller
+								control={control}
+								name='description'
+								render={({ field }) => (
+									<UncontrolledLabel htmlFor='description' label='Beskrivning'>
+										<Editor onChange={field.onChange} value={field.value} />
+									</UncontrolledLabel>
+								)}
+							/>
+						</>
+					)}
+					{/* SECTION: DETAILS */}
+					{section === 'details' && (
+						<>
+							<FormItem control={control} name='condition' label='Skick'>
+								<Segmented<string>
+									options={[
+										{
+											label: 'Ny',
+											value: ProductConditions.NEW
+										},
+										{
+											label: 'Begagnad',
+											value: ProductConditions.USED
+										},
+										{
+											label: 'Renoverad',
+											value: ProductConditions.REFURBISHED
+										}
+									]}
+								/>
 							</FormItem>
-						</Col>
-					</Row>
-					<Row gutter={[12, 0]}>
-						<Col xl={3}>
-							<FormItem control={control} name='price' label='Nettopris'>
-								<InputNumber precision={2} addonAfter='kr' />
+							<FormItem control={control} name='reference' label='Referens'>
+								<Input />
 							</FormItem>
-						</Col>
-						<Col xl={4}>
-							<FormItem control={control} name='tax_id' label='Moms'>
-								<TaxSelect creatable />
-							</FormItem>
-						</Col>
-						<Col xl={3}>
-							<UncontrolledLabel label='Bruttopris' htmlFor='price_inc_vat'>
-								<InputNumber precision={2} addonAfter={'kr'} value={priceInclVat} readOnly />
-							</UncontrolledLabel>
-						</Col>
-					</Row>
-					<FormItem control={control} name='summary' label='Kort beskrivning'>
-						<Input.TextArea rows={6} />
-					</FormItem>
-					<Controller
-						control={control}
-						name='description'
-						render={({ field }) => (
-							<UncontrolledLabel htmlFor='description' label='Beskrivning'>
-								<Editor onChange={field.onChange} value={field.value} />
-							</UncontrolledLabel>
-						)}
+							<Row gutter={[12, 0]}>
+								<Col xl={4}>
+									<FormItem
+										control={control}
+										name='available_for_order'
+										label='Tillgänglig att beställa'
+										valuePropName='checked'>
+										<Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} />
+									</FormItem>
+								</Col>
+								<Col xl={3}>
+									<FormItem control={control} name='available_at' label='Tillgänglig från'>
+										<DatePicker />
+									</FormItem>
+								</Col>
+							</Row>
+							{barcodeFields.map((barcode, index) => (
+								<Row gutter={[12, 0]} key={barcode.id}>
+									<Col xl={6}>
+										<FormItem control={control} name={`barcodes.${index}.barcode_type`} label='Streckkodstyp'>
+											<Select placeholder='Välj streckkodstyp' />
+										</FormItem>
+									</Col>
+								</Row>
+							))}
+						</>
+					)}
+				</MainContentLayout>
+				<SidebarContentLayout>
+					<Menu
+						mode='inline'
+						onClick={(e) => {
+							searchParams.set('section', e.key);
+							setSearchParams(searchParams);
+						}}
+						defaultSelectedKeys={[section!]}
+						items={[
+							{
+								label: 'Beskrivning',
+								key: 'description'
+							},
+							{
+								label: 'Märkning',
+								key: 'details'
+							},
+							{
+								label: 'Features',
+								key: 'features'
+							},
+							{
+								label: 'Pris',
+								key: 'price'
+							},
+							{
+								label: 'Lager',
+								key: 'stock'
+							},
+							{
+								label: 'Frakt',
+								key: 'shipping'
+							},
+							{
+								label: 'Korsförsäljning',
+								key: 'xsell'
+							}
+						]}
 					/>
-				</Form>
-			</MainContentLayout>
-		</ContentLayout>
+				</SidebarContentLayout>
+			</ContentLayout>
+		</Form>
 	);
 }

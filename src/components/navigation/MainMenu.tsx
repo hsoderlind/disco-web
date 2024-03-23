@@ -5,7 +5,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useMatches } from '../../hooks/useMatches';
 
 type OnClickType = MenuProps['onClick'];
-type OnTitleClickType = (info: { key: string }) => void;
 
 const MainMenu: FC = () => {
 	const navigate = useNavigate();
@@ -31,25 +30,27 @@ const MainMenu: FC = () => {
 		navigate(uri);
 	};
 
-	const onTitleClick: OnTitleClickType = (info) => {
-		const uri = makeUri(info.key);
-		navigate(uri);
-	};
-
 	const items: MenuProps['items'] = [
 		{
 			label: 'Översiktspanelen',
 			key: 'dashboard'
 		},
 		{
-			label: 'Produkter',
-			key: 'products',
-			onTitleClick,
+			label: 'Katalog',
+			key: 'catalog',
 			disabled: !hasShops || !selectedShop,
 			children: [
 				{
+					label: 'Produkter',
+					key: 'products'
+				},
+				{
 					label: 'Kategorier',
 					key: 'categories'
+				},
+				{
+					label: 'Attribut & varianter',
+					key: 'attributes'
 				},
 				{
 					label: 'Tillverkare',
@@ -67,9 +68,13 @@ const MainMenu: FC = () => {
 		},
 		{
 			label: 'Kunder',
-			key: 'customers',
+			key: 'customers-main',
 			disabled: !hasShops || !selectedShop,
 			children: [
+				{
+					label: 'Kunder',
+					key: 'customers'
+				},
 				{
 					label: 'Kundgrupper',
 					key: 'customer-groups'
@@ -80,7 +85,6 @@ const MainMenu: FC = () => {
 			label: 'Försäljning',
 			key: 'sales',
 			disabled: !hasShops || !selectedShop,
-			onTitleClick,
 			children: [
 				{
 					label: 'Nyinkomna beställningar',

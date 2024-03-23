@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom';
 import routes from './routes';
 import AuthProvider from './contexts/auth/AuthProvider';
 import { ConfigProvider, notification } from 'antd';
+import locale from 'antd/locale/sv_SE';
 import app from './lib/application-builder/ApplicationBuilder';
 
 const queryClient = new QueryClient({
@@ -28,7 +29,7 @@ const App: FC = () => {
 		<>
 			{contextHolder}
 			<QueryClientProvider client={queryClient}>
-				<ConfigProvider theme={{ cssVar: true }}>
+				<ConfigProvider theme={{ cssVar: true }} locale={locale}>
 					<AuthProvider>
 						<RouterProvider router={routes} future={{ v7_startTransition: true }} />
 					</AuthProvider>

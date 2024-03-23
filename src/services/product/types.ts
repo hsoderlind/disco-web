@@ -1,8 +1,11 @@
 import app from "../../lib/application-builder/ApplicationBuilder";
 import { vsbInfer } from "../../lib/validation/validation-schema-builder";
+import { barcodeSchema } from "../barcode/types";
 import { ProductConditions } from "./ProductConditions";
 
 const vsb = app.getValidationSchemaBuilder();
+
+const productBarcodeSchema = barcodeSchema.extend({id: vsb.string()});
 
 export const productSchema = vsb.object({
 	tax_id: vsb.number().optional(),
@@ -18,7 +21,8 @@ export const productSchema = vsb.object({
 	name: vsb.string().max(255).nonempty(),
 	summary: vsb.string().optional(),
 	description: vsb.string().optional(),
-	categories: vsb.array(vsb.number()).optional()
+	categories: vsb.array(vsb.number()),
+	barcodes: vsb.array(productBarcodeSchema).optional()
 });
 
 export type ProductSchemaType = vsbInfer<typeof productSchema>
