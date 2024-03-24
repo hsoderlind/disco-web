@@ -8,7 +8,7 @@ import { Product } from '../../services/product/Product';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ExtractErrors } from '../../lib/error/ExtractErrors';
 import { Controller, SubmitHandler, useFieldArray } from 'react-hook-form';
-import { Form, Input, InputNumber, Row, Col, Menu, Segmented, Switch, DatePicker, Select } from 'antd';
+import { Form, Input, InputNumber, Row, Col, Menu, Segmented, Switch, DatePicker, Select, Button } from 'antd';
 import FormItem from '../../lib/form/FormItem';
 import { TaxSelect } from '../../components/forms/controls/TaxSelect';
 import { useEffect, useState } from 'react';
@@ -21,7 +21,7 @@ import { CategorySelect } from '../../components/forms/controls/CategorySelect';
 import app from '../../lib/application-builder/ApplicationBuilder';
 import { SidebarContentLayout } from '../../components/layout/content-layout/SidebarContentLayout';
 import { ProductConditions } from '../../services/product/ProductConditions';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Str } from '../../lib/string/Str';
 
 const DEFAULT_SECTION = 'details';
@@ -57,13 +57,12 @@ export function Component() {
 	});
 	const {
 		fields: barcodeFields,
-		append: appendBarcode,
+		insert: insertBarcode,
 		remove: removeBarcode
 	} = useFieldArray({
 		control,
 		name: 'barcodes'
 	});
-	console.log('barcodeFields', barcodeFields);
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
@@ -114,7 +113,7 @@ export function Component() {
 								</Col>
 							</Row>
 							<Row gutter={[12, 0]}>
-								<Col xl={3}>
+								<Col xl={4}>
 									<FormItem control={control} name='price' label='Nettopris'>
 										<InputNumber precision={2} addonAfter='kr' />
 									</FormItem>
@@ -124,7 +123,7 @@ export function Component() {
 										<TaxSelect creatable />
 									</FormItem>
 								</Col>
-								<Col xl={3}>
+								<Col xl={4}>
 									<UncontrolledLabel label='Bruttopris' htmlFor='price_inc_vat'>
 										<InputNumber precision={2} addonAfter={'kr'} value={priceInclVat} readOnly />
 									</UncontrolledLabel>
@@ -169,7 +168,7 @@ export function Component() {
 								<Input />
 							</FormItem>
 							<Row gutter={[12, 0]}>
-								<Col xl={4}>
+								<Col xl={5}>
 									<FormItem
 										control={control}
 										name='available_for_order'
@@ -178,7 +177,7 @@ export function Component() {
 										<Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} />
 									</FormItem>
 								</Col>
-								<Col xl={3}>
+								<Col xl={5}>
 									<FormItem control={control} name='available_at' label='Tillgänglig från'>
 										<DatePicker />
 									</FormItem>
@@ -186,10 +185,40 @@ export function Component() {
 							</Row>
 							{barcodeFields.map((barcode, index) => (
 								<Row gutter={[12, 0]} key={barcode.id}>
-									<Col xl={6}>
-										<FormItem control={control} name={`barcodes.${index}.barcode_type`} label='Streckkodstyp'>
+									<Col xl={5}>
+										<FormItem
+											control={control}
+											name={`barcodes.${index}.barcode_type`}
+											label={index === 0 ? 'Streckkodstyp' : ''}>
 											<Select placeholder='Välj streckkodstyp' />
 										</FormItem>
+									</Col>
+									<Col xl={5}>
+										<FormItem control={control} name={`barcodes.${index}.value`} label={index === 0 ? 'Streckkod' : ''}>
+											<Input />
+										</FormItem>
+									</Col>
+									<Col flex='auto'>
+										<Button
+											type='link'
+											icon={<PlusCircleOutlined />}
+											onClick={() => {
+												insertBarcode(index + 1, {
+													id: Str.uuid(),
+													value: '',
+													barcode_type: null!
+												});
+											}}
+											style={{ marginBlockStart: index === 0 ? '32px' : undefined }}
+										/>
+										<Button
+											type='link'
+											icon={<MinusCircleOutlined />}
+											disabled={index === 0}
+											onClick={() => removeBarcode(index)}
+											style={{ marginBlockStart: index === 0 ? '32px' : undefined }}
+											danger
+										/>
 									</Col>
 								</Row>
 							))}
