@@ -276,12 +276,14 @@ export function Component() {
 					/>
 				</SidebarContentLayout>
 			</ContentLayout>
-			<Affix offsetBottom={0} style={{ marginTop: '5vh' }}>
+			<Affix offsetBottom={0} style={{ bottom: 0 }}>
 				<div className='buttonbar'>
-					<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToProducts}>
+					<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToProducts} size='large'>
 						Produkter
 					</Button>
-					<Button type='primary'>Spara & publicera</Button>
+					<Button type='primary' size='large'>
+						Spara & publicera
+					</Button>
 				</div>
 			</Affix>
 		</Form>
