@@ -1,3 +1,6 @@
+@use "sass:map";
+@use "../vars";
+
 .combined-buttons-container {
 	display: flex;
 	justify-content: center;
@@ -10,4 +13,13 @@
 .combined-buttons-prompt {
 	flex: 1;
 	text-align: right;
+}
+
+.buttonbar {
+	display: flex;
+	justify-content: space-between;
+	background-color: #e8e8eb; //map.get(vars.$colors, "surface", "light");
+	border-top: 1px solid #d6d6d6; //map.get(vars.$colors, "surface", "medium");
+	padding: vars.$space-4 vars.$space-6;
+	margin-inline: calc(vars.$space-6 * -1);
 }

@@ -30,7 +30,7 @@ const MainLayout: FC = () => {
 				<Layout.Content>
 					<Outlet />
 				</Layout.Content>
-				<Layout.Footer></Layout.Footer>
+				{/* <Layout.Footer></Layout.Footer> */}
 			</Layout>
 		</ShopsProvider>
 	);

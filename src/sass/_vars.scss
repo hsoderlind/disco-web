@@ -20,7 +20,13 @@ $spaces: (
 // Colors
 $colors: (
 	"surface": (
-		"light": #ffffff
+		"light": #ffffff,
+		//"medium": #6b6b6e,
+		"medium": #e8e8eb,
+		"dark": #001529
+	),
+	"border": (
+		"light": #d6d6d6
 	)
 );
 

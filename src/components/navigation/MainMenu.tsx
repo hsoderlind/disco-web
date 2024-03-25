@@ -64,7 +64,8 @@ const MainMenu: FC = () => {
 		},
 		{
 			label: 'Lager',
-			key: 'stock'
+			key: 'stock',
+			disabled: !hasShops || !selectedShop
 		},
 		{
 			label: 'Kunder',

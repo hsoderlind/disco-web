@@ -8,7 +8,7 @@ import { Product } from '../../services/product/Product';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ExtractErrors } from '../../lib/error/ExtractErrors';
 import { Controller, SubmitHandler, useFieldArray } from 'react-hook-form';
-import { Form, Input, InputNumber, Row, Col, Menu, Segmented, Switch, DatePicker, Select, Button } from 'antd';
+import { Form, Input, InputNumber, Row, Col, Menu, Segmented, Switch, DatePicker, Select, Button, Affix } from 'antd';
 import FormItem from '../../lib/form/FormItem';
 import { TaxSelect } from '../../components/forms/controls/TaxSelect';
 import { useEffect, useState } from 'react';
@@ -21,7 +21,13 @@ import { CategorySelect } from '../../components/forms/controls/CategorySelect';
 import app from '../../lib/application-builder/ApplicationBuilder';
 import { SidebarContentLayout } from '../../components/layout/content-layout/SidebarContentLayout';
 import { ProductConditions } from '../../services/product/ProductConditions';
-import { CheckOutlined, CloseOutlined, MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import {
+	ArrowLeftOutlined,
+	CheckOutlined,
+	CloseOutlined,
+	MinusCircleOutlined,
+	PlusCircleOutlined
+} from '@ant-design/icons';
 import { Str } from '../../lib/string/Str';
 
 const DEFAULT_SECTION = 'details';
@@ -78,6 +84,10 @@ export function Component() {
 
 	const onSubmit: SubmitHandler<ProductSchemaType> = (values) => {
 		mutation.mutate(values);
+	};
+
+	const goToProducts = () => {
+		navigate(`../?category=${category}`);
 	};
 
 	const price = watch('price');
@@ -266,6 +276,14 @@ export function Component() {
 					/>
 				</SidebarContentLayout>
 			</ContentLayout>
+			<Affix offsetBottom={0} style={{ marginTop: '5vh' }}>
+				<div className='buttonbar'>
+					<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToProducts}>
+						Produkter
+					</Button>
+					<Button type='primary'>Spara & publicera</Button>
+				</div>
+			</Affix>
 		</Form>
 	);
 }
