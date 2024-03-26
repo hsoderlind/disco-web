@@ -16,10 +16,12 @@
 }
 
 .buttonbar {
+	position: sticky;
 	display: flex;
 	justify-content: space-between;
 	background-color: #e8e8eb; //map.get(vars.$colors, "surface", "light");
 	border-top: 1px solid #d6d6d6; //map.get(vars.$colors, "surface", "medium");
 	padding: vars.$space-4 vars.$space-6;
 	margin-inline: calc(vars.$space-6 * -1);
+	margin-block-start: vars.$space-5;
 }

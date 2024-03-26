@@ -40,7 +40,7 @@ export const TaxSelect: FC<TaxSelectProps> = ({ withInactive = false, creatable 
 							<>
 								<Divider style={{ margin: '8px 0' }} />
 								<Space style={{ margin: '0 8px 4px' }}>
-									<Button type='primary' icon={<PlusOutlined />} onClick={() => setModalOpen(true)}>
+									<Button type='default' icon={<PlusOutlined />} onClick={() => setModalOpen(true)}>
 										Ny momssats
 									</Button>
 								</Space>

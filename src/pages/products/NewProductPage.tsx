@@ -8,7 +8,22 @@ import { Product } from '../../services/product/Product';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ExtractErrors } from '../../lib/error/ExtractErrors';
 import { Controller, SubmitHandler, useFieldArray } from 'react-hook-form';
-import { Form, Input, InputNumber, Row, Col, Menu, Segmented, Switch, DatePicker, Select, Button, Affix } from 'antd';
+import {
+	Form,
+	Input,
+	InputNumber,
+	Row,
+	Col,
+	Menu,
+	Segmented,
+	Switch,
+	DatePicker,
+	Select,
+	Button,
+	Dropdown,
+	Divider,
+	Space
+} from 'antd';
 import FormItem from '../../lib/form/FormItem';
 import { TaxSelect } from '../../components/forms/controls/TaxSelect';
 import { useEffect, useState } from 'react';
@@ -29,6 +44,8 @@ import {
 	PlusCircleOutlined
 } from '@ant-design/icons';
 import { Str } from '../../lib/string/Str';
+import { useLoadBarcodeTypes } from '../../services/barcode-type/hooks/useLoadBarcodeTypes';
+import { CreateBarcodeTypeButton } from '../../components/forms/controls/CreateBarcodeTypeButton';
 
 const DEFAULT_SECTION = 'details';
 
@@ -41,6 +58,7 @@ export function Component() {
 	const shopId = useShopStore((state) => state.shop.id);
 	const [taxesQueryKey, taxesQueryFn] = useGetTaxes(shopId);
 	const { data: taxes } = useQuery(taxesQueryKey, taxesQueryFn);
+	const barcodeTypeQuery = useLoadBarcodeTypes();
 	const [mutationFn] = useCreateProduct(shopId);
 	const { control, handleSubmit, setError, watch } = useForm<ProductSchemaType>({
 		defaultValues: {
@@ -199,12 +217,30 @@ export function Component() {
 										<FormItem
 											control={control}
 											name={`barcodes.${index}.barcode_type`}
-											label={index === 0 ? 'Streckkodstyp' : ''}>
-											<Select placeholder='Välj streckkodstyp' />
+											label={index === 0 ? 'Produktkodstyp' : ''}>
+											<Select
+												placeholder='Välj streckkodstyp'
+												options={barcodeTypeQuery.data?.map((barcodeType) => ({
+													value: barcodeType.getKey(),
+													label: barcodeType.get<string>('label')
+												}))}
+												dropdownRender={(menu) => (
+													<>
+														{menu}
+														<Divider style={{ margin: '8px 0' }} />
+														<Space style={{ margin: '0 8px 4px' }}>
+															<CreateBarcodeTypeButton />
+														</Space>
+													</>
+												)}
+											/>
 										</FormItem>
 									</Col>
 									<Col xl={5}>
-										<FormItem control={control} name={`barcodes.${index}.value`} label={index === 0 ? 'Streckkod' : ''}>
+										<FormItem
+											control={control}
+											name={`barcodes.${index}.value`}
+											label={index === 0 ? 'Produktkod' : ''}>
 											<Input />
 										</FormItem>
 									</Col>
@@ -276,16 +312,31 @@ export function Component() {
 					/>
 				</SidebarContentLayout>
 			</ContentLayout>
-			<Affix offsetBottom={0} style={{ bottom: 0 }}>
-				<div className='buttonbar'>
-					<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToProducts} size='large'>
-						Produkter
-					</Button>
-					<Button type='primary' size='large'>
+			<div className='buttonbar' style={{ position: 'sticky', bottom: 0 }}>
+				<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToProducts} size='large'>
+					Produkter
+				</Button>
+				<div>
+					<Dropdown.Button
+						type='primary'
+						size='large'
+						menu={{
+							items: [
+								{
+									key: 'save draft',
+									label: 'Spara som utkast'
+								},
+								{
+									key: 'delete',
+									label: 'Radera produkten',
+									danger: true
+								}
+							]
+						}}>
 						Spara & publicera
-					</Button>
+					</Dropdown.Button>
 				</div>
-			</Affix>
+			</div>
 		</Form>
 	);
 }
