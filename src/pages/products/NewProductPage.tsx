@@ -36,13 +36,7 @@ import { CategorySelect } from '../../components/forms/controls/CategorySelect';
 import app from '../../lib/application-builder/ApplicationBuilder';
 import { SidebarContentLayout } from '../../components/layout/content-layout/SidebarContentLayout';
 import { ProductConditions } from '../../services/product/ProductConditions';
-import {
-	ArrowLeftOutlined,
-	CheckOutlined,
-	CloseOutlined,
-	MinusCircleOutlined,
-	PlusCircleOutlined
-} from '@ant-design/icons';
+import { ArrowLeftOutlined, CheckOutlined, CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { Str } from '../../lib/string/Str';
 import { useLoadBarcodeTypes } from '../../services/barcode-type/hooks/useLoadBarcodeTypes';
 import { CreateBarcodeTypeButton } from '../../components/forms/controls/CreateBarcodeTypeButton';
@@ -71,17 +65,14 @@ export function Component() {
 			cost_price: 0,
 			categories: category > 0 ? [category] : [],
 			available_for_order: true,
-			barcodes: [
-				{
-					id: Str.uuid()
-				}
-			]
+			condition: ProductConditions.NEW,
+			barcodes: []
 		},
 		schema: productSchema
 	});
 	const {
 		fields: barcodeFields,
-		insert: insertBarcode,
+		append: appendBarcode,
 		remove: removeBarcode
 	} = useFieldArray({
 		control,
@@ -174,7 +165,7 @@ export function Component() {
 					{/* SECTION: DETAILS */}
 					{section === 'details' && (
 						<>
-							<FormItem control={control} name='condition' label='Skick'>
+							<FormItem control={control} name='condition' label='Produktens skick'>
 								<Segmented<string>
 									options={[
 										{
@@ -247,20 +238,7 @@ export function Component() {
 									<Col flex='auto'>
 										<Button
 											type='link'
-											icon={<PlusCircleOutlined />}
-											onClick={() => {
-												insertBarcode(index + 1, {
-													id: Str.uuid(),
-													value: '',
-													barcode_type: null!
-												});
-											}}
-											style={{ marginBlockStart: index === 0 ? '32px' : undefined }}
-										/>
-										<Button
-											type='link'
-											icon={<MinusCircleOutlined />}
-											disabled={index === 0}
+											icon={<DeleteOutlined />}
 											onClick={() => removeBarcode(index)}
 											style={{ marginBlockStart: index === 0 ? '32px' : undefined }}
 											danger
@@ -268,6 +246,17 @@ export function Component() {
 									</Col>
 								</Row>
 							))}
+							<Button
+								icon={<PlusOutlined />}
+								onClick={() => {
+									appendBarcode({
+										id: Str.uuid(),
+										value: '',
+										barcode_type: null!
+									});
+								}}>
+								Lägg till produktkod
+							</Button>
 						</>
 					)}
 				</MainContentLayout>
@@ -297,6 +286,10 @@ export function Component() {
 								key: 'price'
 							},
 							{
+								label: 'Filer',
+								key: 'files'
+							},
+							{
 								label: 'Lager',
 								key: 'stock'
 							},
@@ -307,6 +300,14 @@ export function Component() {
 							{
 								label: 'Korsförsäljning',
 								key: 'xsell'
+							},
+							{
+								label: 'Uppförsäljning',
+								key: 'upsell'
+							},
+							{
+								label: 'Paketerbjudande',
+								key: 'bundled-products'
 							}
 						]}
 					/>
@@ -318,6 +319,7 @@ export function Component() {
 				</Button>
 				<div>
 					<Dropdown.Button
+						htmlType='submit'
 						type='primary'
 						size='large'
 						menu={{

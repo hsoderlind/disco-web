@@ -48,8 +48,12 @@ export const CreateBarcodeTypeModal: FC<CreateBarcodeTypeModalProps> = ({ open, 
 		mutation.mutate(values);
 	};
 
+	const _onCancel = () => {
+		onCancel?.();
+	};
+
 	return (
-		<Modal open={open} cancelText='Stäng' okText='Spara & stäng' onCancel={onCancel} onOk={handleSubmit(onSubmit)}>
+		<Modal open={open} cancelText='Stäng' okText='Spara & stäng' onCancel={_onCancel} onOk={handleSubmit(onSubmit)}>
 			<Form layout='vertical'>
 				<FormItem control={control} name='label' label='Benämning'>
 					<Input autoFocus />

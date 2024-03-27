@@ -31,7 +31,7 @@ export const CreateBarcodeTypeButton = () => {
 			<Button type='default' onClick={openModal} icon={<PlusOutlined />}>
 				Ny produktkodstyp
 			</Button>
-			<CreateBarcodeTypeModal open={modalOpen} onCancel={onCancel} onFinish={onFinish} />
+			{modalOpen && <CreateBarcodeTypeModal open={true} onCancel={onCancel} onFinish={onFinish} />}
 		</>
 	);
 };
