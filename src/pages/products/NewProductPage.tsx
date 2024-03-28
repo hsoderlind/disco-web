@@ -313,7 +313,7 @@ export function Component() {
 					/>
 				</SidebarContentLayout>
 			</ContentLayout>
-			<div className='buttonbar' style={{ position: 'sticky', bottom: 0 }}>
+			<div className='buttonbar'>
 				<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToProducts} size='large'>
 					Produkter
 				</Button>

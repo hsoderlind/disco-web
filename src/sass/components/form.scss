@@ -17,10 +17,11 @@
 
 .buttonbar {
 	position: sticky;
+	bottom: 0;
 	display: flex;
-	justify-content: space-between;
-	background-color: #e8e8eb; //map.get(vars.$colors, "surface", "light");
-	border-top: 1px solid #d6d6d6; //map.get(vars.$colors, "surface", "medium");
+	column-gap: vars.$space-4;
+	background-color: map.get(vars.$colors, "surface", "medium");
+	border-top: 1px solid map.get(vars.$colors, "border", "light");
 	padding: vars.$space-4 vars.$space-6;
 	margin-inline: calc(vars.$space-6 * -1);
 	margin-block-start: vars.$space-5;
