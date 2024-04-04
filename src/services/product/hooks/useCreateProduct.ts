@@ -3,11 +3,11 @@ import { Product } from "../Product"
 
 export const useCreateProduct = (shopId: number) => {
 	const queryFn = async (data: ProductSchemaType) => {
-		const rawProductData: Partial<ProductType> = {
+		const productData: Partial<ProductType> = {
 			...data,
 			available_at: data.available_at?.toISOString()
 		};
-		const product = new Product(rawProductData, shopId);
+		const product = new Product(productData, shopId);
 		return await product.create();
 	}
 

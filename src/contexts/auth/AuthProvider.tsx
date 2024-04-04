@@ -37,7 +37,8 @@ const AuthProvider: FC<ReactCommonProps> = ({ children }) => {
 			if (!inAuth) {
 				window.location.href = '/login';
 			}
-		}
+		},
+		refetchOnWindowFocus: true
 	});
 
 	useQuery(fetchUserQueryKey, fetchUserQueryFn, {

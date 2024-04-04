@@ -66,7 +66,8 @@ export function Component() {
 			categories: category > 0 ? [category] : [],
 			available_for_order: true,
 			condition: ProductConditions.NEW,
-			barcodes: []
+			barcodes: [],
+			product_attributes: []
 		},
 		schema: productSchema
 	});
@@ -76,8 +77,14 @@ export function Component() {
 		remove: removeBarcode
 	} = useFieldArray({
 		control,
-		name: 'barcodes'
+		name: 'barcodes',
+		keyName: 'key'
 	});
+	const {
+		fields: productAttributeFields,
+		append: appendProductAttribute,
+		remove: removeProductAttribute
+	} = useFieldArray({ control, name: 'product_attributes', keyName: 'key' });
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
@@ -203,7 +210,7 @@ export function Component() {
 								</Col>
 							</Row>
 							{barcodeFields.map((barcode, index) => (
-								<Row gutter={[12, 0]} key={barcode.id}>
+								<Row gutter={[12, 0]} key={barcode.key}>
 									<Col xl={5}>
 										<FormItem
 											control={control}
@@ -250,12 +257,39 @@ export function Component() {
 								icon={<PlusOutlined />}
 								onClick={() => {
 									appendBarcode({
-										id: Str.uuid(),
+										key: Str.uuid(),
 										value: '',
 										barcode_type: null!
 									});
 								}}>
 								Lägg till produktkod
+							</Button>
+						</>
+					)}
+					{section === 'features' && (
+						<>
+							<Button
+								icon={<PlusOutlined />}
+								onClick={() => {
+									appendProductAttribute({
+										key: Str.uuid(),
+										active: true,
+										attribute_type_id: null!,
+										attribute_value_id: null!,
+										sort_order: 0,
+										stock: {
+											allow_order_out_of_stock: false,
+											initial_quantity: 0,
+											available_at: new Date(),
+											out_of_stock_message: 'Slutsåld',
+											reserved_quantity: 0,
+											sku: '',
+											sold_quantity: 0,
+											stock_unit: ''
+										}
+									});
+								}}>
+								Lägg till feature
 							</Button>
 						</>
 					)}
