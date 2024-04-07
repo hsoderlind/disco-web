@@ -1,6 +1,8 @@
+import dayjs, { Dayjs } from "dayjs";
 import app from "../../lib/application-builder/ApplicationBuilder";
 import { vsbInfer } from "../../lib/validation/validation-schema-builder";
 import { AttributeType } from "./AttributeType";
+import { AttributeValueCollection } from "./AttributeValueCollection";
 
 const vsb = app.getValidationSchemaBuilder();
 
@@ -25,7 +27,7 @@ export const productAttributeStockSchema = vsb.object({
 	sku: vsb.string().optional(),
 	stock_unit: vsb.string().optional(),
 	out_of_stock_message: vsb.string().optional(),
-	available_at: vsb.date().optional(),
+	available_at: vsb.instanceof(dayjs as unknown as typeof Dayjs),
 	allow_order_out_of_stock: vsb.boolean().default(true),
 	initial_quantity: vsb.number().default(0),
 	reserved_quantity: vsb.number().optional(),
@@ -40,12 +42,13 @@ export type ProductAttributeStockSchemaType = vsbInfer<typeof productAttributeSt
 export type AttributeValueType = {
 	id: number;
 	label: string;
-	attribute_type: AttributeTypeType | AttributeType;
+	attribute_type_id?: number;
+	attribute_type?: AttributeTypeType | AttributeType;
 }
 
 export type AttributeTypeType = {
 	id: number;
 	active: boolean;
 	label: string;
-	attribute_values: AttributeValueType[]
+	attribute_values?: AttributeValueType[] | AttributeValueCollection;
 }

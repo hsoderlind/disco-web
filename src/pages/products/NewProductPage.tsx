@@ -40,6 +40,11 @@ import { ArrowLeftOutlined, CheckOutlined, CloseOutlined, DeleteOutlined, PlusOu
 import { Str } from '../../lib/string/Str';
 import { useLoadBarcodeTypes } from '../../services/barcode-type/hooks/useLoadBarcodeTypes';
 import { CreateBarcodeTypeButton } from '../../components/forms/controls/CreateBarcodeTypeButton';
+import { useLoadAllAttributeTypes } from '../../services/product-attribute/hooks/useLoadAllAttributeTypes';
+import { ExpandableControl } from '../../components/forms/controls/ExpandableControl';
+import { CreateAttributeTypeButton } from '../../components/forms/controls/CreateAttributeTypeButton';
+import { AttributeValueSelect } from '../../components/forms/controls/AttributeValueSelect';
+import dayjs from 'dayjs';
 
 const DEFAULT_SECTION = 'details';
 
@@ -53,8 +58,9 @@ export function Component() {
 	const [taxesQueryKey, taxesQueryFn] = useGetTaxes(shopId);
 	const { data: taxes } = useQuery(taxesQueryKey, taxesQueryFn);
 	const barcodeTypeQuery = useLoadBarcodeTypes();
+	const attributeTypeQuery = useLoadAllAttributeTypes();
 	const [mutationFn] = useCreateProduct(shopId);
-	const { control, handleSubmit, setError, watch } = useForm<ProductSchemaType>({
+	const { control, handleSubmit, setError, watch, getValues } = useForm<ProductSchemaType>({
 		defaultValues: {
 			reference: '',
 			supplier_reference: '',
@@ -105,6 +111,25 @@ export function Component() {
 	const goToProducts = () => {
 		navigate(`../?category=${category}`);
 	};
+
+	const newProductAttribute = () =>
+		appendProductAttribute({
+			key: Str.uuid(),
+			active: true,
+			attribute_type_id: null!,
+			attribute_value_id: null!,
+			sort_order: 0,
+			stock: {
+				allow_order_out_of_stock: false,
+				initial_quantity: 0,
+				available_at: dayjs(),
+				out_of_stock_message: 'Slutsåld',
+				reserved_quantity: 0,
+				sku: '',
+				sold_quantity: 0,
+				stock_unit: ''
+			}
+		});
 
 	const price = watch('price');
 	const taxId = watch('tax_id');
@@ -268,27 +293,104 @@ export function Component() {
 					)}
 					{section === 'features' && (
 						<>
-							<Button
-								icon={<PlusOutlined />}
-								onClick={() => {
-									appendProductAttribute({
-										key: Str.uuid(),
-										active: true,
-										attribute_type_id: null!,
-										attribute_value_id: null!,
-										sort_order: 0,
-										stock: {
-											allow_order_out_of_stock: false,
-											initial_quantity: 0,
-											available_at: new Date(),
-											out_of_stock_message: 'Slutsåld',
-											reserved_quantity: 0,
-											sku: '',
-											sold_quantity: 0,
-											stock_unit: ''
-										}
-									});
-								}}>
+							{productAttributeFields.map((productAttribute, index) => (
+								<ExpandableControl
+									key={productAttribute.key}
+									renddervVisibleContent={(toggle) => (
+										<Row gutter={[12, 0]}>
+											<Col xl={5}>
+												<FormItem
+													control={control}
+													name={`product_attributes.${index}.attribute_type_id`}
+													label={index === 0 ? 'Attributtyp' : ''}>
+													<Select
+														placeholder='Välj attributtyp'
+														options={attributeTypeQuery.data?.map((attributeType) => ({
+															value: attributeType.getKey(),
+															label: attributeType.get<string>('label')
+														}))}
+														dropdownRender={(menu) => (
+															<>
+																{menu}
+																<Divider style={{ margin: '8px 0' }} />
+																<Space style={{ margin: '0 8px 4px' }}>
+																	<CreateAttributeTypeButton />
+																</Space>
+															</>
+														)}
+													/>
+												</FormItem>
+											</Col>
+											<Col xl={5}>
+												<FormItem
+													control={control}
+													name={`product_attributes.${index}.attribute_value_id`}
+													label={index === 0 ? 'Attributvärde' : ''}>
+													<AttributeValueSelect
+														attributeTypeId={getValues(`product_attributes.${index}.attribute_type_id`)}
+													/>
+												</FormItem>
+											</Col>
+											<Col flex='100px'>
+												<Button
+													type='link'
+													onClick={toggle}
+													style={{ marginBlockStart: index === 0 ? '32px' : undefined }}>
+													Skapa lager
+												</Button>
+											</Col>
+											<Col flex='auto'>
+												<Button
+													type='link'
+													icon={<DeleteOutlined />}
+													onClick={() => removeProductAttribute(index)}
+													style={{ marginBlockStart: index === 0 ? '32px' : undefined }}
+													danger
+												/>
+											</Col>
+										</Row>
+									)}
+									renderExpandableContent={
+										<>
+											<FormItem control={control} name={`product_attributes.${index}.stock.sku`} label='SKU'>
+												<Input />
+											</FormItem>
+											<FormItem
+												control={control}
+												name={`product_attributes.${index}.stock.initial_quantity`}
+												label='Lagersaldo'>
+												<InputNumber />
+											</FormItem>
+											<Row gutter={[12, 0]}>
+												<Col xl={5}>
+													<FormItem
+														control={control}
+														name={`product_attributes.${index}.stock.available_at`}
+														label='Tillgänglig från'>
+														<DatePicker />
+													</FormItem>
+												</Col>
+												<Col flex='auto'>
+													<FormItem
+														control={control}
+														name={`product_attributes.${index}.stock.allow_order_out_of_stock`}
+														label='Tillåt beställning vid slutsåld'
+														valuePropName='checked'>
+														<Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} />
+													</FormItem>
+												</Col>
+											</Row>
+											<FormItem
+												control={control}
+												name={`product_attributes.${index}.stock.out_of_stock_message`}
+												label='Meddelande vid slutsåld'>
+												<Input />
+											</FormItem>
+										</>
+									}
+								/>
+							))}
+							<Button icon={<PlusOutlined />} onClick={newProductAttribute}>
 								Lägg till feature
 							</Button>
 						</>

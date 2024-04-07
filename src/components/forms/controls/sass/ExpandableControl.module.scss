@@ -1,0 +1,21 @@
+@use "../../../../sass/_vars";
+
+.expandable-control {
+	&__expandable-content {
+		--transition-duration: 500ms;
+		background-color: var(--ant-blue-1);
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height var(--transition-duration) ease-out;
+
+		&--expanded {
+			margin-block-end: vars.$space-5;
+			max-height: 500px;
+			transition: max-height var(--transition-duration) ease-in;
+		}
+	}
+
+	&__controls {
+		padding: vars.$space-5;
+	}
+}
