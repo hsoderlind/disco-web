@@ -13,7 +13,7 @@ export class ProductConditions extends Enum {
 		] as const
 	}
 
-	static asObject() {
+	static toObject() {
 		return {
 			[ProductConditions.NEW]: ProductConditions.NEW,
 			[ProductConditions.USED]: ProductConditions.USED,
@@ -21,3 +21,6 @@ export class ProductConditions extends Enum {
 		}
 	}
 }
+
+const conditions = ProductConditions.toObject();
+export type ProductConditionsUnion = keyof typeof conditions;

@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { useForm } from '../../hooks/useForm';
 import { useCreateProduct } from '../../services/product/hooks/useCreateProduct';
 import { ProductSchemaType, productSchema } from '../../services/product/types';
@@ -22,12 +22,11 @@ import {
 	Button,
 	Dropdown,
 	Divider,
-	Space
+	Space,
+	Typography
 } from 'antd';
 import FormItem from '../../lib/form/FormItem';
 import { TaxSelect } from '../../components/forms/controls/TaxSelect';
-import { useEffect, useState } from 'react';
-import { useGetTaxes } from '../../services/tax/hooks/useGetTaxes';
 import { UncontrolledLabel } from '../../components/forms/UncontrolledLabel';
 import { Editor } from '../../components/forms/controls/Editor';
 import { ContentLayout } from '../../components/layout/content-layout/ContentLayout';
@@ -45,6 +44,8 @@ import { ExpandableControl } from '../../components/forms/controls/ExpandableCon
 import { CreateAttributeTypeButton } from '../../components/forms/controls/CreateAttributeTypeButton';
 import { AttributeValueSelect } from '../../components/forms/controls/AttributeValueSelect';
 import dayjs from 'dayjs';
+import { FormItemWithControl } from '../../components/forms/FormItemWithControl';
+import { GrossPriceOutput } from '../../components/forms/controls/GrossPriceOutput';
 
 const DEFAULT_SECTION = 'details';
 
@@ -53,14 +54,11 @@ export function Component() {
 	const [searchParams, setSearchParams] = useSearchParams({ section: DEFAULT_SECTION });
 	const section = searchParams.get('section');
 	const category = searchParams.has('category') ? parseInt(searchParams.get('category')!) : 0;
-	const [priceInclVat, setPriceInclVat] = useState(0);
 	const shopId = useShopStore((state) => state.shop.id);
-	const [taxesQueryKey, taxesQueryFn] = useGetTaxes(shopId);
-	const { data: taxes } = useQuery(taxesQueryKey, taxesQueryFn);
 	const barcodeTypeQuery = useLoadBarcodeTypes();
 	const attributeTypeQuery = useLoadAllAttributeTypes();
 	const [mutationFn] = useCreateProduct(shopId);
-	const { control, handleSubmit, setError, watch, getValues } = useForm<ProductSchemaType>({
+	const { control, handleSubmit, setError } = useForm<ProductSchemaType>({
 		defaultValues: {
 			reference: '',
 			supplier_reference: '',
@@ -73,7 +71,8 @@ export function Component() {
 			available_for_order: true,
 			condition: ProductConditions.NEW,
 			barcodes: [],
-			product_attributes: []
+			product_attributes: [],
+			special_prices: []
 		},
 		schema: productSchema
 	});
@@ -91,6 +90,11 @@ export function Component() {
 		append: appendProductAttribute,
 		remove: removeProductAttribute
 	} = useFieldArray({ control, name: 'product_attributes', keyName: 'key' });
+	const {
+		fields: specialPriceFields,
+		append: appendSpecialPrice,
+		remove: removeSpecialPrice
+	} = useFieldArray({ control, name: 'special_prices', keyName: 'key' });
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
@@ -106,6 +110,7 @@ export function Component() {
 
 	const onSubmit: SubmitHandler<ProductSchemaType> = (values) => {
 		mutation.mutate(values);
+		// console.log('values', values);
 	};
 
 	const goToProducts = () => {
@@ -131,18 +136,13 @@ export function Component() {
 			}
 		});
 
-	const price = watch('price');
-	const taxId = watch('tax_id');
-
-	useEffect(() => {
-		const tax = taxId && taxes?.find(taxId);
-
-		if (tax && typeof price !== 'undefined') {
-			const taxValue = tax.get<number>('value')! / 100 + 1.0;
-			const priceInclVat = price * taxValue;
-			setPriceInclVat(priceInclVat);
-		}
-	}, [watch, taxes, price, taxId]);
+	const newSpecialPrice = () =>
+		appendSpecialPrice({
+			key: Str.uuid(),
+			special_price: 0,
+			entry_date: dayjs(),
+			expiration_date: null!
+		});
 
 	return (
 		<Form onFinish={handleSubmit(onSubmit)} layout='vertical'>
@@ -163,23 +163,6 @@ export function Component() {
 									</FormItem>
 								</Col>
 							</Row>
-							<Row gutter={[12, 0]}>
-								<Col xl={4}>
-									<FormItem control={control} name='price' label='Nettopris'>
-										<InputNumber precision={2} addonAfter='kr' />
-									</FormItem>
-								</Col>
-								<Col xl={4}>
-									<FormItem control={control} name='tax_id' label='Moms'>
-										<TaxSelect creatable />
-									</FormItem>
-								</Col>
-								<Col xl={4}>
-									<UncontrolledLabel label='Bruttopris' htmlFor='price_inc_vat'>
-										<InputNumber precision={2} addonAfter={'kr'} value={priceInclVat} readOnly />
-									</UncontrolledLabel>
-								</Col>
-							</Row>
 							<FormItem control={control} name='summary' label='Kort beskrivning'>
 								<Input.TextArea rows={6} />
 							</FormItem>
@@ -197,6 +180,7 @@ export function Component() {
 					{/* SECTION: DETAILS */}
 					{section === 'details' && (
 						<>
+							<Typography.Title level={2}>Märkning</Typography.Title>
 							<FormItem control={control} name='condition' label='Produktens skick'>
 								<Segmented<string>
 									options={[
@@ -234,6 +218,8 @@ export function Component() {
 									</FormItem>
 								</Col>
 							</Row>
+							<Divider />
+							<Typography.Title level={2}>Produktkoder</Typography.Title>
 							{barcodeFields.map((barcode, index) => (
 								<Row gutter={[12, 0]} key={barcode.key}>
 									<Col xl={5}>
@@ -293,6 +279,7 @@ export function Component() {
 					)}
 					{section === 'features' && (
 						<>
+							<Typography.Title level={2}>Features</Typography.Title>
 							{productAttributeFields.map((productAttribute, index) => (
 								<ExpandableControl
 									key={productAttribute.key}
@@ -322,14 +309,15 @@ export function Component() {
 												</FormItem>
 											</Col>
 											<Col xl={5}>
-												<FormItem
+												<FormItemWithControl
 													control={control}
 													name={`product_attributes.${index}.attribute_value_id`}
 													label={index === 0 ? 'Attributvärde' : ''}>
 													<AttributeValueSelect
-														attributeTypeId={getValues(`product_attributes.${index}.attribute_type_id`)}
+														control={control}
+														connectedFieldName={`product_attributes.${index}.attribute_type_id`}
 													/>
-												</FormItem>
+												</FormItemWithControl>
 											</Col>
 											<Col flex='100px'>
 												<Button
@@ -392,6 +380,87 @@ export function Component() {
 							))}
 							<Button icon={<PlusOutlined />} onClick={newProductAttribute}>
 								Lägg till feature
+							</Button>
+						</>
+					)}
+					{section === 'price' && (
+						<>
+							<Typography.Title level={2}>Ordinarie pris</Typography.Title>
+							<Row gutter={[12, 0]}>
+								<Col xl={4}>
+									<FormItem control={control} name='price' label='Nettopris'>
+										<InputNumber precision={2} addonAfter='kr' />
+									</FormItem>
+								</Col>
+								<Col xl={4}>
+									<FormItem control={control} name='tax_id' label='Moms'>
+										<TaxSelect creatable />
+									</FormItem>
+								</Col>
+								<Col xl={4}>
+									<GrossPriceOutput
+										control={control}
+										name='price_incl_vat'
+										label='Bruttopris'
+										netPriceFieldName='price'
+										taxIdFieldName='tax_id'
+										precision={2}
+										addonAfter={'kr'}
+									/>
+								</Col>
+							</Row>
+							<Divider />
+							<Typography.Title level={2}>Kampanjer</Typography.Title>
+							{specialPriceFields.map((specialPrice, index) => (
+								<Row gutter={[12, 0]} key={specialPrice.key}>
+									<Col xl={4}>
+										<FormItem
+											control={control}
+											name={`special_prices.${index}.special_price`}
+											label={index === 0 ? 'Nettopris' : ''}>
+											<InputNumber min={0} precision={2} addonAfter='kr' />
+										</FormItem>
+									</Col>
+									<Col xl={4}>
+										<GrossPriceOutput
+											control={control}
+											name={`special_prices.${index}.price_incl_vat`}
+											label={index === 0 ? 'Bruttopris' : ''}
+											netPriceFieldName={`special_prices.${index}.special_price`}
+											taxIdFieldName='tax_id'
+											precision={2}
+											addonAfter={'kr'}
+										/>
+									</Col>
+									<Col xl={4}>
+										<FormItem
+											control={control}
+											name={`special_prices.${index}.entry_date`}
+											label={index === 0 ? 'Giltig från' : ''}>
+											<DatePicker />
+										</FormItem>
+									</Col>
+									<Col xl={4}>
+										<FormItem
+											control={control}
+											name={`special_prices.${index}.expiration_date`}
+											label={index === 0 ? 'Giltig till' : ''}>
+											<DatePicker />
+										</FormItem>
+									</Col>
+									<Col flex='auto'>
+										<Button
+											type='link'
+											icon={<DeleteOutlined />}
+											onClick={() => removeSpecialPrice(index)}
+											style={{ marginBlockStart: index === 0 ? '32px' : undefined }}
+											danger
+										/>
+									</Col>
+								</Row>
+							))}
+							<Button icon={<PlusOutlined />} onClick={newSpecialPrice}>
+								Lägg till rea-pris
 							</Button>
 						</>
 					)}

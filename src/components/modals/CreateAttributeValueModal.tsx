@@ -9,14 +9,14 @@ import { ServerValidationError } from '../../lib/error/types';
 import app from '../../lib/application-builder/ApplicationBuilder';
 import { ExtractErrors } from '../../lib/error/ExtractErrors';
 import { SubmitHandler } from 'react-hook-form';
-import { Form, Input, Modal } from 'antd';
+import { Form, Input, InputNumber, Modal } from 'antd';
 import FormItem from '../../lib/form/FormItem';
 
 export type CreateAttributeValueModalProps = {
 	attributeTypeId: number;
 	open: boolean;
 	onCancel?: () => void;
-	onFinish?: () => void;
+	onFinish?: (attributeValue: AttributeValue) => void;
 };
 
 export const CreateAttributeValueModal: FC<CreateAttributeValueModalProps> = ({
@@ -29,6 +29,7 @@ export const CreateAttributeValueModal: FC<CreateAttributeValueModalProps> = ({
 	const { control, handleSubmit, setError } = useForm<AttributeValueSchemaType>({
 		defaultValues: {
 			label: '',
+			sort_order: 0,
 			attribute_type_id: attributeTypeId
 		},
 		schema: attributeValueSchema
@@ -36,9 +37,9 @@ export const CreateAttributeValueModal: FC<CreateAttributeValueModalProps> = ({
 
 	const [mutationFn] = useCreateAttributeValue(shopId);
 	const mutation = useMutation<AttributeValue, ServerValidationError, AttributeValueSchemaType>(mutationFn, {
-		onSuccess() {
+		onSuccess(data) {
 			app.addSuccessNoitication({ description: 'Attributvärdet har nu skapats.' });
-			onFinish?.();
+			onFinish?.(data);
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<AttributeValueSchemaType>(error)(setError);
@@ -55,6 +56,9 @@ export const CreateAttributeValueModal: FC<CreateAttributeValueModalProps> = ({
 			<Form layout='vertical'>
 				<FormItem control={control} name='label' label='Benämning'>
 					<Input autoFocus />
+				</FormItem>
+				<FormItem control={control} name='sort_order' label='Sorteringsordning'>
+					<InputNumber min={0} />
 				</FormItem>
 			</Form>
 		</Modal>

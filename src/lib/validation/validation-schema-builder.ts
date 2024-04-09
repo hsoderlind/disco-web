@@ -1,3 +1,4 @@
+import dayjs, { Dayjs } from 'dayjs';
 import * as z from 'zod';
 import { makeZodI18nMap } from 'zod-i18n-map';
 
@@ -28,4 +29,6 @@ export const passwordMatcher: PasswordMatchFn<PasswordMatch> = (arg, ctx) => {
 		})
 	}
 }
+
+export const isDayJs = z.instanceof(dayjs as unknown as typeof Dayjs);
 

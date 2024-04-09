@@ -3,14 +3,17 @@ import app from "../../lib/application-builder/ApplicationBuilder";
 import { vsbInfer } from "../../lib/validation/validation-schema-builder";
 import { BarcodeSchema, barcodeSchema } from "../barcode/types";
 import { productAttributeSchema } from "../product-attribute/types";
-import { ProductConditions } from "./ProductConditions";
+import { ProductConditions, ProductConditionsUnion } from "./ProductConditions";
 import { Category } from '../category/Category';
 import { Barcode } from '../barcode/Barcode';
+import { ProductSpecialPriceType, productSpecialPriceSchema } from '../product-special-price/types';
+import { ProductSpecialPriceCollection } from '../product-special-price/ProductSpecialPriceCollection';
 
 const vsb = app.getValidationSchemaBuilder();
 
 const productBarcodeSchema = barcodeSchema.extend({key: vsb.string()});
 const combinedProductAttributeSchema = productAttributeSchema.extend({key: vsb.string(), stock: productAttributeStockSchema})
+const extendedProductSpecialPriceSchema = productSpecialPriceSchema.extend({key: vsb.string()});
 
 export const productSchema = vsb.object({
 	tax_id: vsb.number().optional(),
@@ -28,7 +31,8 @@ export const productSchema = vsb.object({
 	description: vsb.string().optional(),
 	categories: vsb.array(vsb.number().nonnegative()),
 	barcodes: vsb.array(productBarcodeSchema).optional(),
-	product_attributes: vsb.array(combinedProductAttributeSchema)
+	product_attributes: vsb.array(combinedProductAttributeSchema),
+	special_prices: vsb.array(extendedProductSpecialPriceSchema).optional()
 });
 
 export type ProductSchemaType = vsbInfer<typeof productSchema>
@@ -45,10 +49,11 @@ export type ProductType = {
 	supplier_reference: string;
 	available_for_order: boolean;
 	available_at: string;
-	condition: 'new' | 'used' | 'refurbished';
+	condition: ProductConditionsUnion;
 	name: string;
 	summary?: string;
 	description: string;
 	categories?: Category[] | number[],
-	barcodes?: Barcode[] | BarcodeSchema[]
+	barcodes?: Barcode[] | BarcodeSchema[],
+	special_prices?: ProductSpecialPriceType[] | ProductSpecialPriceCollection;
 };

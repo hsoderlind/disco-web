@@ -13,6 +13,7 @@ export const attributeTypeSchema = vsb.object({
 
 export const attributeValueSchema = vsb.object({
 	label: vsb.string().nonempty(),
+	sort_order: vsb.number().min(0),
 	attribute_type_id: vsb.number().nonnegative()
 });
 

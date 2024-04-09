@@ -18,7 +18,7 @@ export abstract class Enum {
 		return [''] as const;
 	}
 
-	static asObject(): Readonly<Record<string, string> | Record<number, number>> {
+	static toObject(): Readonly<Record<string, string> | Record<number, number>> {
 		return {};
 	}
 }
