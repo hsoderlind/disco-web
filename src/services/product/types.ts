@@ -8,6 +8,10 @@ import { Category } from '../category/Category';
 import { Barcode } from '../barcode/Barcode';
 import { ProductSpecialPriceType, productSpecialPriceSchema } from '../product-special-price/types';
 import { ProductSpecialPriceCollection } from '../product-special-price/ProductSpecialPriceCollection';
+import { ProductFileType } from '../product-file/types';
+import { ProductFileCollection } from '../product-file/ProductFileCollection';
+import { ProductImageType } from '../product-image/types';
+import { ProductImageCollection } from '../product-image/ProductImageCollection';
 
 const vsb = app.getValidationSchemaBuilder();
 
@@ -56,4 +60,6 @@ export type ProductType = {
 	categories?: Category[] | number[],
 	barcodes?: Barcode[] | BarcodeSchema[],
 	special_prices?: ProductSpecialPriceType[] | ProductSpecialPriceCollection;
+	files: ProductFileType[] | ProductFileCollection;
+	images: ProductImageType[] | ProductImageCollection;
 };

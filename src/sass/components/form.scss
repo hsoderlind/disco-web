@@ -16,13 +16,14 @@
 }
 
 .buttonbar {
-	position: sticky;
+	position: fixed;
+	left: 0;
+	right: 0;
 	bottom: 0;
 	display: flex;
 	column-gap: vars.$space-4;
 	background-color: map.get(vars.$colors, "surface", "medium");
 	border-top: 1px solid map.get(vars.$colors, "border", "light");
 	padding: vars.$space-4 vars.$space-6;
-	margin-inline: calc(vars.$space-6 * -1);
-	margin-block-start: vars.$space-5;
+	// margin-inline: calc(vars.$space-6);
 }

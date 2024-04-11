@@ -46,6 +46,7 @@ import { AttributeValueSelect } from '../../components/forms/controls/AttributeV
 import dayjs from 'dayjs';
 import { FormItemWithControl } from '../../components/forms/FormItemWithControl';
 import { GrossPriceOutput } from '../../components/forms/controls/GrossPriceOutput';
+import { FloatingButtonBar } from '../../components/forms/FloatingButtonbar';
 
 const DEFAULT_SECTION = 'details';
 
@@ -283,7 +284,7 @@ export function Component() {
 							{productAttributeFields.map((productAttribute, index) => (
 								<ExpandableControl
 									key={productAttribute.key}
-									renddervVisibleContent={(toggle) => (
+									renderVisibleContent={(toggle) => (
 										<Row gutter={[12, 0]}>
 											<Col xl={5}>
 												<FormItem
@@ -518,7 +519,7 @@ export function Component() {
 					/>
 				</SidebarContentLayout>
 			</ContentLayout>
-			<div className='buttonbar'>
+			<FloatingButtonBar>
 				<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToProducts} size='large'>
 					Produkter
 				</Button>
@@ -543,7 +544,7 @@ export function Component() {
 						Spara & publicera
 					</Dropdown.Button>
 				</div>
-			</div>
+			</FloatingButtonBar>
 		</Form>
 	);
 }

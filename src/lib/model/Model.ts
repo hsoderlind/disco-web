@@ -11,7 +11,7 @@ export class Model<T extends object, K extends keyof T> extends BaseModel<T, K> 
 		this.httpClient = makeHttpClientForApi();
 	}
 
-	protected getEndpoint(): string {
+	getEndpoint(): string {
 		const slugged = Str.kebabCase(this.constructor.name);
 		return `api/${slugged}`;
 	}

@@ -9,13 +9,13 @@ type ToggleFn = () => void;
 type VisibleContentFn = (toggle: ToggleFn, expand: ExpandFn, shrink: ShrinkFn) => ReactNode;
 
 export type ExpandableControlProps = {
-	renddervVisibleContent: VisibleContentFn;
+	renderVisibleContent: VisibleContentFn;
 	renderExpandableContent: ReactNode | (() => ReactNode);
 	defaultExpanded?: boolean;
 };
 
 export const ExpandableControl: FC<ExpandableControlProps> = ({
-	renddervVisibleContent,
+	renderVisibleContent,
 	renderExpandableContent,
 	defaultExpanded = false
 }) => {
@@ -27,7 +27,7 @@ export const ExpandableControl: FC<ExpandableControlProps> = ({
 
 	return (
 		<div className={classes['expandable-control']}>
-			<div className='expandable-control__static-content'>{renddervVisibleContent(toggle, expand, shrink)}</div>
+			<div className='expandable-control__static-content'>{renderVisibleContent(toggle, expand, shrink)}</div>
 			<div
 				className={clsx(classes['expandable-control__expandable-content'], {
 					[classes['expandable-control__expandable-content--expanded']]: expanded
