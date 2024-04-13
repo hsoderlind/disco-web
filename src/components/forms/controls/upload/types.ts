@@ -45,11 +45,9 @@ export class Upload extends Model<UploadType, 'key'> {
 			cb(this.get('uploadProgress'));
 			
 			if (this.get<boolean>('isUploaded') || this.get<ServerValidationError>('error')) {
-				console.log('clearing interval');
 				clearInterval(t);
 			}
 		}, 100);
-
 	}
 
 	async upload() {
@@ -74,6 +72,7 @@ export class Upload extends Model<UploadType, 'key'> {
 			this.get<FileModel>('model').fill(response.data);
 		} catch (error) {
 			this.set('error', error as ServerValidationError);
+			throw error;
 		}
 
 		return this;
@@ -86,7 +85,9 @@ export class Upload extends Model<UploadType, 'key'> {
 		setTimeout(() => {
 			clearInterval(t);
 			this.set('isUploaded', true);
-		}, 10000);
+		}, 100);
+
+		return this;
 	}
 
 	async create(): Promise<this> {

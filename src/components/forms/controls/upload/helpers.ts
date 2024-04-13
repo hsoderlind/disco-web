@@ -38,6 +38,8 @@ export const makeOnDrop: MakeOnDropFn = (shopId, onDrop, onUploadedCb, onError) 
 			onUploadedCb?.(file);
 		} catch (error) {
 			onError?.(file, error as ServerValidationError);
+			// throw error;
 		}
+		
 	}
 }

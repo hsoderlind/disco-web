@@ -29,12 +29,11 @@ export const ProductImage = <TFieldValues extends FieldValues = Fields>({
 	control,
 	name
 }: ProductImageProps<TFieldValues>) => {
-	const [acceptedFiles, setAcceptedFiles] = useState<UploadCollection>();
+	const [acceptedFiles, setAcceptedFiles] = useState<UploadCollection | undefined>();
 	const { fields, append, remove } = useFieldArray({ control, name, keyName: 'key' });
 	console.log('fields', fields);
 	console.log('append', append);
 	console.log('remove', remove);
-	console.log('acceptedFiles', acceptedFiles);
 
 	return (
 		<div className='mb-input'>
@@ -58,6 +57,7 @@ export const ProductImage = <TFieldValues extends FieldValues = Fields>({
 						});
 					}}
 					onUploaded={(file) => {
+						console.log('onUploaded');
 						setAcceptedFiles((collection) => {
 							if (typeof collection === 'undefined') {
 								return;
@@ -76,7 +76,7 @@ export const ProductImage = <TFieldValues extends FieldValues = Fields>({
 					</div>
 				</Upload>
 			</div>
-			<ProductImageUploadList />
+			<ProductImageUploadList files={acceptedFiles} />
 		</div>
 	);
 };
