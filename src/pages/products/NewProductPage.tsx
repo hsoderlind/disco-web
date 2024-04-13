@@ -47,6 +47,8 @@ import dayjs from 'dayjs';
 import { FormItemWithControl } from '../../components/forms/FormItemWithControl';
 import { GrossPriceOutput } from '../../components/forms/controls/GrossPriceOutput';
 import { FloatingButtonBar } from '../../components/forms/FloatingButtonbar';
+import { UploadButton } from '../../components/forms/controls/upload/UploadButton';
+import { ProductImage } from '../../components/forms/controls/product-image/ProductImage';
 
 const DEFAULT_SECTION = 'details';
 
@@ -164,6 +166,7 @@ export function Component() {
 									</FormItem>
 								</Col>
 							</Row>
+							<ProductImage control={control} name='images' />
 							<FormItem control={control} name='summary' label='Kort beskrivning'>
 								<Input.TextArea rows={6} />
 							</FormItem>
@@ -465,6 +468,24 @@ export function Component() {
 							</Button>
 						</>
 					)}
+					{section === 'files' && (
+						<>
+							<Typography.Title level={2}>Filer</Typography.Title>
+							<UploadButton
+								onDrop={(acceptedFiles) => {
+									console.log('size', acceptedFiles.size);
+									for (const file of acceptedFiles) {
+										console.log('accepted file - progress', file.getUploadProgress(console.log));
+										console.log('accepted file - uploaded', file.get<boolean>('isUploaded'));
+									}
+								}}
+								onUploaded={(file) => {
+									console.log('uploaded file', file);
+								}}>
+								Välj fil(er) att ladda upp
+							</UploadButton>
+						</>
+					)}
 				</MainContentLayout>
 				<SidebarContentLayout>
 					<Menu
@@ -492,7 +513,7 @@ export function Component() {
 								key: 'price'
 							},
 							{
-								label: 'Filer',
+								label: 'Filer & bilder',
 								key: 'files'
 							},
 							{

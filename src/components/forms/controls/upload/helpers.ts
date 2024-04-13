@@ -1,36 +1,15 @@
-import { FileRejection, MakeOnDropAcceptedFn, MakeOnDropFn, FileRejectionCollection, Upload, UploadCollection } from "./types";
+import { FileRejection, MakeOnDropFn, FileRejectionCollection, Upload, UploadCollection } from "./types";
 import { File as FileModel } from "../../../../services/file/File";
 import { FileWithPath } from "react-dropzone";
 import { Str } from "../../../../lib/string/Str";
+import { ServerValidationError } from "../../../../lib/error/types";
 
-export const makeOnDropAccepted: MakeOnDropAcceptedFn  = (shopId, onDrop, onUploadedCb) => async (files: FileWithPath[]) => {
-	const models = files.map((file) => {
-		return new Upload({
-			key: Str.uuid(),
-			buffer: file,
-			model: new FileModel({
-				filename: file.name,
-				mimetype: file.type,
-				size: file.size
-			}, shopId),
-		}, shopId);
-	});
-
-	const collection = new UploadCollection(models);
-
-	onDrop(collection);
-
-	for (const file of collection.getItems()) {
-		await file.upload();
-		onUploadedCb(file);
-	}
-}
-
-export const makeOnDrop: MakeOnDropFn = (shopId, onDrop, onUploadedCb, onRejection) => async (acceptedFile: FileWithPath[], fileRejections) => {
+export const makeOnDrop: MakeOnDropFn = (shopId, onDrop, onUploadedCb, onError) => async (acceptedFile: FileWithPath[], fileRejections) => {
 	const models = acceptedFile.map((file) => {
 		return new Upload({
 			key: Str.uuid(),
 			buffer: file,
+			preview: URL.createObjectURL(file),
 			model: new FileModel({
 				filename: file.name,
 				mimetype: file.type,
@@ -51,11 +30,14 @@ export const makeOnDrop: MakeOnDropFn = (shopId, onDrop, onUploadedCb, onRejecti
 
 	const rejectionCollection = new FileRejectionCollection(rejectionModels);
 
-	onDrop(collection, rejectionCollection);
-	onRejection?.(rejectionCollection);
+	onDrop?.(collection, rejectionCollection);
 	
-	for (const file of collection.getItems()) {
-		await file.upload();
-		onUploadedCb(file);
+	for (const file of collection) {
+		try {
+			await file.upload();
+			onUploadedCb?.(file);
+		} catch (error) {
+			onError?.(file, error as ServerValidationError);
+		}
 	}
 }

@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import { FC, ReactNode, useState } from 'react';
 import classes from './sass/ExpandableControl.module.scss';
-console.log('classes', classes);
 
 type ExpandFn = () => void;
 type ShrinkFn = () => void;
@@ -26,7 +25,7 @@ export const ExpandableControl: FC<ExpandableControlProps> = ({
 	const shrink = () => setExpanded(() => false);
 
 	return (
-		<div className={classes['expandable-control']}>
+		<div className='expandable-control'>
 			<div className='expandable-control__static-content'>{renderVisibleContent(toggle, expand, shrink)}</div>
 			<div
 				className={clsx(classes['expandable-control__expandable-content'], {

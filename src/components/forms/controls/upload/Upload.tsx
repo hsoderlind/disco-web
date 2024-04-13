@@ -1,20 +1,20 @@
 import { useDropzone } from 'react-dropzone';
-import { CommonUploadProps } from './types';
-import { makeOnDrop, makeOnDropAccepted } from './helpers';
+import { UploadProps } from './types';
+import { makeOnDrop } from './helpers';
 import { useShopStore } from '../../../../services/shop/store';
 
-export const Upload = ({ onDrop, onUploaded, onRejection, ...props }: CommonUploadProps) => {
+export const Upload = ({ children, onDrop, onUploaded, onError, ...props }: UploadProps) => {
 	const shopId = useShopStore((state) => state.shop.id);
 
 	const { getRootProps, getInputProps } = useDropzone({
 		...props,
-		onDrop: makeOnDrop(shopId, onDrop, onUploaded, onRejection),
-		onDropAccepted: makeOnDropAccepted(shopId, onDrop, onUploaded)
+		onDrop: makeOnDrop(shopId, onDrop, onUploaded, onError)
 	});
 
 	return (
 		<div {...getRootProps()}>
 			<input {...getInputProps()} />
+			{children}
 		</div>
 	);
 };

@@ -1,0 +1,22 @@
+@use "../../../../sass/utils/resets";
+@use "../../../../sass/_vars";
+
+.product-image-upload-list {
+	@include resets.reset-list();
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: vars.$space-3;
+	margin-block-start: vars.$space-3;
+
+	&__item {
+		flex-basis: 9.375rem;
+	}
+
+	&__img {
+		object-fit: cover;
+		aspect-ratio: 1;
+		max-width: 100%;
+		height: auto;
+	}
+}

@@ -1,8 +1,11 @@
+import { ComponentProps, ReactNode } from 'react';
+import { ServerValidationError } from './../../../../lib/error/types';
 import { DropzoneOptions, FileRejection as RDFileRejection } from 'react-dropzone';
 import { File as FileModel } from '../../../../services/file/File';
 import { Model } from '../../../../lib/model/Model';
 import { Collection } from '../../../../lib/model/Collection';
 import { FileType } from '../../../../services/file/types';
+import { Button } from 'antd';
 
 export type FileRejectionType = RDFileRejection & {
 	key: string;
@@ -23,12 +26,30 @@ export class FileRejectionCollection extends Collection<FileRejectionType, 'key'
 export type UploadType = {
 	key: string;
 	model?: FileModel;
-	buffer: globalThis.File
+	buffer: globalThis.File;
+	preview: ReturnType<typeof URL.createObjectURL>;
+	uploadProgress: number;
+	isUploaded: boolean;
+	error?: ServerValidationError
 }
 
 export class Upload extends Model<UploadType, 'key'> {
 	constructor(data: Partial<UploadType>, protected readonly shopId: number) {
+		data.uploadProgress = 0;
+		data.isUploaded = false;
 		super('key', data);
+	}
+
+	getUploadProgress(cb: (progress: number) => void) {
+		const t = setInterval(() => {
+			cb(this.get('uploadProgress'));
+			
+			if (this.get<boolean>('isUploaded') || this.get<ServerValidationError>('error')) {
+				console.log('clearing interval');
+				clearInterval(t);
+			}
+		}, 100);
+
 	}
 
 	async upload() {
@@ -38,10 +59,38 @@ export class Upload extends Model<UploadType, 'key'> {
 
 		const formData = new FormData();
 		formData.append('file', this.get<globalThis.File>('buffer'));
-		const response = await this.httpClient.post<FileType, FormData>(this.get<FileModel>('model').getEndpoint(), formData);
+		try {
+			const response = await this.httpClient.post<FileType, FormData>(
+				this.get<FileModel>('model').getEndpoint(), 
+				formData,
+				{
+					onUploadProgress: (progressEvent) => {
+						this.set('uploadProgress', Math.round((progressEvent.loaded * 100) / progressEvent.total!));
+					}
+				}
+			);
+			this.set('uploadProgress', 100);
+			this.set('isUploaded', true);
+			this.get<FileModel>('model').fill(response.data);
+		} catch (error) {
+			this.set('error', error as ServerValidationError);
+		}
 
-		this.get<FileModel>('model').fill(response.data);
 		return this;
+	}
+
+	private _mockUpload() {
+		const t = setInterval(() => {
+			this.set('uploadProgress', this.get<number>('uploadProgress') + 10);
+		});
+		setTimeout(() => {
+			clearInterval(t);
+			this.set('isUploaded', true);
+		}, 10000);
+	}
+
+	async create(): Promise<this> {
+		return this.upload();
 	}
 }
 
@@ -53,16 +102,26 @@ export class UploadCollection extends Collection<UploadType, 'key', Upload> {
 
 export type onUploadedCb = (file: Upload) => void;
 
-export type OnRejectionCb = (fileRejections: FileRejectionCollection) => void;
-
 export type OnDropCb = (acceptedFiles: UploadCollection, fileRejections?: FileRejectionCollection) => void;
 
-export type CommonUploadProps = Omit<DropzoneOptions, 'onDrop' | 'onDropAccepted' | 'onDropRejected'> & {
-	onDrop: OnDropCb;
-	onUploaded: onUploadedCb;
-	onRejection?: OnRejectionCb;
+export type OnErrorCb = (file: Upload, error: ServerValidationError) => void;
+
+export type CommonUploadProps = Omit<DropzoneOptions, 'onDrop' | 'onDropAccepted' | 'onDropRejected' | 'onError'> & {
+	onDrop?: OnDropCb;
+	onUploaded?: onUploadedCb;
+	onError?: OnErrorCb;
 };
 
-export type MakeOnDropAcceptedFn = (shopId: number, onDrop: OnDropCb, onUploaded: onUploadedCb) => DropzoneOptions['onDropAccepted'];
+export type UploadProps = CommonUploadProps & {
+	children: ReactNode;
+};
 
-export type MakeOnDropFn = (shopId: number, onDrop: OnDropCb, onUploaded: onUploadedCb, onRejection?: OnRejectionCb) => DropzoneOptions['onDrop'];
+type ButtonProps = ComponentProps<typeof Button>;
+
+export type UploadButtonProps = CommonUploadProps & {
+	children?: ButtonProps['children'];
+	icon?: ButtonProps['icon'];
+	size?: ButtonProps['size'];
+};
+
+export type MakeOnDropFn = (shopId: number, onDrop?: OnDropCb, onUploaded?: onUploadedCb, onError?: OnErrorCb) => DropzoneOptions['onDrop'];

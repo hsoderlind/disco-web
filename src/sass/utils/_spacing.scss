@@ -57,3 +57,7 @@
 		row-gap: $value;
 	}
 }
+
+.mb-input {
+	margin-bottom: calc(vars.$space-5 - vars.$space-3);
+}
