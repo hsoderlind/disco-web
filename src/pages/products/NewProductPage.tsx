@@ -48,7 +48,11 @@ import { FormItemWithControl } from '../../components/forms/FormItemWithControl'
 import { GrossPriceOutput } from '../../components/forms/controls/GrossPriceOutput';
 import { FloatingButtonBar } from '../../components/forms/FloatingButtonbar';
 import { UploadButton } from '../../components/forms/controls/upload/UploadButton';
-import { ProductImage } from '../../components/forms/controls/product-image/ProductImage';
+import { ProductImageUpload } from '../../components/forms/controls/product-image/ProductImageUpload';
+import { ProductImage as ProductImageModel } from '../../services/product-image/ProductImage';
+import { File } from '../../services/file/File';
+import { DevTool } from '@hookform/devtools';
+import { ProductImageList } from '../../components/forms/controls/product-image/ProductImageList';
 
 const DEFAULT_SECTION = 'details';
 
@@ -98,6 +102,12 @@ export function Component() {
 		append: appendSpecialPrice,
 		remove: removeSpecialPrice
 	} = useFieldArray({ control, name: 'special_prices', keyName: 'key' });
+	const {
+		fields: productImageFields,
+		append: appendProductImage,
+		remove: removeProductImage,
+		update: updateProductImage
+	} = useFieldArray({ control, name: 'images', keyName: 'key' });
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
@@ -113,7 +123,6 @@ export function Component() {
 
 	const onSubmit: SubmitHandler<ProductSchemaType> = (values) => {
 		mutation.mutate(values);
-		// console.log('values', values);
 	};
 
 	const goToProducts = () => {
@@ -147,6 +156,20 @@ export function Component() {
 			expiration_date: null!
 		});
 
+	const addProductImage = (model: ProductImageModel) => {
+		appendProductImage({
+			key: `pi-${model.getKey()}`,
+			sort_order: model.get('sort_order'),
+			use_as_cover: model.get('use_as_cover'),
+			meta: {
+				extension: model.get<File>('meta').get('extension'),
+				filename: model.get<File>('meta').get('filename'),
+				mimetype: model.get<File>('meta').get('mimetype'),
+				size: model.get<File>('meta').get('size')
+			}
+		});
+	};
+
 	return (
 		<Form onFinish={handleSubmit(onSubmit)} layout='vertical'>
 			<ContentLayout>
@@ -166,7 +189,8 @@ export function Component() {
 									</FormItem>
 								</Col>
 							</Row>
-							<ProductImage control={control} name='images' />
+							<ProductImageUpload append={addProductImage} />
+							<ProductImageList control={control} />
 							<FormItem control={control} name='summary' label='Kort beskrivning'>
 								<Input.TextArea rows={6} />
 							</FormItem>
@@ -486,6 +510,7 @@ export function Component() {
 							</UploadButton>
 						</>
 					)}
+					<DevTool control={control} />
 				</MainContentLayout>
 				<SidebarContentLayout>
 					<Menu

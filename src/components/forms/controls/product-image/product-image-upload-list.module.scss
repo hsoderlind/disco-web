@@ -11,6 +11,33 @@
 
 	&__item {
 		flex-basis: 9.375rem;
+
+		&--error {
+			.product-image-upload-list__img {
+				border: 2px solid var(--ant-color-error);
+			}
+
+			&:hover {
+				.product-image-upload-list__img {
+					filter: blur(3px);
+				}
+
+				.product-image-upload-list__delete-btn-wrapper {
+					display: grid;
+					place-items: center;
+					position: absolute;
+					inset: 0 0 0 0;
+				}
+			}
+		}
+	}
+
+	&__img-wrapper {
+		position: relative;
+	}
+
+	&__delete-btn-wrapper {
+		display: none;
 	}
 
 	&__img {

@@ -13,6 +13,8 @@ export type RouteMatch = UIMatch<unknown, {
 	menuKey: string
 }>
 
+export type ExtractObjectStructure<T> = T extends (infer U)[] ? U : never;
+
 export abstract class Enum {
 	static values(): Readonly<[string, ...string[]] | [number, ...number[]]> {
 		return [''] as const;

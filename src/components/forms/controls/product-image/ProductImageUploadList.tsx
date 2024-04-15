@@ -4,9 +4,9 @@ import classes from './product-image-upload-list.module.scss';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { ProductImageUploadItem } from './ProductImageUploadItem';
 
-export type ProductImageUploadListProps = {
+export type ProductImageUploadListProps = Readonly<{
 	files?: UploadCollection;
-};
+}>;
 
 export const ProductImageUploadList: FC<ProductImageUploadListProps> = ({ files }) => {
 	const [parent] = useAutoAnimate();

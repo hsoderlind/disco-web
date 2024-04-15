@@ -58,6 +58,10 @@
 	}
 }
 
-.mb-input {
+@mixin mb-input {
 	margin-bottom: calc(vars.$space-5 - vars.$space-3);
+}
+
+.mb-input {
+	@include mb-input();
 }

@@ -18,15 +18,20 @@ $spaces: (
 );
 
 // Colors
+$clr-surface-light: hsl(0, 0%, 100%);
+$clr-surface-medium: hsl(240, 7%, 92%);
+$clr-surface-dark: hsl(209, 100%, 8%);
+
+$clr-border-light: hsl(0, 0%, 84%);
+
 $colors: (
 	"surface": (
-		"light": #ffffff,
-		//"medium": #6b6b6e,
-		"medium": #e8e8eb,
-		"dark": #001529
+		"light": $clr-surface-light,
+		"medium": $clr-surface-medium,
+		"dark": $clr-surface-dark
 	),
 	"border": (
-		"light": #d6d6d6
+		"light": $clr-border-light
 	)
 );
 

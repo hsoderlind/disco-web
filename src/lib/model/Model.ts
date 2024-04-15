@@ -13,6 +13,6 @@ export class Model<T extends object, K extends keyof T> extends BaseModel<T, K> 
 
 	getEndpoint(): string {
 		const slugged = Str.kebabCase(this.constructor.name);
-		return `api/${slugged}`;
+		return `/api/${slugged}`;
 	}
 }
