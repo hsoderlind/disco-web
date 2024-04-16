@@ -4,11 +4,20 @@ import { makeOnDrop } from './helpers';
 import { useShopStore } from '../../../../services/shop/store';
 import { UploadButtonProps } from './types';
 
-export const UploadButton = ({ onDrop, onUploaded, onError, children, icon, size, ...props }: UploadButtonProps) => {
+export const UploadButton = ({
+	inputName,
+	onDrop,
+	onUploaded,
+	onError,
+	children,
+	icon,
+	size,
+	...props
+}: UploadButtonProps) => {
 	const shopId = useShopStore((state) => state.shop.id);
 	const { getRootProps, getInputProps } = useDropzone({
 		...props,
-		onDrop: makeOnDrop(shopId, onDrop, onUploaded, onError)
+		onDrop: makeOnDrop(inputName, shopId, onDrop, onUploaded, onError)
 	});
 
 	return (

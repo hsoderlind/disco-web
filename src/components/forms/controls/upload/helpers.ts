@@ -4,10 +4,11 @@ import { FileWithPath } from "react-dropzone";
 import { Str } from "../../../../lib/string/Str";
 import { ServerValidationError } from "../../../../lib/error/types";
 
-export const makeOnDrop: MakeOnDropFn = (shopId, onDrop, onUploadedCb, onError) => async (acceptedFile: FileWithPath[], fileRejections) => {
+export const makeOnDrop: MakeOnDropFn = (inputName, shopId, onDrop, onUploadedCb, onError) => async (acceptedFile: FileWithPath[], fileRejections) => {
 	const models = acceptedFile.map((file) => {
 		return new Upload({
 			key: Str.uuid(),
+			inputName,
 			buffer: file,
 			preview: URL.createObjectURL(file),
 			model: new FileModel({
@@ -38,7 +39,6 @@ export const makeOnDrop: MakeOnDropFn = (shopId, onDrop, onUploadedCb, onError) 
 			onUploadedCb?.(file);
 		} catch (error) {
 			onError?.(file, error as ServerValidationError);
-			// throw error;
 		}
 		
 	}

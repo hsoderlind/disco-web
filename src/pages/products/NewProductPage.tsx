@@ -47,10 +47,7 @@ import dayjs from 'dayjs';
 import { FormItemWithControl } from '../../components/forms/FormItemWithControl';
 import { GrossPriceOutput } from '../../components/forms/controls/GrossPriceOutput';
 import { FloatingButtonBar } from '../../components/forms/FloatingButtonbar';
-import { UploadButton } from '../../components/forms/controls/upload/UploadButton';
 import { ProductImageUpload } from '../../components/forms/controls/product-image/ProductImageUpload';
-import { ProductImage as ProductImageModel } from '../../services/product-image/ProductImage';
-import { File } from '../../services/file/File';
 import { DevTool } from '@hookform/devtools';
 import { ProductImageList } from '../../components/forms/controls/product-image/ProductImageList';
 
@@ -102,12 +99,6 @@ export function Component() {
 		append: appendSpecialPrice,
 		remove: removeSpecialPrice
 	} = useFieldArray({ control, name: 'special_prices', keyName: 'key' });
-	const {
-		fields: productImageFields,
-		append: appendProductImage,
-		remove: removeProductImage,
-		update: updateProductImage
-	} = useFieldArray({ control, name: 'images', keyName: 'key' });
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
@@ -156,20 +147,6 @@ export function Component() {
 			expiration_date: null!
 		});
 
-	const addProductImage = (model: ProductImageModel) => {
-		appendProductImage({
-			key: `pi-${model.getKey()}`,
-			sort_order: model.get('sort_order'),
-			use_as_cover: model.get('use_as_cover'),
-			meta: {
-				extension: model.get<File>('meta').get('extension'),
-				filename: model.get<File>('meta').get('filename'),
-				mimetype: model.get<File>('meta').get('mimetype'),
-				size: model.get<File>('meta').get('size')
-			}
-		});
-	};
-
 	return (
 		<Form onFinish={handleSubmit(onSubmit)} layout='vertical'>
 			<ContentLayout>
@@ -189,8 +166,6 @@ export function Component() {
 									</FormItem>
 								</Col>
 							</Row>
-							<ProductImageUpload append={addProductImage} />
-							<ProductImageList control={control} />
 							<FormItem control={control} name='summary' label='Kort beskrivning'>
 								<Input.TextArea rows={6} />
 							</FormItem>
@@ -494,20 +469,11 @@ export function Component() {
 					)}
 					{section === 'files' && (
 						<>
+							<Typography.Title level={2}>Produktbilder</Typography.Title>
+							<ProductImageUpload control={control} />
+							<ProductImageList control={control} />
+							<Divider style={{ marginBlock: '4px 24px' }} />
 							<Typography.Title level={2}>Filer</Typography.Title>
-							<UploadButton
-								onDrop={(acceptedFiles) => {
-									console.log('size', acceptedFiles.size);
-									for (const file of acceptedFiles) {
-										console.log('accepted file - progress', file.getUploadProgress(console.log));
-										console.log('accepted file - uploaded', file.get<boolean>('isUploaded'));
-									}
-								}}
-								onUploaded={(file) => {
-									console.log('uploaded file', file);
-								}}>
-								Välj fil(er) att ladda upp
-							</UploadButton>
 						</>
 					)}
 					<DevTool control={control} />

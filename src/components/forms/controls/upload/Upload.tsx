@@ -3,12 +3,12 @@ import { UploadProps } from './types';
 import { makeOnDrop } from './helpers';
 import { useShopStore } from '../../../../services/shop/store';
 
-export const Upload = ({ children, onDrop, onUploaded, onError, ...props }: UploadProps) => {
+export const Upload = ({ inputName, children, onDrop, onUploaded, onError, ...props }: UploadProps) => {
 	const shopId = useShopStore((state) => state.shop.id);
 
 	const { getRootProps, getInputProps } = useDropzone({
 		...props,
-		onDrop: makeOnDrop(shopId, onDrop, onUploaded, onError)
+		onDrop: makeOnDrop(inputName, shopId, onDrop, onUploaded, onError)
 	});
 
 	return (

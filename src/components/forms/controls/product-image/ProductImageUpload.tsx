@@ -6,24 +6,42 @@ import { Upload as UploadModel, UploadCollection } from '../upload/types';
 import { ProductImageUploadList } from './ProductImageUploadList';
 import { useCreateProductImage } from '../../../../services/product-image/hooks/useCreateProductImage';
 import { useMutation } from '@tanstack/react-query';
-import { TEST_DATA } from './test-data';
-import { AppendCb, ProductImageContextType } from './types';
+import { ProductImageContextType } from './types';
 import { ProductImageContext } from './ProductImageContext';
+import { Control, useFieldArray } from 'react-hook-form';
+import { ProductSchemaType } from '../../../../services/product/types';
+import { ProductImage } from '../../../../services/product-image/ProductImage';
+import { File } from '../../../../services/file/File';
 
 export type ProductImageUploadProp = {
-	append: AppendCb;
+	control: Control<ProductSchemaType>;
 };
 
-export const ProductImageUpload: FC<ProductImageUploadProp> = ({ append }) => {
-	const [acceptedFiles, setAcceptedFiles] = useState<UploadCollection | undefined>(TEST_DATA);
+export const ProductImageUpload: FC<ProductImageUploadProp> = ({ control }) => {
+	const [acceptedFiles, setAcceptedFiles] = useState<UploadCollection | undefined>();
+	const { append } = useFieldArray({ control, name: 'images' });
 	const [mutationFn] = useCreateProductImage();
 	const mutation = useMutation(mutationFn);
+
+	const addProductImageToForm = (model: ProductImage) => {
+		append({
+			key: `pi-${model.getKey()}`,
+			sort_order: model.get('sort_order'),
+			use_as_cover: model.get('use_as_cover'),
+			meta: {
+				extension: model.get<File>('meta').get('extension'),
+				filename: model.get<File>('meta').get('filename'),
+				mimetype: model.get<File>('meta').get('mimetype'),
+				size: model.get<File>('meta').get('size')
+			}
+		});
+	};
 
 	const createProductImage = (file: UploadModel) => {
 		mutation.mutate(file, {
 			onSuccess(model) {
 				removeFileFromAcceptedFiles(file);
-				append(model);
+				addProductImageToForm(model);
 			}
 		});
 	};
@@ -48,6 +66,7 @@ export const ProductImageUpload: FC<ProductImageUploadProp> = ({ append }) => {
 			<div className='mb-input'>
 				<div className={classes['product-image-upload']}>
 					<Upload
+						inputName='product_image'
 						accept={{ 'image/*': [] }}
 						onDrop={(files) => setAcceptedFiles(files)}
 						onUploaded={(file) => {
