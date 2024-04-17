@@ -10,7 +10,7 @@ export abstract class Num {
 
 		const k = 1024
 		const dm = decimals < 0 ? 0 : decimals
-		const sizes = ['Bytes', 'Kb', 'Mb', 'Gb', 'Tb', 'Pb', 'Eb', 'Zb', 'Yb']
+		const sizes = ['b', 'kb', 'mb', 'gb', 'tb', 'pb', 'eb', 'zb', 'yb']
 
 		const i = Math.floor(Math.log(bytes) / Math.log(k))
 

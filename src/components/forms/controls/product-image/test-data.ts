@@ -55,11 +55,10 @@ export const TEST_DATA = new UploadCollection([
 	}, 0)
 ])
 
-type TPRODUCT_IMAGES_TEST_DATA = ExtractObjectStructure<ProductSchemaType['images']> & {url: string};
+type TPRODUCT_IMAGES_TEST_DATA = ExtractObjectStructure<ProductSchemaType['images']>;
 export const PRODUCT_IMAGES_TEST_DATA: TPRODUCT_IMAGES_TEST_DATA[] = [
 	{
 		key: 'pi-1',
-		url: 'https://loremflickr.com/150/150',
 		sort_order: 0,
 		use_as_cover: false,
 		meta: {
@@ -71,7 +70,6 @@ export const PRODUCT_IMAGES_TEST_DATA: TPRODUCT_IMAGES_TEST_DATA[] = [
 	},
 	{
 		key: 'pi-2',
-		url: 'https://loremflickr.com/640/400',
 		sort_order: 0,
 		use_as_cover: false,
 		meta: {
@@ -83,7 +81,6 @@ export const PRODUCT_IMAGES_TEST_DATA: TPRODUCT_IMAGES_TEST_DATA[] = [
 	},
 	{
 		key: 'pi-3',
-		url: 'https://loremflickr.com/150/150',
 		sort_order: 0,
 		use_as_cover: false,
 		meta: {
@@ -95,7 +92,72 @@ export const PRODUCT_IMAGES_TEST_DATA: TPRODUCT_IMAGES_TEST_DATA[] = [
 	},
 	{
 		key: 'pi-4',
-		url: 'https://loremflickr.com/320/240',
+		sort_order: 0,
+		use_as_cover: false,
+		meta: {
+			filename: Str.uuid(),
+			extension: 'jpeg',
+			mimetype: 'image/jpeg',
+			size: Num.random(10240)
+		}
+	},
+	{
+		key: 'pi-5',
+		sort_order: 0,
+		use_as_cover: false,
+		meta: {
+			filename: Str.uuid(),
+			extension: 'jpeg',
+			mimetype: 'image/jpeg',
+			size: Num.random(10240)
+		}
+	},
+	{
+		key: 'pi-6',
+		sort_order: 0,
+		use_as_cover: false,
+		meta: {
+			filename: Str.uuid(),
+			extension: 'jpeg',
+			mimetype: 'image/jpeg',
+			size: Num.random(10240)
+		}
+	},
+	{
+		key: 'pi-7',
+		sort_order: 0,
+		use_as_cover: false,
+		meta: {
+			filename: Str.uuid(),
+			extension: 'jpeg',
+			mimetype: 'image/jpeg',
+			size: Num.random(10240)
+		}
+	},
+	{
+		key: 'pi-8',
+		sort_order: 0,
+		use_as_cover: false,
+		meta: {
+			filename: Str.uuid(),
+			extension: 'jpeg',
+			mimetype: 'image/jpeg',
+			size: Num.random(10240)
+		}
+	},
+	{
+		key: 'pi-9',
+		sort_order: 0,
+		use_as_cover: false,
+		meta: {
+			filename: Str.uuid(),
+			extension: 'jpeg',
+			mimetype: 'image/jpeg',
+			size: Num.random(10240)
+		}
+	},
+	{
+		key: 'pi-10',
 		sort_order: 0,
 		use_as_cover: false,
 		meta: {

@@ -49,7 +49,7 @@ import { GrossPriceOutput } from '../../components/forms/controls/GrossPriceOutp
 import { FloatingButtonBar } from '../../components/forms/FloatingButtonbar';
 import { ProductImageUpload } from '../../components/forms/controls/product-image/ProductImageUpload';
 import { DevTool } from '@hookform/devtools';
-import { ProductImageList } from '../../components/forms/controls/product-image/ProductImageList';
+import { ProductImageList } from '../../components/forms/controls/product-image/list/ProductImageList';
 
 const DEFAULT_SECTION = 'details';
 
@@ -467,13 +467,11 @@ export function Component() {
 							</Button>
 						</>
 					)}
-					{section === 'files' && (
+					{section === 'images' && (
 						<>
 							<Typography.Title level={2}>Produktbilder</Typography.Title>
 							<ProductImageUpload control={control} />
 							<ProductImageList control={control} />
-							<Divider style={{ marginBlock: '4px 24px' }} />
-							<Typography.Title level={2}>Filer</Typography.Title>
 						</>
 					)}
 					<DevTool control={control} />
@@ -504,8 +502,8 @@ export function Component() {
 								key: 'price'
 							},
 							{
-								label: 'Filer & bilder',
-								key: 'files'
+								label: 'Bilder',
+								key: 'images'
 							},
 							{
 								label: 'Lager',

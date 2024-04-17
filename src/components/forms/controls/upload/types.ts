@@ -39,6 +39,7 @@ export class Upload extends Model<UploadType, 'key'> {
 		data.uploadProgress = 0;
 		data.isUploaded = false;
 		super('key', data);
+		this.httpClient.setHeaders({'x-shop-id': this.shopId});
 	}
 
 	getUploadProgress(cb: (progress: number) => void) {
