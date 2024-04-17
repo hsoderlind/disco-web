@@ -1,4 +1,4 @@
-import { Control, useFieldArray } from 'react-hook-form';
+import { FieldArrayWithId, UseFieldArrayRemove } from 'react-hook-form';
 import { ProductSchemaType } from '../../../../../services/product/types';
 import { FC } from 'react';
 import classes from './product-image-list.module.scss';
@@ -7,18 +7,17 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 
 export type ProductImageListProps = {
-	control: Control<ProductSchemaType>;
+	fields: FieldArrayWithId<ProductSchemaType, 'images', 'key'>[];
+	remove: UseFieldArrayRemove;
 };
 
-export const ProductImageList: FC<ProductImageListProps> = ({ control }) => {
+export const ProductImageList: FC<ProductImageListProps> = ({ fields, remove }) => {
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(KeyboardSensor, {
 			coordinateGetter: sortableKeyboardCoordinates
 		})
 	);
-	const { fields, remove, move } = useFieldArray({ control, name: 'images' });
-	console.log('move', move);
 
 	if (fields.length === 0) {
 		return null;

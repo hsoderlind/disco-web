@@ -50,6 +50,8 @@ import { FloatingButtonBar } from '../../components/forms/FloatingButtonbar';
 import { ProductImageUpload } from '../../components/forms/controls/product-image/ProductImageUpload';
 import { DevTool } from '@hookform/devtools';
 import { ProductImageList } from '../../components/forms/controls/product-image/list/ProductImageList';
+import { Upload } from '../../components/forms/controls/upload/types';
+import { File } from '../../services/file/File';
 
 const DEFAULT_SECTION = 'details';
 
@@ -99,6 +101,7 @@ export function Component() {
 		append: appendSpecialPrice,
 		remove: removeSpecialPrice
 	} = useFieldArray({ control, name: 'special_prices', keyName: 'key' });
+	const { fields: imageFields, append: appendImage, remove: removeImage } = useFieldArray({ control, name: 'images' });
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
@@ -146,6 +149,20 @@ export function Component() {
 			entry_date: dayjs(),
 			expiration_date: null!
 		});
+
+	const addProductImageToForm = (model: Upload) => {
+		appendImage({
+			key: `pi-${model.get<File>('model').getKey()}`,
+			sort_order: 0,
+			use_as_cover: false,
+			meta: {
+				extension: model.get<File>('model').get('extension'),
+				filename: model.get<File>('model').get('filename'),
+				mimetype: model.get<File>('model').get('mimetype'),
+				size: model.get<File>('model').get('size')
+			}
+		});
+	};
 
 	return (
 		<Form onFinish={handleSubmit(onSubmit)} layout='vertical'>
@@ -470,8 +487,8 @@ export function Component() {
 					{section === 'images' && (
 						<>
 							<Typography.Title level={2}>Produktbilder</Typography.Title>
-							<ProductImageUpload control={control} />
-							<ProductImageList control={control} />
+							<ProductImageUpload append={addProductImageToForm} />
+							<ProductImageList fields={imageFields} remove={removeImage} />
 						</>
 					)}
 					<DevTool control={control} />

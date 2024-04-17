@@ -2,15 +2,14 @@ import { FC, memo } from 'react';
 import { ProductSchemaType } from '../../../../../services/product/types';
 import { ExtractObjectStructure } from '../../../../../types/common';
 import { useShopStore } from '../../../../../services/shop/store';
-import { ProductImage } from '../../../../../services/product-image/ProductImage';
 import classes from './product-image-list.module.scss';
 import { Num } from '../../../../../lib/number/Num';
 import { UseFieldArrayRemove } from 'react-hook-form';
 import { Button, Dropdown, MenuProps } from 'antd';
 import { DragOutlined, EllipsisOutlined } from '@ant-design/icons';
-import { useDeleteProductImage } from '../../../../../services/product-image/hooks/useDeleteProductImage';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { File } from '../../../../../services/file/File';
 
 export type ImageCardProps = {
 	image: ExtractObjectStructure<ProductSchemaType['images']>;
@@ -27,11 +26,11 @@ const InternalImageCard: FC<ImageCardProps> = ({ image, index, remove }) => {
 	};
 
 	const shopId = useShopStore((state) => state.shop.id);
-	const model = new ProductImage({ id: parseInt(image.key.substring(3)) }, shopId);
-	const deleteImage = useDeleteProductImage();
+	const model = new File({ id: parseInt(image.key.substring(3)) }, shopId);
 
-	const removeImage = () => {
-		deleteImage(model, () => remove(index));
+	const removeImage = async () => {
+		await model.delete();
+		remove(index);
 	};
 
 	const onActionMenuClick: MenuProps['onClick'] = (info) => {

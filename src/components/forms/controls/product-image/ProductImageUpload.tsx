@@ -4,46 +4,19 @@ import { CloudUploadOutlined } from '@ant-design/icons';
 import { FC, useState } from 'react';
 import { Upload as UploadModel, UploadCollection } from '../upload/types';
 import { ProductImageUploadList } from './ProductImageUploadList';
-import { useCreateProductImage } from '../../../../services/product-image/hooks/useCreateProductImage';
-import { useMutation } from '@tanstack/react-query';
 import { ProductImageContextType } from './types';
 import { ProductImageContext } from './ProductImageContext';
-import { Control, useFieldArray } from 'react-hook-form';
-import { ProductSchemaType } from '../../../../services/product/types';
-import { ProductImage } from '../../../../services/product-image/ProductImage';
-import { File } from '../../../../services/file/File';
 
 export type ProductImageUploadProp = {
-	control: Control<ProductSchemaType>;
+	append: (model: UploadModel) => void;
 };
 
-export const ProductImageUpload: FC<ProductImageUploadProp> = ({ control }) => {
+export const ProductImageUpload: FC<ProductImageUploadProp> = ({ append }) => {
 	const [acceptedFiles, setAcceptedFiles] = useState<UploadCollection | undefined>();
-	const { append } = useFieldArray({ control, name: 'images' });
-	const [mutationFn] = useCreateProductImage();
-	const mutation = useMutation(mutationFn);
 
-	const addProductImageToForm = (model: ProductImage) => {
-		append({
-			key: `pi-${model.getKey()}`,
-			sort_order: model.get('sort_order'),
-			use_as_cover: model.get('use_as_cover'),
-			meta: {
-				extension: model.get<File>('meta').get('extension'),
-				filename: model.get<File>('meta').get('filename'),
-				mimetype: model.get<File>('meta').get('mimetype'),
-				size: model.get<File>('meta').get('size')
-			}
-		});
-	};
-
-	const createProductImage = (file: UploadModel) => {
-		mutation.mutate(file, {
-			onSuccess(model) {
-				removeFileFromAcceptedFiles(file);
-				addProductImageToForm(model);
-			}
-		});
+	const addToForm = (file: UploadModel) => {
+		append(file);
+		removeFileFromAcceptedFiles(file);
 	};
 
 	const removeFileFromAcceptedFiles = (file: UploadModel) => {
@@ -70,7 +43,7 @@ export const ProductImageUpload: FC<ProductImageUploadProp> = ({ control }) => {
 						accept={{ 'image/*': [] }}
 						onDrop={(files) => setAcceptedFiles(files)}
 						onUploaded={(file) => {
-							createProductImage(file);
+							addToForm(file);
 						}}>
 						<div className={classes['product-image-upload__content']}>
 							<CloudUploadOutlined />
