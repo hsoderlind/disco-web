@@ -101,7 +101,12 @@ export function Component() {
 		append: appendSpecialPrice,
 		remove: removeSpecialPrice
 	} = useFieldArray({ control, name: 'special_prices', keyName: 'key' });
-	const { fields: imageFields, append: appendImage, remove: removeImage } = useFieldArray({ control, name: 'images' });
+	const {
+		fields: imageFields,
+		append: appendImage,
+		remove: removeImage,
+		move: moveImage
+	} = useFieldArray({ control, name: 'images' });
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
@@ -488,7 +493,7 @@ export function Component() {
 						<>
 							<Typography.Title level={2}>Produktbilder</Typography.Title>
 							<ProductImageUpload append={addProductImageToForm} />
-							<ProductImageList fields={imageFields} remove={removeImage} />
+							<ProductImageList fields={imageFields} remove={removeImage} move={moveImage} />
 						</>
 					)}
 					<DevTool control={control} />
@@ -521,6 +526,10 @@ export function Component() {
 							{
 								label: 'Bilder',
 								key: 'images'
+							},
+							{
+								label: 'Filer',
+								key: 'files'
 							},
 							{
 								label: 'Lager',

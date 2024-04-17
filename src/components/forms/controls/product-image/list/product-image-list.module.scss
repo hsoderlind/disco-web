@@ -21,8 +21,8 @@
 	&__img-col {
 		position: relative;
 		flex: 1;
-		min-width: fn.toRem(100);
-		max-width: fn.toRem(150);
+		min-width: fn.toRem(150);
+		max-width: fn.toRem(200);
 
 		&__img {
 			object-fit: cover;
