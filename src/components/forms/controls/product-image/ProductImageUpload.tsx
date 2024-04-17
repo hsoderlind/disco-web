@@ -2,7 +2,7 @@ import { Upload } from '../upload/Upload';
 import classes from './product-image-upload.module.scss';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { FC, useState } from 'react';
-import { Upload as UploadModel, UploadCollection } from '../upload/types';
+import { Upload as UploadModel } from '../upload/types';
 import { ProductImageUploadList } from './ProductImageUploadList';
 import { ProductImageContextType } from './types';
 import { ProductImageContext } from './ProductImageContext';
@@ -12,7 +12,7 @@ export type ProductImageUploadProp = {
 };
 
 export const ProductImageUpload: FC<ProductImageUploadProp> = ({ append }) => {
-	const [acceptedFiles, setAcceptedFiles] = useState<UploadCollection | undefined>();
+	const [acceptedFiles, setAcceptedFiles] = useState<UploadModel[] | undefined>();
 
 	const addToForm = (file: UploadModel) => {
 		append(file);
@@ -20,13 +20,14 @@ export const ProductImageUpload: FC<ProductImageUploadProp> = ({ append }) => {
 	};
 
 	const removeFileFromAcceptedFiles = (file: UploadModel) => {
-		setAcceptedFiles((collection) => {
-			if (typeof collection === 'undefined') {
+		setAcceptedFiles((models) => {
+			if (typeof models === 'undefined') {
 				return;
 			}
 
-			collection?.findAndRemove(file.getKey());
-			return new UploadCollection(collection?.getItems());
+			const index = models.findIndex((model) => model.getKey() !== file.getKey());
+			models.splice(index, 1);
+			return [...models];
 		});
 	};
 

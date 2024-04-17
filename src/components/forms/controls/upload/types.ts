@@ -106,7 +106,7 @@ export class UploadCollection extends Collection<UploadType, 'key', Upload> {
 
 export type onUploadedCb = (file: Upload) => void;
 
-export type OnDropCb = (acceptedFiles: UploadCollection, fileRejections?: FileRejectionCollection) => void;
+export type OnDropCb = (acceptedFiles: Upload[], fileRejections?: FileRejectionCollection) => void;
 
 export type OnErrorCb = (file: Upload, error: ServerValidationError) => void;
 

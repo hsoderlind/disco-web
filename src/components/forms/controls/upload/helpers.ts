@@ -1,4 +1,4 @@
-import { FileRejection, MakeOnDropFn, FileRejectionCollection, Upload, UploadCollection } from "./types";
+import { FileRejection, MakeOnDropFn, FileRejectionCollection, Upload } from "./types";
 import { File as FileModel } from "../../../../services/file/File";
 import { FileWithPath } from "react-dropzone";
 import { Str } from "../../../../lib/string/Str";
@@ -20,7 +20,7 @@ export const makeOnDrop: MakeOnDropFn = (storageProvider, shopId, onDrop, onUplo
 	});
 		
 
-	const collection = new UploadCollection(models);
+	// const collection = new UploadCollection(models);
 
 	const rejectionModels = fileRejections.map((fileRejection) => {
 		return new FileRejection({
@@ -31,9 +31,9 @@ export const makeOnDrop: MakeOnDropFn = (storageProvider, shopId, onDrop, onUplo
 
 	const rejectionCollection = new FileRejectionCollection(rejectionModels);
 
-	onDrop?.(collection, rejectionCollection);
+	onDrop?.(models, rejectionCollection);
 	
-	for (const file of collection) {
+	for (const file of models) {
 		try {
 			await file.upload();
 			onUploadedCb?.(file);
