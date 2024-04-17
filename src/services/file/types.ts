@@ -7,7 +7,8 @@ export const fileSchema = vsb.object({
 	filename: vsb.string().nonempty(),
 	size: vsb.number().min(0),
 	mimetype: vsb.string().nonempty(),
-	extension: vsb.string().nonempty()
+	extension: vsb.string().nonempty(),
+	storage_provider: vsb.string().nonempty()
 });
 
 export type FileSchemaType = vsbInfer<typeof fileSchema>;
@@ -18,4 +19,5 @@ export type FileType = {
 	size: number;
 	mimetype: string;
 	extension: string;
+	storage_provider: string;
 }

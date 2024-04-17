@@ -27,7 +27,13 @@ const InternalImageCard: FC<ImageCardProps> = ({ image, index, remove }) => {
 	};
 
 	const shopId = useShopStore((state) => state.shop.id);
-	const model = new File({ id: parseInt(image.key.substring(3)) }, shopId);
+	const model = new File(
+		{
+			id: parseInt(image.key.substring(3)),
+			storage_provider: image.meta.storage_provider
+		},
+		shopId
+	);
 
 	const { data: url } = useQuery([model.getEndpoint(), shopId, model.getKey()], () => model.download('product_image'));
 

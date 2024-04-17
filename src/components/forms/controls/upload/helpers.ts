@@ -14,7 +14,8 @@ export const makeOnDrop: MakeOnDropFn = (storageProvider, shopId, onDrop, onUplo
 			model: new FileModel({
 				filename: file.name,
 				mimetype: file.type,
-				size: file.size
+				size: file.size,
+				storage_provider: storageProvider
 			}, shopId),
 		}, shopId);
 	});

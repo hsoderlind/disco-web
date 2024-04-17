@@ -15,4 +15,12 @@ export class File extends Model<FileType, 'id'> {
 			return URL.createObjectURL(response.data);
 		}
 	}
+
+	async delete() {
+		const endpoint = this.getEndpoint();
+		const key = this.getKey();
+		await this.httpClient.delete(`${endpoint}/${key}?storage_provider=${this.get('storage_provider')}`);
+		this.cleanUp();
+		return true;
+	}
 }

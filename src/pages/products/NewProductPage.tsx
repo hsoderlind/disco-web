@@ -164,7 +164,8 @@ export function Component() {
 				extension: model.get<File>('model').get('extension'),
 				filename: model.get<File>('model').get('filename'),
 				mimetype: model.get<File>('model').get('mimetype'),
-				size: model.get<File>('model').get('size')
+				size: model.get<File>('model').get('size'),
+				storage_provider: model.get<File>('model').get('storage_provider')
 			}
 		});
 	};

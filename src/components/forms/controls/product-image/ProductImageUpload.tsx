@@ -16,7 +16,7 @@ export const ProductImageUpload: FC<ProductImageUploadProp> = ({ append }) => {
 
 	const addToForm = (file: UploadModel) => {
 		append(file);
-		removeFileFromAcceptedFiles(file);
+		// removeFileFromAcceptedFiles(file);
 	};
 
 	const removeFileFromAcceptedFiles = (file: UploadModel) => {
