@@ -25,7 +25,7 @@ export class FileRejectionCollection extends Collection<FileRejectionType, 'key'
 
 export type UploadType = {
 	key: string;
-	inputName: string;
+	storageProvider: string;
 	model?: FileModel;
 	buffer: globalThis.File;
 	preview: ReturnType<typeof URL.createObjectURL>;
@@ -58,8 +58,8 @@ export class Upload extends Model<UploadType, 'key'> {
 		}
 
 		const formData = new FormData();
-		formData.append(this.get('inputName'), this.get<globalThis.File>('buffer'));
-		formData.append('input_name', this.get<string>('inputName'));
+		formData.append(this.get('storageProvider'), this.get<globalThis.File>('buffer'));
+		formData.append('storage_provider', this.get<string>('storageProvider'));
 		try {
 			const response = await this.httpClient.post<FileType, FormData>(
 				this.get<FileModel>('model').getEndpoint(), 
@@ -129,4 +129,4 @@ export type UploadButtonProps = CommonUploadProps & {
 	size?: ButtonProps['size'];
 };
 
-export type MakeOnDropFn = (inputName: string, shopId: number, onDrop?: OnDropCb, onUploaded?: onUploadedCb, onError?: OnErrorCb) => DropzoneOptions['onDrop'];
+export type MakeOnDropFn = (storageProvider: string, shopId: number, onDrop?: OnDropCb, onUploaded?: onUploadedCb, onError?: OnErrorCb) => DropzoneOptions['onDrop'];
