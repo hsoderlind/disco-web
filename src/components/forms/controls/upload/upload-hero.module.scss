@@ -1,0 +1,41 @@
+@use "../../../../sass/_vars.scss";
+
+.upload-hero {
+	cursor: pointer;
+	background-color: var(--ant-color-bg-layout);
+	border: 1px solid var(--ant-color-border);
+	color: var(--ant-color-text-label);
+	transition:
+		color 250ms ease-in-out,
+		border-color 250ms ease-in-out;
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: vars.$space-4;
+		text-align: center;
+		font-size: 2rem;
+
+		&__text {
+			font-size: vars.$fs-regular;
+		}
+	}
+
+	> * {
+		outline: none;
+	}
+
+	&:hover {
+		border-color: var(--ant-color-primary-text-hover);
+		color: var(--ant-color-primary-text-hover);
+		outline: none;
+	}
+
+	&:focus,
+	&:focus-within {
+		border-color: var(--ant-color-primary-text);
+		color: var(--ant-color-primary-text);
+		outline: none;
+	}
+}

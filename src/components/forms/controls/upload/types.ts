@@ -129,4 +129,9 @@ export type UploadButtonProps = CommonUploadProps & {
 	size?: ButtonProps['size'];
 };
 
+export type UploadHeroProps = CommonUploadProps & {
+	icon: ReactNode;
+	infoText: ReactNode;
+}
+
 export type MakeOnDropFn = (storageProvider: string, shopId: number, onDrop?: OnDropCb, onUploaded?: onUploadedCb, onError?: OnErrorCb) => DropzoneOptions['onDrop'];
