@@ -1,0 +1,26 @@
+@use "../../../../sass/utils/mixins" as m;
+
+.product-file-upload-list {
+	@include m.flex;
+	@include m.flex-column;
+	@include m.flex-1;
+
+	&__item {
+		@include m.flex;
+		@include m.flex-row;
+		@include m.items-center;
+		@include m.mw-full;
+		@include m.column-gap(2vw);
+		@include m.border-b-light;
+		@include m.py-2;
+	}
+
+	&__progress-col {
+		@include m.flex-basis(15%);
+	}
+
+	&__filename-col {
+		@include m.flex-1;
+		@include m.overflowing-text;
+	}
+}

@@ -8,7 +8,7 @@ import { Category } from '../category/Category';
 import { Barcode } from '../barcode/Barcode';
 import { ProductSpecialPriceType, productSpecialPriceSchema } from '../product-special-price/types';
 import { ProductSpecialPriceCollection } from '../product-special-price/ProductSpecialPriceCollection';
-import { ProductFileType } from '../product-file/types';
+import { ProductFileType, productFileSchema } from '../product-file/types';
 import { ProductFileCollection } from '../product-file/ProductFileCollection';
 import { ProductImageType, productImageSchema } from '../product-image/types';
 import { ProductImageCollection } from '../product-image/ProductImageCollection';
@@ -19,6 +19,7 @@ const productBarcodeSchema = barcodeSchema.extend({key: vsb.string()});
 const combinedProductAttributeSchema = productAttributeSchema.extend({key: vsb.string(), stock: productAttributeStockSchema})
 const extendedProductSpecialPriceSchema = productSpecialPriceSchema.extend({key: vsb.string()});
 const extendedProductImageSchema = productImageSchema.extend({key: vsb.string()});
+const extendedProductFileSchema = productFileSchema.extend({key: vsb.string()});
 
 export const productSchema = vsb.object({
 	tax_id: vsb.number().optional(),
@@ -39,6 +40,7 @@ export const productSchema = vsb.object({
 	product_attributes: vsb.array(combinedProductAttributeSchema),
 	special_prices: vsb.array(extendedProductSpecialPriceSchema).optional(),
 	images: vsb.array(extendedProductImageSchema).optional(),
+	files: vsb.array(extendedProductFileSchema).optional(),
 });
 
 export type ProductSchemaType = vsbInfer<typeof productSchema>

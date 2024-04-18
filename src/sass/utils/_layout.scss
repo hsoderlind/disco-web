@@ -1,131 +1,133 @@
+@use "./mixins" as m;
+
 .flex {
-	display: flex;
+	@include m.flex;
 }
 
 .flex-column {
-	flex-direction: column;
+	@include m.flex-column;
 }
 
 .flex-row {
-	flex-direction: row;
+	@include m.flex-row;
 }
 
 .flex-wrap {
-	flex-wrap: wrap;
+	@include m.flex-wrap;
 }
 
 .flex-nowrap {
-	flex-wrap: nowrap;
+	@include m.flex-nowrap;
 }
 
 .flex-wrap-reverse {
-	flex-wrap: wrap-reverse;
+	@include m.flex-wrap-reverse;
 }
 
 .flex-1 {
-	flex: 1;
+	@include m.flex-1;
 }
 
 .flex-grow-0 {
-	flex-grow: 0;
+	@include m.flex-grow-1;
 }
 
 .flex-grow-1 {
-	flex-grow: 1;
+	@include m.flex-grow-1;
 }
 
 .flex-shrink-0 {
-	flex-shrink: 0;
+	@include m.flex-shrink-1;
 }
 
 .flex-shrink-1 {
-	flex-shrink: 1;
+	@include m.flex-shrink-1;
 }
 
 .flex-fill {
-	flex: 1 1 auto;
+	@include m.flex-fill;
 }
 
 .flex-fill-0 {
-	flex: 0 0 auto;
+	@include m.flex-fill-0;
 }
 
 .flex-fill-1 {
-	flex: 1 1 auto;
+	@include m.flex-fill-1;
 }
 
 .flex-fill-2 {
-	flex: 2 2 auto;
+	@include m.flex-fill-2;
 }
 
 .flex-fill-3 {
-	flex: 3 3 auto;
+	@include m.flex-fill-3;
 }
 
 .flex-fill-4 {
-	flex: 4 4 auto;
+	@include m.flex-fill-4;
 }
 
 .flex-fill-5 {
-	flex: 5 5 auto;
+	@include m.flex-fill-5;
 }
 
 .flex-fill-6 {
-	flex: 6 6 auto;
+	@include m.flex-fill-6;
 }
 
 .flex-fill-7 {
-	flex: 7 7 auto;
+	@include m.flex-fill-7;
 }
 
 .flex-fill-8 {
-	flex: 8 8 auto;
+	@include m.flex-fill-8;
 }
 
 .flex-fill-9 {
-	flex: 9 9 auto;
+	@include m.flex-fill-9;
 }
 
 .flex-fill-10 {
-	flex: 10 10 auto;
+	@include m.flex-fill-10;
 }
 
 .flex-fill-11 {
-	flex: 11 11 auto;
+	@include m.flex-fill-11;
 }
 
 .flex-fill-12 {
-	flex: 12 12 auto;
+	@include m.flex-fill-12;
 }
 
 .items-start {
-	align-items: start;
+	@include m.items-start;
 }
 
 .items-end {
-	align-items: end;
+	@include m.items-end;
 }
 
 .items-center {
-	align-items: center;
+	@include m.items-center;
 }
 
 .justify-start {
-	justify-content: start;
+	@include m.justify-start;
 }
 
 .justify-end {
-	justify-content: end;
+	@include m.justify-end;
 }
 
 .justify-center {
-	justify-content: center;
+	@include m.justify-center;
 }
 
 .justify-between {
-	justify-content: space-between;
+	@include m.justify-between;
 }
 
 .w-full {
-	width: 100%;
+	@include m.w-full;
 }

@@ -52,6 +52,8 @@ import { DevTool } from '@hookform/devtools';
 import { ProductImageList } from '../../components/forms/controls/product-image/list/ProductImageList';
 import { Upload } from '../../components/forms/controls/upload/types';
 import { File } from '../../services/file/File';
+import { ExtractObjectStructure } from '../../types/common';
+import { ProductFileUpload } from '../../components/forms/controls/product-file/ProductFileUpload';
 
 const DEFAULT_SECTION = 'details';
 
@@ -106,7 +108,13 @@ export function Component() {
 		append: appendImage,
 		remove: removeImage,
 		move: moveImage
-	} = useFieldArray({ control, name: 'images' });
+	} = useFieldArray({ control, name: 'images', keyName: 'key' });
+	const {
+		fields: fileFields,
+		append: appendFile,
+		remove: removeFile,
+		move: moveFile
+	} = useFieldArray({ control, name: 'files', keyName: 'key' });
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
@@ -168,6 +176,24 @@ export function Component() {
 				storage_provider: model.get<File>('model').get('storage_provider')
 			}
 		});
+	};
+
+	const addProductFilesToForm = (models: Upload[]) => {
+		appendFile(
+			models.map((model) => {
+				return {
+					key: model.getKey(),
+					sort_order: 0,
+					meta: {
+						extension: model.get<File>('model').get('extension'),
+						filename: model.get<File>('model').get('filename'),
+						mimetype: model.get<File>('model').get('mimetype'),
+						size: model.get<File>('model').get('size'),
+						storage_provider: model.get<File>('model').get('storage_provider')
+					}
+				} as ExtractObjectStructure<ProductSchemaType['files']>;
+			})
+		);
 	};
 
 	return (
@@ -495,6 +521,17 @@ export function Component() {
 							<Typography.Title level={2}>Produktbilder</Typography.Title>
 							<ProductImageUpload append={addProductImageToForm} />
 							<ProductImageList fields={imageFields} remove={removeImage} move={moveImage} />
+						</>
+					)}
+					{section === 'files' && (
+						<>
+							<Typography.Title level={2}>Produktfiler</Typography.Title>
+							<ProductFileUpload
+								append={addProductFilesToForm}
+								fields={fileFields}
+								move={moveFile}
+								remove={removeFile}
+							/>
 						</>
 					)}
 					<DevTool control={control} />

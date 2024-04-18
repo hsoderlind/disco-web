@@ -1,4 +1,5 @@
 @use "../vars";
+@use "./mixins" as m;
 
 @each $name, $value in vars.$spaces {
 	.p-#{$name} {
@@ -58,10 +59,6 @@
 	}
 }
 
-@mixin mb-input {
-	margin-bottom: calc(vars.$space-5 - vars.$space-3);
-}
-
 .mb-input {
-	@include mb-input();
+	@include m.mb-input();
 }

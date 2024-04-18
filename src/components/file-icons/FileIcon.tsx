@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import type { FileIconProps as ReactFileIconProps } from 'react-file-icon';
+import type { DefaultExtensionType, FileIconProps as ReactFileIconProps } from 'react-file-icon';
 import { FileIcon as ReactFileIcon, defaultStyles } from 'react-file-icon';
 
 type Size = {
@@ -15,7 +15,7 @@ type Size = {
 };
 export type FileIconProps = Omit<ReactFileIconProps, 'fold' | 'radius' | 'extension' | 'type'> & {
 	extension: string;
-	size: keyof Size;
+	size?: keyof Size;
 };
 
 const sizes: Size = {
@@ -30,14 +30,14 @@ const sizes: Size = {
 	}
 };
 
-export const FileIcon: FC<FileIconProps> = ({ size, extension, ...props }) => {
+export const FileIcon: FC<FileIconProps> = ({ extension, size = 'default', ...props }) => {
 	if (!(extension in defaultStyles)) {
 		extension = 'bin';
 	}
 
 	return (
 		<div style={sizes[size]}>
-			<ReactFileIcon {...props} extension={extension} />
+			<ReactFileIcon {...defaultStyles[extension as DefaultExtensionType]} {...props} extension={extension} />
 		</div>
 	);
 };

@@ -1,6 +1,6 @@
 @use "../../../../../sass/vars";
-@use "../../../../../sass/utils/spacing";
 @use "../../../../../sass/utils/functions" as fn;
+@use "../../../../../sass/utils/mixins" as m;
 
 .product-image-list {
 	display: flex;
@@ -8,7 +8,7 @@
 	gap: vars.$space-4 vars.$space-3;
 	flex-wrap: wrap;
 	max-width: 100%;
-	@include spacing.mb-input();
+	@include m.mb-input();
 
 	&__item {
 		display: flex;

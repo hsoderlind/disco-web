@@ -45,6 +45,7 @@
 		"zustand": "^4.5.2"
 	},
 	"devDependencies": {
+		"@faker-js/faker": "^8.4.1",
 		"@hookform/devtools": "^4.3.1",
 		"@julr/vite-plugin-validate-env": "^1.1.1",
 		"@types/js-cookie": "^3.0.6",
