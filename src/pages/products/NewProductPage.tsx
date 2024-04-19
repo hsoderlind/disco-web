@@ -7,7 +7,7 @@ import { ServerValidationError } from '../../lib/error/types';
 import { Product } from '../../services/product/Product';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ExtractErrors } from '../../lib/error/ExtractErrors';
-import { Controller, SubmitHandler, useFieldArray } from 'react-hook-form';
+import { Controller, FieldArrayWithId, SubmitHandler, useFieldArray } from 'react-hook-form';
 import {
 	Form,
 	Input,
@@ -49,10 +49,8 @@ import { GrossPriceOutput } from '../../components/forms/controls/GrossPriceOutp
 import { FloatingButtonBar } from '../../components/forms/FloatingButtonbar';
 import { ProductImageUpload } from '../../components/forms/controls/product-image/ProductImageUpload';
 import { DevTool } from '@hookform/devtools';
-import { ProductImageList } from '../../components/forms/controls/product-image/list/ProductImageList';
 import { Upload } from '../../components/forms/controls/upload/types';
 import { File } from '../../services/file/File';
-import { ExtractObjectStructure } from '../../types/common';
 import { ProductFileUpload } from '../../components/forms/controls/product-file/ProductFileUpload';
 
 const DEFAULT_SECTION = 'details';
@@ -115,7 +113,6 @@ export function Component() {
 		remove: removeFile,
 		move: moveFile
 	} = useFieldArray({ control, name: 'files', keyName: 'key' });
-	console.log('fileFields', fileFields);
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
@@ -164,23 +161,26 @@ export function Component() {
 			expiration_date: null!
 		});
 
-	const addProductImageToForm = (model: Upload) => {
-		appendImage({
-			key: `pi-${model.get<File>('model').getKey()}`,
-			sort_order: 0,
-			use_as_cover: false,
-			meta: {
-				extension: model.get<File>('model').get('extension'),
-				filename: model.get<File>('model').get('filename'),
-				mimetype: model.get<File>('model').get('mimetype'),
-				size: model.get<File>('model').get('size'),
-				storage_provider: model.get<File>('model').get('storage_provider')
-			}
-		});
+	const addProductImageToForm = (models: Upload[]) => {
+		appendImage(
+			models.map((model) => {
+				return {
+					id: model.getKey(),
+					sort_order: 0,
+					use_as_cover: false,
+					meta: {
+						extension: model.get<File>('model').get('extension'),
+						filename: model.get<File>('model').get('filename'),
+						mimetype: model.get<File>('model').get('mimetype'),
+						size: model.get<File>('model').get('size'),
+						storage_provider: model.get<File>('model').get('storage_provider')
+					}
+				} as FieldArrayWithId<ProductSchemaType, 'images', 'key'>;
+			})
+		);
 	};
 
 	const addProductFilesToForm = (models: Upload[]) => {
-		console.log('addProductFilesToForm', models);
 		appendFile(
 			models.map((model) => {
 				return {
@@ -193,7 +193,7 @@ export function Component() {
 						size: model.get<File>('model').get('size'),
 						storage_provider: model.get<File>('model').get('storage_provider')
 					}
-				} as ExtractObjectStructure<ProductSchemaType['files']>;
+				} as FieldArrayWithId<ProductSchemaType, 'files', 'key'>;
 			})
 		);
 	};
@@ -521,8 +521,12 @@ export function Component() {
 					{section === 'images' && (
 						<>
 							<Typography.Title level={2}>Produktbilder</Typography.Title>
-							<ProductImageUpload append={addProductImageToForm} />
-							<ProductImageList fields={imageFields} remove={removeImage} move={moveImage} />
+							<ProductImageUpload
+								append={addProductImageToForm}
+								fields={imageFields}
+								remove={removeImage}
+								move={moveImage}
+							/>
 						</>
 					)}
 					{section === 'files' && (

@@ -1,20 +1,16 @@
-import { FieldArrayWithId, UseFieldArrayMove, UseFieldArrayRemove } from 'react-hook-form';
-import { ProductSchemaType } from '../../../../../services/product/types';
 import { ComponentProps, FC } from 'react';
 import classes from './product-image-list.module.scss';
 import { ImageCard } from './ImageCard';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { ProductImageListProps } from './types';
+import { useProductImageContext } from './hooks/useProductImageContext';
+import { Upload } from '../upload/types';
 
 type DndContextProps = ComponentProps<typeof DndContext>;
 
-export type ProductImageListProps = {
-	fields: FieldArrayWithId<ProductSchemaType, 'images', 'key'>[];
-	remove: UseFieldArrayRemove;
-	move: UseFieldArrayMove;
-};
-
-export const ProductImageList: FC<ProductImageListProps> = ({ fields, remove, move }) => {
+export const ProductImageList: FC<ProductImageListProps> = ({ fields, models }) => {
+	const { move } = useProductImageContext();
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(KeyboardSensor, {
@@ -26,7 +22,18 @@ export const ProductImageList: FC<ProductImageListProps> = ({ fields, remove, mo
 		return null;
 	}
 
-	const sortableItems = fields.map((field) => field.key);
+	const keyModelMap: Record<string, Upload> = {};
+	fields.forEach((field) => {
+		const model = models.find((m) => m.getKey() === field.id);
+
+		if (!model) {
+			return;
+		}
+
+		keyModelMap[field.key] = model;
+	});
+
+	const sortableItems = Object.keys(keyModelMap);
 
 	const handleDragEnd: DndContextProps['onDragEnd'] = (event) => {
 		const { active, over } = event;
@@ -44,7 +51,9 @@ export const ProductImageList: FC<ProductImageListProps> = ({ fields, remove, mo
 		<div className={classes['product-image-list']}>
 			<DndContext sensors={sensors} onDragEnd={handleDragEnd} collisionDetection={closestCenter}>
 				<SortableContext items={sortableItems}>
-					{fields?.map((image, index) => <ImageCard key={image.key} index={index} image={image} remove={remove} />)}
+					{fields?.map((field, index) => (
+						<ImageCard key={field.key} id={field.key} index={index} model={keyModelMap[field.key]} />
+					))}
 				</SortableContext>
 			</DndContext>
 		</div>

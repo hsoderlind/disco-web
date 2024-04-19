@@ -1,6 +1,6 @@
-@use "../../../../../sass/vars";
-@use "../../../../../sass/utils/functions" as fn;
-@use "../../../../../sass/utils/mixins" as m;
+@use "../../../../sass/vars";
+@use "../../../../sass/utils/functions" as fn;
+@use "../../../../sass/utils/mixins" as m;
 
 .product-image-list {
 	display: flex;
@@ -16,6 +16,11 @@
 		align-items: center;
 		background-color: vars.$clr-surface-light;
 		box-shadow: 2px 5px 10px vars.$clr-border-light;
+
+		@include m.dark-theme {
+			background-color: vars.$clr-surface-600;
+			box-shadow: 2px 5px 10px vars.$clr-border-dark;
+		}
 	}
 
 	&__img-col {
@@ -43,13 +48,6 @@
 				display: block;
 			}
 		}
-	}
-
-	&__filename-col {
-		flex: 1;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
 	}
 
 	&__sort-order-col {

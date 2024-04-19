@@ -6,6 +6,7 @@ import { FileType, fileSchema } from "../file/types";
 const vsb = app.getValidationSchemaBuilder();
 
 export const productImageSchema = vsb.object({
+	id: vsb.any(),
 	use_as_cover: vsb.boolean().default(false),
 	sort_order: vsb.number().min(0),
 	meta: fileSchema

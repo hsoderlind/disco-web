@@ -1,25 +1,21 @@
-import { FC, memo } from 'react';
-import { ProductSchemaType } from '../../../../../services/product/types';
-import { ExtractObjectStructure } from '../../../../../types/common';
-import { useShopStore } from '../../../../../services/shop/store';
+import { FC, memo, useState } from 'react';
+import { useShopStore } from '../../../../services/shop/store';
 import classes from './product-image-list.module.scss';
-import { Num } from '../../../../../lib/number/Num';
-import { UseFieldArrayRemove } from 'react-hook-form';
-import { Button, Dropdown, MenuProps } from 'antd';
+import { Num } from '../../../../lib/number/Num';
+import { Button, Dropdown, MenuProps, Progress } from 'antd';
 import { DragOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { File } from '../../../../../services/file/File';
 import { useQuery } from '@tanstack/react-query';
+import { ImageCardProps } from './types';
+import { useProductImageContext } from './hooks/useProductImageContext';
+import { File } from '../../../../services/file/File';
 
-export type ImageCardProps = {
-	image: ExtractObjectStructure<ProductSchemaType['images']>;
-	index: number;
-	remove: UseFieldArrayRemove;
-};
-
-const InternalImageCard: FC<ImageCardProps> = ({ image, index, remove }) => {
-	const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: image.key });
+const InternalImageCard: FC<ImageCardProps> = ({ id, index, model }) => {
+	const [progress, setProgress] = useState(model.get<number>('uploadProgress'));
+	model.getUploadProgress(setProgress);
+	const { remove } = useProductImageContext();
+	const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
 	const style = {
 		transform: CSS.Transform.toString(transform),
@@ -27,15 +23,10 @@ const InternalImageCard: FC<ImageCardProps> = ({ image, index, remove }) => {
 	};
 
 	const shopId = useShopStore((state) => state.shop.id);
-	const model = new File(
-		{
-			id: parseInt(image.key.substring(3)),
-			storage_provider: image.meta.storage_provider
-		},
-		shopId
-	);
 
-	const { data: url } = useQuery([model.getEndpoint(), shopId, model.getKey()], () => model.download('product_image'));
+	const { data: url } = useQuery([model.getEndpoint(), shopId, model.getKey()], () =>
+		model.get<File>('model').download('product_image')
+	);
 
 	const removeImage = async () => {
 		await model.delete();
@@ -56,9 +47,12 @@ const InternalImageCard: FC<ImageCardProps> = ({ image, index, remove }) => {
 				<div className={classes['product-image-list__img-col']}>
 					<img src={url} className={classes['product-image-list__img-col__img']} />
 				</div>
+				<div className='w-full px-4 py2'>
+					<Progress percent={progress} />
+				</div>
 				<div className='flex flex-row justify-between items-center w-full px-4 py-2'>
 					<DragOutlined {...attributes} {...listeners} />
-					<div className='product-image-list__size'>{Num.formatBytes(image.meta.size)}</div>
+					<div className='product-image-list__size'>{Num.formatBytes(model.get<File>('model').get('size'))}</div>
 					<Dropdown
 						menu={{
 							items: [
