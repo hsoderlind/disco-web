@@ -1,0 +1,13 @@
+@use "../../sass/vars";
+
+.buttonbar {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	column-gap: vars.$space-4;
+	background-color: vars.$clr-surface-medium;
+	border-top: 1px solid vars.$clr-border-light;
+	padding: vars.$space-4 3vw;
+}
