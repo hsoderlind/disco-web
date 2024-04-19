@@ -24,7 +24,7 @@ export const ProductFileUploadList: FC<ProductFileUploadListProps> = ({ fields, 
 
 	const keyModelMap: Record<string, Upload> = {};
 	fields.forEach((field) => {
-		const model = models.find((m) => m.getKey() === field.key);
+		const model = models.find((m) => m.getKey() === field.id);
 
 		if (!model) {
 			return;

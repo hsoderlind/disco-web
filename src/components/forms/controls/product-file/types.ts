@@ -34,3 +34,10 @@ export type ProductFileUploadContextType = {
 	move: UseFieldArrayMove;
 	remove: UseFieldArrayRemove;
 }
+
+export type ProductFileStore = {
+	models: Upload[];
+	add: (models: Upload | Upload[]) => void;
+	remove: (model: Upload) => void;
+	clear: () => void;
+}

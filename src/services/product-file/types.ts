@@ -6,6 +6,7 @@ import { vsbInfer } from "../../lib/validation/validation-schema-builder";
 const vsb = app.getValidationSchemaBuilder();
 
 export const productFileSchema = vsb.object({
+	id: vsb.any(),
 	sort_order: vsb.number().min(0),
 	meta: fileSchema
 });

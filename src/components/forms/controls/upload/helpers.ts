@@ -7,7 +7,7 @@ import { ServerValidationError } from "../../../../lib/error/types";
 export const makeOnDrop: MakeOnDropFn = (storageProvider, shopId, onDrop, onUploadedCb, onError) => async (acceptedFile: FileWithPath[], fileRejections) => {
 	const models = acceptedFile.map((file) => {
 		return new Upload({
-			key: Str.uuid(),
+			id: Str.uuid(),
 			storageProvider,
 			buffer: file,
 			preview: URL.createObjectURL(file),

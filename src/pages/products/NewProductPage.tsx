@@ -115,6 +115,7 @@ export function Component() {
 		remove: removeFile,
 		move: moveFile
 	} = useFieldArray({ control, name: 'files', keyName: 'key' });
+	console.log('fileFields', fileFields);
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
@@ -179,10 +180,11 @@ export function Component() {
 	};
 
 	const addProductFilesToForm = (models: Upload[]) => {
+		console.log('addProductFilesToForm', models);
 		appendFile(
 			models.map((model) => {
 				return {
-					key: model.getKey(),
+					id: model.getKey(),
 					sort_order: 0,
 					meta: {
 						extension: model.get<File>('model').get('extension'),

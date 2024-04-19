@@ -24,7 +24,7 @@ export class FileRejectionCollection extends Collection<FileRejectionType, 'key'
 }
 
 export type UploadType = {
-	key: string;
+	id: string;
 	storageProvider: string;
 	model?: FileModel;
 	buffer: globalThis.File;
@@ -34,11 +34,11 @@ export type UploadType = {
 	error?: ServerValidationError
 }
 
-export class Upload extends Model<UploadType, 'key'> {
+export class Upload extends Model<UploadType, 'id'> {
 	constructor(data: Partial<UploadType>, protected readonly shopId: number) {
 		data.uploadProgress = 0;
 		data.isUploaded = false;
-		super('key', data);
+		super('id', data);
 		this.httpClient.setHeaders({'x-shop-id': this.shopId});
 	}
 
@@ -98,7 +98,7 @@ export class Upload extends Model<UploadType, 'key'> {
 	}
 }
 
-export class UploadCollection extends Collection<UploadType, 'key', Upload> {
+export class UploadCollection extends Collection<UploadType, 'id', Upload> {
 	constructor(items: Upload[]) {
 		super(items);
 	}

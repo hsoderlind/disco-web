@@ -5,20 +5,18 @@ import { CloudUploadOutlined } from '@ant-design/icons';
 import { UploadHero } from '../upload/UploadHero';
 import { ProductFileUploadContext } from './ProductFileUploadContext';
 import { ProductFileUploadList } from './ProductFileUploadList';
+import { useProductFileStore } from './store';
 
 export const ProductFileUpload: FC<ProductFileUploadProps> = ({ append, fields, move, remove }) => {
-	const [files, setFiles] = useState<UploadModel[]>([]);
+	const store = useProductFileStore();
 	const value: ProductFileUploadContextType = {
 		remove,
 		move
 	};
 
 	const handleDrop: OnDropCb = (acceptedFiles) => {
-		setFiles((files) => {
-			const newFiles = [...files, ...acceptedFiles];
-			append(files);
-			return newFiles;
-		});
+		store.add(acceptedFiles);
+		append(acceptedFiles);
 	};
 
 	return (
@@ -33,7 +31,7 @@ export const ProductFileUpload: FC<ProductFileUploadProps> = ({ append, fields, 
 						infoText='Dra och släpp fil(er) här eller klicka för att ladda upp'
 					/>
 				</div>
-				<ProductFileUploadList fields={fields} models={files} />
+				<ProductFileUploadList fields={fields} models={store.models} />
 			</div>
 		</ProductFileUploadContext.Provider>
 	);
