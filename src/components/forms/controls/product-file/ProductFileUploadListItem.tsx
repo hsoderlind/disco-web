@@ -32,7 +32,10 @@ const InteralProductFileUploadListItem = forwardRef<HTMLDivElement, ProductFileU
 						),
 						okText: 'Ja',
 						cancelText: 'Nej',
-						onOk: () => remove(index)
+						onOk: async () => {
+							await model.get<File>('model').delete();
+							remove(index);
+						}
 					});
 			}
 		};

@@ -3,6 +3,7 @@ import { File as FileModel } from "../../../../services/file/File";
 import { FileWithPath } from "react-dropzone";
 import { Str } from "../../../../lib/string/Str";
 import { ServerValidationError } from "../../../../lib/error/types";
+import mime from 'mime-types';
 
 export const makeOnDrop: MakeOnDropFn = (storageProvider, shopId, onDrop, onUploadedCb, onError) => async (acceptedFile: FileWithPath[], fileRejections) => {
 	const models = acceptedFile.map((file) => {
@@ -15,6 +16,7 @@ export const makeOnDrop: MakeOnDropFn = (storageProvider, shopId, onDrop, onUplo
 				filename: file.name,
 				mimetype: file.type,
 				size: file.size,
+				extension: mime.extension(file.type) as string ?? 'bin',
 				storage_provider: storageProvider
 			}, shopId),
 		}, shopId);

@@ -1,6 +1,6 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { ProductFileUploadContextType, ProductFileUploadProps } from './types';
-import { OnDropCb, Upload as UploadModel } from '../upload/types';
+import { OnDropCb } from '../upload/types';
 import { CloudUploadOutlined } from '@ant-design/icons';
 import { UploadHero } from '../upload/UploadHero';
 import { ProductFileUploadContext } from './ProductFileUploadContext';
