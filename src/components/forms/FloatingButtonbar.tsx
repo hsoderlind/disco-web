@@ -8,5 +8,10 @@ export type FloatingButtonBarProps = {
 };
 
 export const FloatingButtonBar: FC<FloatingButtonBarProps> = ({ children }) => {
-	return createPortal(<div className={classes['buttonbar']}>{children}</div>, document.body);
+	return createPortal(
+		<div className={classes['buttonbar']} data-floating-buttonbar='true'>
+			{children}
+		</div>,
+		document.body
+	);
 };

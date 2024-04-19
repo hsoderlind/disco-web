@@ -260,3 +260,12 @@
 @mixin border-b-light {
 	border-bottom: 1px solid vars.$clr-border-light;
 }
+
+/**
+ * 6. Media and container queries
+ **/
+@mixin dark-theme() {
+	@media (prefers-color-scheme: dark) {
+		@content;
+	}
+}

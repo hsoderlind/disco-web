@@ -1,4 +1,5 @@
 @use "../../sass/vars";
+@use "../../sass/utils/mixins" as m;
 
 .buttonbar {
 	position: fixed;
@@ -10,4 +11,9 @@
 	background-color: vars.$clr-surface-medium;
 	border-top: 1px solid vars.$clr-border-light;
 	padding: vars.$space-4 3vw;
+
+	@include m.dark-theme {
+		background-color: vars.$clr-surface-600;
+		border-top-color: vars.$clr-border-dark;
+	}
 }
