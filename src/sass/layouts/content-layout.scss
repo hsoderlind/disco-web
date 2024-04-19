@@ -1,20 +1,28 @@
-@use "sass:map";
 @use "../_vars.scss";
 
 .content-layout {
 	display: flex;
-	gap: 2vw;
+	overflow: hidden;
 
 	.main-content-layout {
-		flex: 1;
-		max-width: 75vw;
-		background-color: map.get(vars.$colors, "surface", "light");
+		flex-basis: 0;
+		flex-grow: 999;
+		min-inline-size: 75%;
+		background-color: vars.$clr-surface-light;
+		border-right: 1px solid vars.$clr-border-light;
 		padding: 5vh 3vw;
-		border-radius: 6px;
 	}
 
 	.sidebar-content-layout {
-		flex-basis: 250px;
-		max-width: 250px;
+		background-color: vars.$clr-surface-light;
+		flex-basis: clamp(20ch, 19%, 100%);
+
+		> div {
+			height: calc(100% - 73px - 64px) !important;
+		}
+
+		.ant-affix {
+			overflow-y: auto;
+		}
 	}
 }

@@ -4,8 +4,8 @@ import { Affix } from 'antd';
 
 export const SidebarContentLayout: FC<SidebarContentLayoutProps> = ({ children }) => {
 	return (
-		<div className='sidebar-content-layout'>
-			<Affix offsetTop={96}>{children}</Affix>
-		</div>
+		<Affix offsetTop={64} className='sidebar-content-layout'>
+			{children}
+		</Affix>
 	);
 };
