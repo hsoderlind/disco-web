@@ -1,3 +1,5 @@
+@use "../utils/mixins" as m;
+
 .auth-layout {
 	background: rgb(240, 245, 255);
 	background: linear-gradient(151deg, rgba(240, 245, 255, 1) 0%, rgba(89, 126, 247, 0.865983893557423) 100%);
@@ -6,6 +8,10 @@
 	align-items: center;
 	justify-content: center;
 	height: 100%;
+
+	@include m.dark-theme {
+		background: linear-gradient(151deg, var(--ant-blue-4) 0%, var(--ant-blue-2) 100%);
+	}
 
 	> * {
 		width: min(100vw, 375px);
