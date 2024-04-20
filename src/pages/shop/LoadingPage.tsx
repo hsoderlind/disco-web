@@ -8,9 +8,9 @@ export function Component() {
 	const params = useParams<Record<string, string>>();
 	const [queryKey, queryFn] = useGetShopByUrlAlias(params.urlAlias!);
 	const updateStore = useShopStore((state) => state.update);
-	const { isFetching } = useQuery(queryKey, queryFn, {
+	const { isFetching, isLoading } = useQuery(queryKey, queryFn, {
 		onSuccess: (data) => updateStore(data.toJSON())
 	});
 
-	return <>{isFetching ? <PageLoader /> : <Outlet />}</>;
+	return <>{isFetching || isLoading ? <PageLoader /> : <Outlet />}</>;
 }
