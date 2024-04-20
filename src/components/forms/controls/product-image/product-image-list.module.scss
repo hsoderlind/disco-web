@@ -18,7 +18,7 @@
 		box-shadow: 2px 5px 10px vars.$clr-border-light;
 
 		@include m.dark-theme {
-			background-color: vars.$clr-surface-600;
+			background-color: vars.$clr-surface-900;
 			box-shadow: 2px 5px 10px vars.$clr-border-dark;
 		}
 	}

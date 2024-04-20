@@ -12,4 +12,11 @@ export type ImageProps = {
 	src: SrcType;
 	className?: string;
 	width?: CSSProperties['width'];
+	key: string;
 };
+
+export type ImageLoaderProps = {
+	className?: string;
+	style: CSSProperties;
+	active?: boolean;
+}

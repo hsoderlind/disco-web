@@ -3,7 +3,6 @@
 
 .content-layout {
 	display: flex;
-	overflow: hidden;
 
 	.main-content-layout {
 		flex-basis: 0;
@@ -27,12 +26,10 @@
 			background-color: vars.$clr-surface-dark;
 		}
 
-		> div {
-			height: calc(100% - 73px - 64px) !important;
-		}
-
-		.ant-affix {
+		.inner-wrapper {
+			max-height: 350px;
 			overflow-y: auto;
+			overscroll-behavior: contain;
 		}
 	}
 }

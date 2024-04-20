@@ -1,11 +1,11 @@
 // Spacing
 $space-0: 0px;
-$space-1: 2px;
-$space-2: 4px;
-$space-3: 8px;
-$space-4: 16px;
-$space-5: 32px;
-$space-6: 64px;
+$space-1: 0.125rem;
+$space-2: 0.25rem;
+$space-3: 0.5rem;
+$space-4: 1rem;
+$space-5: 2rem;
+$space-6: 4rem;
 
 $spaces: (
 	0: $space-0,
@@ -20,7 +20,8 @@ $spaces: (
 // Colors
 $clr-surface-light: hsl(0, 0%, 100%);
 $clr-surface-medium: hsl(240, 7%, 92%);
-$clr-surface-600: hsl(0, 0%, 15%);
+$clr-surface-500: hsl(0, 0%, 84%);
+$clr-surface-900: hsl(0, 0%, 15%);
 $clr-surface-dark: hsl(0, 0%, 8%);
 $clr-border-light: hsl(0, 0%, 84%);
 $clr-border-dark: hsl(0, 0%, 15%);

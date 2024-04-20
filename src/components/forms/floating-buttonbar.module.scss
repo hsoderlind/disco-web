@@ -13,7 +13,7 @@
 	padding: vars.$space-4 3vw;
 
 	@include m.dark-theme {
-		background-color: vars.$clr-surface-600;
+		background-color: vars.$clr-surface-900;
 		border-top-color: vars.$clr-border-dark;
 	}
 }

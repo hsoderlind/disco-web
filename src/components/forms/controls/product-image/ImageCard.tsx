@@ -41,6 +41,7 @@ const InternalImageCard: FC<ImageCardProps> = ({ id, index, model }) => {
 					<Image
 						src={() => model.get<File>('model').download('product_image')}
 						className={classes['product-image-list__img-col__img']}
+						key={model.get<File>('model').get('id')}
 					/>
 				</div>
 				<div className='w-full px-4 pt-2'>
