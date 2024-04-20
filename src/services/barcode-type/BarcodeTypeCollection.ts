@@ -13,6 +13,7 @@ export class BarcodeTypeCollection extends Collection<BarcodeTypeType, 'id', Bar
 	}
 
 	static async fetchAll(shopId: number) {
+		this.httpClient.setHeaders({'x-shop-id': shopId});
 		const response = await this.httpClient.get<BarcodeTypeResponseType[]>(this.GET_BARCODE_TYPES_URI);
 
 		if (response.data) {
