@@ -1,15 +1,14 @@
 import { FC, memo, useState } from 'react';
-import { useShopStore } from '../../../../services/shop/store';
 import classes from './product-image-list.module.scss';
 import { Num } from '../../../../lib/number/Num';
 import { Button, Dropdown, MenuProps, Progress } from 'antd';
 import { DragOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { useQuery } from '@tanstack/react-query';
 import { ImageCardProps } from './types';
 import { useProductImageContext } from './hooks/useProductImageContext';
 import { File } from '../../../../services/file/File';
+import { Image } from '../../../image/Image';
 
 const InternalImageCard: FC<ImageCardProps> = ({ id, index, model }) => {
 	const [progress, setProgress] = useState(model.get<number>('uploadProgress'));
@@ -21,12 +20,6 @@ const InternalImageCard: FC<ImageCardProps> = ({ id, index, model }) => {
 		transform: CSS.Transform.toString(transform),
 		transition
 	};
-
-	const shopId = useShopStore((state) => state.shop.id);
-
-	const { data: url } = useQuery([model.getEndpoint(), shopId, model.getKey()], () =>
-		model.get<File>('model').download('product_image')
-	);
 
 	const removeImage = async () => {
 		await model.delete();
@@ -45,9 +38,12 @@ const InternalImageCard: FC<ImageCardProps> = ({ id, index, model }) => {
 		<>
 			<div style={style} ref={setNodeRef} className={classes['product-image-list__item']}>
 				<div className={classes['product-image-list__img-col']}>
-					<img src={url} className={classes['product-image-list__img-col__img']} />
+					<Image
+						src={() => model.get<File>('model').download('product_image')}
+						className={classes['product-image-list__img-col__img']}
+					/>
 				</div>
-				<div className='w-full px-4 py2'>
+				<div className='w-full px-4 pt-2'>
 					<Progress percent={progress} />
 				</div>
 				<div className='flex flex-row justify-between items-center w-full px-4 py-2'>

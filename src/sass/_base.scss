@@ -1,5 +1,9 @@
 @use "./vars";
 
+html {
+	color-scheme: dark light;
+}
+
 html,
 body {
 	width: 100%;
