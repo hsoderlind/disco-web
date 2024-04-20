@@ -24,3 +24,7 @@ export abstract class Enum {
 		return {};
 	}
 }
+
+export type Prettify<T extends object> = {
+	[P in keyof T]: T[P]
+};

@@ -12,6 +12,8 @@ import { ProductFileType, productFileSchema } from '../product-file/types';
 import { ProductFileCollection } from '../product-file/ProductFileCollection';
 import { ProductImageType, productImageSchema } from '../product-image/types';
 import { ProductImageCollection } from '../product-image/ProductImageCollection';
+import { ProductStockType, productStockSchema } from '../product-stock/types';
+import { ProductStock } from '../product-stock/ProductStock';
 
 const vsb = app.getValidationSchemaBuilder();
 
@@ -41,6 +43,7 @@ export const productSchema = vsb.object({
 	special_prices: vsb.array(extendedProductSpecialPriceSchema).optional(),
 	images: vsb.array(extendedProductImageSchema).optional(),
 	files: vsb.array(extendedProductFileSchema).optional(),
+	stock: productStockSchema
 });
 
 export type ProductSchemaType = vsbInfer<typeof productSchema>
@@ -66,4 +69,5 @@ export type ProductType = {
 	special_prices?: ProductSpecialPriceType[] | ProductSpecialPriceCollection;
 	files: ProductFileType[] | ProductFileCollection;
 	images: ProductImageType[] | ProductImageCollection;
+	stock: ProductStockType | ProductStock
 };
