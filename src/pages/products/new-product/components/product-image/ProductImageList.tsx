@@ -5,7 +5,7 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { SortableContext, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { ProductImageListProps } from './types';
 import { useProductImageContext } from './hooks/useProductImageContext';
-import { Upload } from '../upload/types';
+import { Upload } from '../../../../../components/forms/controls/upload/types';
 
 type DndContextProps = ComponentProps<typeof DndContext>;
 

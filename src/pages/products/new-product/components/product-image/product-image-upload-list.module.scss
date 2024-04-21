@@ -1,5 +1,5 @@
-@use "../../../../sass/utils/resets";
-@use "../../../../sass/_vars";
+@use "../../../../../sass/utils/resets";
+@use "../../../../../sass/_vars";
 
 .product-image-upload-list {
 	@include resets.reset-list();

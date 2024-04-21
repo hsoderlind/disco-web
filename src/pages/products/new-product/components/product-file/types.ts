@@ -1,15 +1,9 @@
 import { FieldArrayWithId, UseFieldArrayMove, UseFieldArrayRemove } from "react-hook-form"
-import { ProductSchemaType } from "../../../../services/product/types"
-import { Upload } from "../upload/types";
+import { ProductSchemaType } from "../../../../../services/product/types"
+import { Upload } from "../../../../../components/forms/controls/upload/types";
 import { DraggableAttributes } from "@dnd-kit/core";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
-export type ProductFileUploadProps = {
-	fields: FieldArrayWithId<ProductSchemaType, 'files', 'key'>[];
-	append: (files: Upload[]) => void;
-	remove: UseFieldArrayRemove;
-	move: UseFieldArrayMove;
-}
 
 export type ProductFileUploadListProps = {
 	fields: FieldArrayWithId<ProductSchemaType, 'files', 'key'>[];

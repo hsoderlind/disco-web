@@ -14,6 +14,7 @@ import { ProductImageType, productImageSchema } from '../product-image/types';
 import { ProductImageCollection } from '../product-image/ProductImageCollection';
 import { ProductStockType, productStockSchema } from '../product-stock/types';
 import { ProductStock } from '../product-stock/ProductStock';
+import { ProductStates } from './ProductStates';
 
 const vsb = app.getValidationSchemaBuilder();
 
@@ -24,6 +25,7 @@ const extendedProductImageSchema = productImageSchema.extend({key: vsb.string()}
 const extendedProductFileSchema = productFileSchema.extend({key: vsb.string()});
 
 export const productSchema = vsb.object({
+	state: vsb.enum(ProductStates.values()),
 	tax_id: vsb.number().optional(),
 	supplier_id: vsb.number().optional(),
 	manufacturer_id: vsb.number().optional(),
@@ -31,8 +33,6 @@ export const productSchema = vsb.object({
 	cost_price: vsb.number().min(0),
 	reference: vsb.string().max(255).optional(),
 	supplier_reference: vsb.string().max(255).optional(),
-	available_for_order: vsb.boolean().default(true),
-	available_at: vsb.date().optional(),
 	condition: vsb.enum(ProductConditions.values()),
 	name: vsb.string().max(255).nonempty(),
 	summary: vsb.string().optional(),
@@ -58,8 +58,6 @@ export type ProductType = {
 	cost_price: number;
 	reference: string;
 	supplier_reference: string;
-	available_for_order: boolean;
-	available_at: string;
 	condition: ProductConditionsUnion;
 	name: string;
 	summary?: string;

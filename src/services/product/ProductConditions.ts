@@ -18,7 +18,7 @@ export class ProductConditions extends Enum {
 			[ProductConditions.NEW]: ProductConditions.NEW,
 			[ProductConditions.USED]: ProductConditions.USED,
 			[ProductConditions.REFURBISHED]: ProductConditions.REFURBISHED
-		}
+		} as const;
 	}
 }
 

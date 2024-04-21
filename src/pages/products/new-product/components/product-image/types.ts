@@ -1,7 +1,7 @@
 import { UseFieldArrayRemove, UseFieldArrayMove, FieldArrayWithId } from "react-hook-form";
-import { ProductImage } from "../../../../services/product-image/ProductImage";
-import { Upload } from "../upload/types";
-import { ProductSchemaType } from "../../../../services/product/types";
+import { ProductImage } from "../../../../../services/product-image/ProductImage";
+import { Upload } from "../../../../../components/forms/controls/upload/types";
+import { ProductSchemaType } from "../../../../../services/product/types";
 
 export type UpdateCb = (file: ProductImage) => void;
 
@@ -20,13 +20,6 @@ export type ProductImageStore = {
 	remove: (model: Upload) => void;
 	clear: () => void;
 }
-
-export type ProductImageUploadProp = {
-	fields: FieldArrayWithId<ProductSchemaType, 'images', 'key'>[];
-	append: (model: Upload[]) => void;
-	move: UseFieldArrayMove;
-	remove: UseFieldArrayRemove;
-};
 
 export type ProductImageListProps = {
 	fields: FieldArrayWithId<ProductSchemaType, 'images', 'key'>[];

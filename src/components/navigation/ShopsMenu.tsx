@@ -3,6 +3,7 @@ import { useShopsContext } from '../../contexts/shops/useShopsContext';
 import { Button, Dropdown, MenuProps } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import RegisterShopModalForm from '../modals/RegisterShopModalForm';
+import { HomeOutlined } from '@ant-design/icons';
 
 const ShopsMenu: FC = () => {
 	const [registerShopModalOpen, setRegisterShopModalOpen] = useState(false);
@@ -42,7 +43,9 @@ const ShopsMenu: FC = () => {
 	return (
 		<>
 			<Dropdown menu={{ items, onClick }} placement='bottom' arrow={{ pointAtCenter: true }}>
-				<Button>{selectedShop?.get<string>('name') ?? 'Välj butik'}</Button>
+				<Button type='text' size='large' icon={<HomeOutlined style={{ fontSize: '24px' }} />}>
+					{selectedShop?.get<string>('name') ?? 'Välj butik'}
+				</Button>
 			</Dropdown>
 			<RegisterShopModalForm open={registerShopModalOpen} onClose={closeRegisterShopModal} />
 		</>

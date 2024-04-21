@@ -33,7 +33,10 @@ const App: FC = () => {
 			{contextHolder}
 			<QueryClientProvider client={queryClient}>
 				<ConfigProvider
-					theme={{ cssVar: true, algorithm: systemTheme === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm }}
+					theme={{
+						cssVar: true,
+						algorithm: systemTheme === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm
+					}}
 					locale={locale}>
 					<AntdApp>
 						<AuthProvider>

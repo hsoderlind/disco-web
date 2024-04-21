@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { ProductSchemaType } from '../../../services/product/types';
+import { ProductSchemaType } from '../../../../services/product/types';
 import { Col, DatePicker, Form, Input, InputNumber, Row, Switch, Typography } from 'antd';
-import FormItem from '../../../lib/form/FormItem';
+import FormItem from '../../../../lib/form/FormItem';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
 export const Stock: FC = () => {

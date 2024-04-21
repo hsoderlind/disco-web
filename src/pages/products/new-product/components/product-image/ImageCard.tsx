@@ -1,14 +1,14 @@
 import { FC, memo, useState } from 'react';
 import classes from './product-image-list.module.scss';
-import { Num } from '../../../../lib/number/Num';
+import { Num } from '../../../../../lib/number/Num';
 import { Button, Dropdown, MenuProps, Progress } from 'antd';
 import { DragOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { ImageCardProps } from './types';
 import { useProductImageContext } from './hooks/useProductImageContext';
-import { File } from '../../../../services/file/File';
-import { Image } from '../../../image/Image';
+import { File } from '../../../../../services/file/File';
+import { Image } from '../../../../../components/image/Image';
 
 const InternalImageCard: FC<ImageCardProps> = ({ id, index, model }) => {
 	const [progress, setProgress] = useState(model.get<number>('uploadProgress'));
@@ -39,7 +39,7 @@ const InternalImageCard: FC<ImageCardProps> = ({ id, index, model }) => {
 			<div style={style} ref={setNodeRef} className={classes['product-image-list__item']}>
 				<div className={classes['product-image-list__img-col']}>
 					<Image
-						src={() => model.get<File>('model').download('product_image')}
+						src={() => model.get<File>('model').download()}
 						className={classes['product-image-list__img-col__img']}
 						key={model.get<File>('model').get('id')}
 					/>

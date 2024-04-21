@@ -33,6 +33,8 @@
 
 		flex-basis: clamp(20ch, 19%, 100%);
 		background-color: var(--_bg-color);
+		overflow: auto;
+		padding-block-end: fn.toRem(30);
 
 		&:has(+ .main-content-layout) {
 			border-right: 1px solid var(--_border-color);

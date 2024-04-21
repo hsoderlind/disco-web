@@ -20,8 +20,8 @@ const routes = createBrowserRouter(
 				<Route path='/:urlAlias' lazy={() => import('./pages/shop/LoadingPage')}>
 					<Route index handle={{ menuKey: 'landingPage' }} lazy={() => import('./pages/shop/LandingPage')} />
 					<Route path='products' handle={{ menuKey: 'products' }}>
-						<Route index lazy={() => import('./pages/products/OverviewPage')} />
-						<Route path='new' lazy={() => import('./pages/products/NewProductPage')} />
+						<Route index lazy={() => import('./pages/products')} />
+						<Route path='new' lazy={() => import('./pages/products/new-product')} />
 					</Route>
 				</Route>
 			</Route>

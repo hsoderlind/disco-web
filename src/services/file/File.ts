@@ -7,13 +7,17 @@ export class File extends Model<FileType, 'id'> {
 		this.httpClient.setHeaders({'x-shop-id': this.shopId});
 	}
 
-	async download(storageProvider: string) {
-		// return `${import.meta.env.VITE_API_BASE_URL}${this.getEndpoint()}/${this.getKey()}?shopId=${this.shopId}`;
-		const response = await this.httpClient.get<Blob>(`${this.getEndpoint()}/${this.getKey()}?storage_provider=${storageProvider}`, {responseType: 'blob'})
+	async download() {
+		const response = await this.httpClient.get<Blob>(`${this.getEndpoint()}/${this.getKey()}?storage_provider=${this.get('storage_provider')}`, {responseType: 'blob'})
 		
 		if (response.data) {
 			return URL.createObjectURL(response.data);
 		}
+	}
+
+	async getSignedUrl() {
+		const response = await this.httpClient.get<string>(`${this.getEndpoint()}/${this.getKey()}/signed-url`);
+		return response?.data;
 	}
 
 	async delete() {
