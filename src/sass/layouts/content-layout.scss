@@ -1,5 +1,6 @@
 @use "../_vars.scss";
 @use "../utils/mixins" as m;
+@use "../utils/functions" as fn;
 
 .content-layout {
 	--_border-color: #{vars.$clr-border-light};
@@ -9,13 +10,14 @@
 	}
 
 	display: flex;
+	max-height: calc(100vh - 64px); // 64px is the height of the toolbar at the very top of the page
 
 	.main-content-layout {
 		flex-basis: 0;
 		flex-grow: 999;
 		min-inline-size: 75%;
-		// background-color: var(--_bg-color);
-		padding: 5vh 3vw;
+		padding: 5vh 3vw fn.toRem(90);
+		overflow: auto;
 
 		&:has(+ .sidebar-content-layout) {
 			border-right: 1px solid var(--_border-color);
@@ -23,17 +25,17 @@
 	}
 
 	.sidebar-content-layout {
-		// background-color: var(--_bg-color);
+		--_bg-color: #{vars.$clr-surface-light};
+
+		@include m.dark-theme {
+			--_bg-color: #{vars.$clr-surface-dark};
+		}
+
 		flex-basis: clamp(20ch, 19%, 100%);
+		background-color: var(--_bg-color);
 
 		&:has(+ .main-content-layout) {
 			border-right: 1px solid var(--_border-color);
 		}
-
-		// .inner-wrapper {
-		// 	max-height: 350px;
-		// 	overflow-y: auto;
-		// 	overscroll-behavior: contain;
-		// }
 	}
 }
