@@ -17,7 +17,10 @@ const InteralProductFileUploadListItem = forwardRef<HTMLDivElement, ProductFileU
 		const onDropDownClick: MenuProps['onClick'] = (event) => {
 			switch (event.key) {
 				case 'download':
-					// TODO: download file...
+					(async () => {
+						const url = await model.get<File>('model').getSignedUrl();
+						window.location.href = url;
+					})();
 					break;
 				case 'delete':
 					Modal.confirm({

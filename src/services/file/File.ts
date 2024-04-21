@@ -16,7 +16,7 @@ export class File extends Model<FileType, 'id'> {
 	}
 
 	async getSignedUrl() {
-		const response = await this.httpClient.get<string>(`${this.getEndpoint()}/${this.getKey()}/signed-url`);
+		const response = await this.httpClient.get<string>(`${this.getEndpoint()}/${this.getKey()}/signed-url?storage_provider=${this.get('storage_provider')}`);
 		return response?.data;
 	}
 
