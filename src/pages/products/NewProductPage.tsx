@@ -318,9 +318,13 @@ export function Component() {
 										]}
 									/>
 								</FormItem>
-								<FormItem control={control} name='reference' label='Referens'>
-									<Input />
-								</FormItem>
+								<Row gutter={[12, 0]}>
+									<Col sm={24} md={12}>
+										<FormItem control={control} name='reference' label='Referens'>
+											<Input />
+										</FormItem>
+									</Col>
+								</Row>
 								<Row gutter={[12, 0]}>
 									<Col xl={5}>
 										<FormItem

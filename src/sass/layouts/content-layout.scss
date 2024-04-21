@@ -10,13 +10,13 @@
 	}
 
 	display: flex;
-	max-height: calc(100vh - 64px); // 64px is the height of the toolbar at the very top of the page
+	height: calc(100vh - 64px); // 64px is the height of the toolbar at the very top of the page
 
 	.main-content-layout {
 		flex-basis: 0;
 		flex-grow: 999;
 		min-inline-size: 75%;
-		padding: 5vh 3vw fn.toRem(90);
+		padding: 5vh 3vw fn.toRem(100);
 		overflow: auto;
 
 		&:has(+ .sidebar-content-layout) {
