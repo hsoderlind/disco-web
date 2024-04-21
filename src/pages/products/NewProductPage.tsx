@@ -52,6 +52,7 @@ import { DevTool } from '@hookform/devtools';
 import { Upload } from '../../components/forms/controls/upload/types';
 import { File } from '../../services/file/File';
 import { ProductFileUpload } from '../../components/forms/controls/product-file/ProductFileUpload';
+import { Stock } from './new-product/Stock';
 
 const DEFAULT_SECTION = 'details';
 
@@ -78,7 +79,12 @@ export function Component() {
 			condition: ProductConditions.NEW,
 			barcodes: [],
 			product_attributes: [],
-			special_prices: []
+			special_prices: [],
+			stock: {
+				min_order_quantity: 1,
+				out_of_stock_message: 'Slutsåld',
+				in_stock_message: 'I lager'
+			}
 		},
 		schema: productSchema
 	});
@@ -203,6 +209,63 @@ export function Component() {
 		<FormProvider {...methods}>
 			<Form onFinish={handleSubmit(onSubmit)} layout='vertical'>
 				<ContentLayout>
+					<SidebarContentLayout>
+						<Menu
+							mode='inline'
+							onClick={(e) => {
+								searchParams.set('section', e.key);
+								setSearchParams(searchParams);
+							}}
+							defaultSelectedKeys={[section!]}
+							items={[
+								{
+									label: 'Beskrivning',
+									key: 'description'
+								},
+								{
+									label: 'Märkning',
+									key: 'details'
+								},
+								{
+									label: 'Features',
+									key: 'features'
+								},
+								{
+									label: 'Pris',
+									key: 'price'
+								},
+								{
+									label: 'Bilder',
+									key: 'images'
+								},
+								{
+									label: 'Filer',
+									key: 'files'
+								},
+								{
+									label: 'Lager',
+									key: 'stock'
+								}
+								// {
+								// 	label: 'Frakt',
+								// 	key: 'shipping'
+								// },
+								// {
+								// 	label: 'Korsförsäljning',
+								// 	key: 'xsell'
+								// },
+								// {
+								// 	label: 'Uppförsäljning',
+								// 	key: 'upsell'
+								// },
+								// {
+								// 	label: 'Paketerbjudande',
+								// 	key: 'bundled-products'
+								// }
+							]}
+							style={{ border: 'none' }}
+						/>
+					</SidebarContentLayout>
 					<MainContentLayout>
 						{/* SECTION: DESCRIPTION */}
 						{section === 'description' && (
@@ -542,64 +605,9 @@ export function Component() {
 								/>
 							</>
 						)}
+						{section === 'stock' && <Stock />}
 						<DevTool control={control} />
 					</MainContentLayout>
-					<SidebarContentLayout>
-						<Menu
-							mode='inline'
-							onClick={(e) => {
-								searchParams.set('section', e.key);
-								setSearchParams(searchParams);
-							}}
-							defaultSelectedKeys={[section!]}
-							items={[
-								{
-									label: 'Beskrivning',
-									key: 'description'
-								},
-								{
-									label: 'Märkning',
-									key: 'details'
-								},
-								{
-									label: 'Features',
-									key: 'features'
-								},
-								{
-									label: 'Pris',
-									key: 'price'
-								},
-								{
-									label: 'Bilder',
-									key: 'images'
-								},
-								{
-									label: 'Filer',
-									key: 'files'
-								},
-								{
-									label: 'Lager',
-									key: 'stock'
-								},
-								{
-									label: 'Frakt',
-									key: 'shipping'
-								},
-								{
-									label: 'Korsförsäljning',
-									key: 'xsell'
-								},
-								{
-									label: 'Uppförsäljning',
-									key: 'upsell'
-								},
-								{
-									label: 'Paketerbjudande',
-									key: 'bundled-products'
-								}
-							]}
-						/>
-					</SidebarContentLayout>
 				</ContentLayout>
 				<FloatingButtonBar>
 					<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToProducts} size='large'>
