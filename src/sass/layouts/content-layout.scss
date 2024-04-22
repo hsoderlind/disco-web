@@ -16,6 +16,7 @@
 		flex-basis: 0;
 		flex-grow: 999;
 		min-inline-size: 75%;
+		scrollbar-width: thin;
 		padding: 5vh 3vw fn.toRem(100);
 		overflow: auto;
 
@@ -34,10 +35,43 @@
 		flex-basis: clamp(20ch, 19%, 100%);
 		background-color: var(--_bg-color);
 		overflow: auto;
+		scrollbar-width: thin;
 		padding-block-end: fn.toRem(30);
+		transition: flex-basis 500ms ease-in-out;
+
+		&--shrinked {
+			flex-basis: 5ch;
+
+			.sidebar-shrink ion-icon {
+				rotate: 180deg;
+			}
+
+			.ant-menu-item {
+				padding-left: vars.$space-3 !important;
+
+				&-disabled {
+					display: none;
+				}
+
+				.ant-menu-title-content {
+					display: none;
+				}
+			}
+		}
 
 		&:has(+ .main-content-layout) {
 			border-right: 1px solid var(--_border-color);
+		}
+
+		.sidebar-shrink {
+			display: flex;
+			justify-content: end;
+			padding: vars.$space-4 vars.$space-4 vars.$space-4;
+
+			ion-icon {
+				transition: rotate 200ms ease;
+				transition-delay: 500ms;
+			}
 		}
 	}
 }

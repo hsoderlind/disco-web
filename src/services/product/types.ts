@@ -18,11 +18,7 @@ import { ProductStates } from './ProductStates';
 
 const vsb = app.getValidationSchemaBuilder();
 
-const productBarcodeSchema = barcodeSchema.extend({key: vsb.string()});
-const combinedProductAttributeSchema = productAttributeSchema.extend({key: vsb.string(), stock: productAttributeStockSchema})
-const extendedProductSpecialPriceSchema = productSpecialPriceSchema.extend({key: vsb.string()});
-const extendedProductImageSchema = productImageSchema.extend({key: vsb.string()});
-const extendedProductFileSchema = productFileSchema.extend({key: vsb.string()});
+const combinedProductAttributeSchema = productAttributeSchema.extend({stock: productAttributeStockSchema})
 
 export const productSchema = vsb.object({
 	state: vsb.enum(ProductStates.values()),
@@ -38,11 +34,11 @@ export const productSchema = vsb.object({
 	summary: vsb.string().optional(),
 	description: vsb.string().optional(),
 	categories: vsb.array(vsb.number().nonnegative()),
-	barcodes: vsb.array(productBarcodeSchema).optional(),
+	barcodes: vsb.array(barcodeSchema).optional(),
 	product_attributes: vsb.array(combinedProductAttributeSchema),
-	special_prices: vsb.array(extendedProductSpecialPriceSchema).optional(),
-	images: vsb.array(extendedProductImageSchema).optional(),
-	files: vsb.array(extendedProductFileSchema).optional(),
+	special_prices: vsb.array(productSpecialPriceSchema).optional(),
+	images: vsb.array(productImageSchema).optional(),
+	files: vsb.array(productFileSchema).optional(),
 	stock: productStockSchema
 });
 

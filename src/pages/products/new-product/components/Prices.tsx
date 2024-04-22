@@ -6,7 +6,6 @@ import { GrossPriceOutput } from '../../../../components/forms/controls/GrossPri
 import FormItem from '../../../../lib/form/FormItem';
 import { TaxSelect } from '../../../../components/forms/controls/TaxSelect';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import { Str } from '../../../../lib/string/Str';
 import dayjs from 'dayjs';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
@@ -18,7 +17,6 @@ export const Price: FC = () => {
 
 	const newSpecialPrice = () =>
 		append({
-			key: Str.uuid(),
 			special_price: 0,
 			entry_date: dayjs(),
 			expiration_date: null!

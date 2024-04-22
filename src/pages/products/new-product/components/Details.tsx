@@ -7,7 +7,6 @@ import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { ProductSchemaType } from '../../../../services/product/types';
 import { useLoadBarcodeTypes } from '../../../../services/barcode-type/hooks/useLoadBarcodeTypes';
 import { CreateBarcodeTypeButton } from '../../../../components/forms/controls/CreateBarcodeTypeButton';
-import { Str } from '../../../../lib/string/Str';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 
 export const Details: FC = () => {
@@ -94,7 +93,6 @@ export const Details: FC = () => {
 				icon={<PlusOutlined />}
 				onClick={() => {
 					append({
-						key: Str.uuid(),
 						value: '',
 						barcode_type: null!
 					});

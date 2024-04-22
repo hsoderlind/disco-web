@@ -8,7 +8,6 @@ import { FormItemWithControl } from '../../../../components/forms/FormItemWithCo
 import { AttributeValueSelect } from '../../../../components/forms/controls/AttributeValueSelect';
 import { CheckOutlined, CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { CreateAttributeTypeButton } from '../../../../components/forms/controls/CreateAttributeTypeButton';
-import { Str } from '../../../../lib/string/Str';
 import dayjs from 'dayjs';
 import { useLoadAllAttributeTypes } from '../../../../services/product-attribute/hooks/useLoadAllAttributeTypes';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
@@ -22,7 +21,6 @@ export const ProductsAttributes: FC = () => {
 
 	const newProductAttribute = () =>
 		append({
-			key: Str.uuid(),
 			active: true,
 			attribute_type_id: null!,
 			attribute_value_id: null!,
