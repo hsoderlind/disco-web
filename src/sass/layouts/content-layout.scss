@@ -44,6 +44,10 @@
 		padding-block-end: fn.toRem(30);
 		transition: flex-basis 500ms ease-in-out;
 
+		.ant-menu-title-content {
+			transition: opacity 200 ease;
+		}
+
 		&--shrinked {
 			flex-basis: 5ch;
 
@@ -59,7 +63,7 @@
 				}
 
 				.ant-menu-title-content {
-					display: none;
+					opacity: 0;
 				}
 			}
 		}
