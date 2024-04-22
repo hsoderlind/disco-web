@@ -17,7 +17,6 @@ import { ProductConditions } from '../../../services/product/ProductConditions';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { FloatingButtonBar } from '../../../components/forms/FloatingButtonbar';
 import { ProductImageUpload } from './components/product-image/ProductImageUpload';
-import { DevTool } from '@hookform/devtools';
 import { ProductFileUpload } from './components/product-file/ProductFileUpload';
 import { Stock } from './components/Stock';
 import { Price } from './components/Prices';
@@ -71,7 +70,6 @@ export function Component() {
 		schema: productSchema
 	});
 	const {
-		control,
 		handleSubmit,
 		setError,
 		setValue,
@@ -255,7 +253,40 @@ export function Component() {
 							/>
 						)}
 					</SidebarContentLayout>
-					<MainContentLayout>
+					<MainContentLayout
+						renderButtonBar={() => (
+							<FloatingButtonBar>
+								<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToProducts} size='large'>
+									Produkter
+								</Button>
+								<div>
+									<Dropdown.Button
+										type='primary'
+										size='large'
+										onClick={saveAndPublish}
+										disabled={!isDirty}
+										loading={isSubmitting}
+										menu={{
+											items: [
+												{
+													key: 'save draft',
+													label: 'Spara som utkast',
+													disabled: !isDirty || isSubmitting
+												},
+												{
+													key: 'delete',
+													label: 'Radera produkten',
+													danger: true,
+													disabled: isSubmitting
+												}
+											],
+											onClick: onMenuClick
+										}}>
+										Spara & publicera
+									</Dropdown.Button>
+								</div>
+							</FloatingButtonBar>
+						)}>
 						{section === 'description' && <Description />}
 						{section === 'details' && <Details />}
 						{section === 'features' && <ProductsAttributes />}
@@ -263,40 +294,8 @@ export function Component() {
 						{section === 'images' && <ProductImageUpload />}
 						{section === 'files' && <ProductFileUpload />}
 						{section === 'stock' && <Stock />}
-						<DevTool control={control} />
 					</MainContentLayout>
 				</ContentLayout>
-				<FloatingButtonBar>
-					<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToProducts} size='large'>
-						Produkter
-					</Button>
-					<div>
-						<Dropdown.Button
-							type='primary'
-							size='large'
-							onClick={saveAndPublish}
-							disabled={!isDirty}
-							loading={isSubmitting}
-							menu={{
-								items: [
-									{
-										key: 'save draft',
-										label: 'Spara som utkast',
-										disabled: !isDirty || isSubmitting
-									},
-									{
-										key: 'delete',
-										label: 'Radera produkten',
-										danger: true,
-										disabled: isSubmitting
-									}
-								],
-								onClick: onMenuClick
-							}}>
-							Spara & publicera
-						</Dropdown.Button>
-					</div>
-				</FloatingButtonBar>
 			</Form>
 		</FormProvider>
 	);

@@ -48,7 +48,7 @@ export function Component() {
 	return (
 		<>
 			<ContentLayout>
-				<SidebarContentLayout>
+				<SidebarContentLayout enableShrink={false}>
 					<CategoryMenu />
 				</SidebarContentLayout>
 				<MainContentLayout>

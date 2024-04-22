@@ -2,10 +2,6 @@
 @use "../../sass/utils/mixins" as m;
 
 .buttonbar {
-	position: fixed;
-	left: clamp(20ch, 19%, 100%);
-	right: 0;
-	bottom: 0;
 	display: flex;
 	column-gap: vars.$space-4;
 	background-color: vars.$clr-surface-medium;

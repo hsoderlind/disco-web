@@ -7,9 +7,11 @@ export type CommonContentLayoutProps = {
 
 export type ContentLayoutProps = CommonContentLayoutProps;
 
-export type MainContentLayoutProps = CommonContentLayoutProps;
+export type MainContentLayoutProps = {
+	renderButtonBar?: () => ReactNode;
+} & CommonContentLayoutProps;
 
 export type SidebarContentLayoutProps = {
-	disableShrink?: boolean;
+	enableShrink?: boolean;
 	children: ReactNode | ((shrinked: boolean) => ReactNode);
 };

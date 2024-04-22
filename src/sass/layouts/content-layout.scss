@@ -13,15 +13,20 @@
 	height: calc(100vh - 64px); // 64px is the height of the toolbar at the very top of the page
 
 	.main-content-layout {
+		display: flex;
+		flex-direction: column;
 		flex-basis: 0;
 		flex-grow: 999;
 		min-inline-size: 75%;
-		scrollbar-width: thin;
-		padding: 5vh 3vw fn.toRem(100);
-		overflow: auto;
 
 		&:has(+ .sidebar-content-layout) {
 			border-right: 1px solid var(--_border-color);
+		}
+
+		> .content {
+			padding: 5vh 3vw;
+			@include m.flex-1;
+			@include m.overflow-auto-y;
 		}
 	}
 

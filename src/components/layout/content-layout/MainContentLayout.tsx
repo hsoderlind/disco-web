@@ -1,6 +1,11 @@
 import { FC } from 'react';
 import { MainContentLayoutProps } from './types';
 
-export const MainContentLayout: FC<MainContentLayoutProps> = ({ children }) => {
-	return <div className='main-content-layout'>{children}</div>;
+export const MainContentLayout: FC<MainContentLayoutProps> = ({ children, renderButtonBar }) => {
+	return (
+		<div className='main-content-layout'>
+			<div className='content'>{children}</div>
+			{typeof renderButtonBar === 'function' ? renderButtonBar() : null}
+		</div>
+	);
 };

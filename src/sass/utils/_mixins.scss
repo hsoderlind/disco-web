@@ -261,6 +261,10 @@
 	border-bottom: 1px solid vars.$clr-border-light;
 }
 
+@mixin overflow-auto-y {
+	overflow-y: auto;
+}
+
 /**
  * 6. Media and container queries
  **/

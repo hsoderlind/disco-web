@@ -23,9 +23,3 @@
 		align-items: end;
 	}
 }
-
-body:has(> [data-floating-buttonbar]) {
-	.main-layout > main {
-		margin-bottom: 73px;
-	}
-}
