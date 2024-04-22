@@ -4,7 +4,6 @@ import { ProductSchemaType } from '../../../../services/product/types';
 import { Button, Col, DatePicker, Divider, Input, InputNumber, Row, Select, Space, Switch, Typography } from 'antd';
 import { ExpandableControl } from '../../../../components/forms/controls/ExpandableControl';
 import FormItem from '../../../../lib/form/FormItem';
-import { FormItemWithControl } from '../../../../components/forms/FormItemWithControl';
 import { AttributeValueSelect } from '../../../../components/forms/controls/AttributeValueSelect';
 import { CheckOutlined, CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { CreateAttributeTypeButton } from '../../../../components/forms/controls/CreateAttributeTypeButton';
@@ -70,15 +69,16 @@ export const ProductsAttributes: FC = () => {
 									</FormItem>
 								</Col>
 								<Col xl={5}>
-									<FormItemWithControl
+									<FormItem
 										control={control}
 										name={`product_attributes.${index}.attribute_value_id`}
 										label={index === 0 ? 'Attributvärde' : ''}>
 										<AttributeValueSelect
 											control={control}
+											name={`product_attributes.${index}.attribute_value_id`}
 											connectedFieldName={`product_attributes.${index}.attribute_type_id`}
 										/>
-									</FormItemWithControl>
+									</FormItem>
 								</Col>
 								<Col flex='100px'>
 									<Button type='link' onClick={toggle} style={{ marginBlockStart: index === 0 ? '32px' : undefined }}>

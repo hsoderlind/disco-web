@@ -17,7 +17,7 @@ import { DEFAULT_FORMAT, DEFAULT_FORMATS } from '../../services/barcode-type/for
 export type CreateBarcodeTypeModalProps = {
 	open: boolean;
 	onCancel?: () => void;
-	onFinish?: () => void;
+	onFinish?: (barcodeType: BarcodeType) => void;
 };
 
 export const CreateBarcodeTypeModal: FC<CreateBarcodeTypeModalProps> = ({ open, onCancel, onFinish }) => {
@@ -35,9 +35,9 @@ export const CreateBarcodeTypeModal: FC<CreateBarcodeTypeModalProps> = ({ open, 
 
 	const [mutationFn] = useCreateBarcodeType(shopId);
 	const mutation = useMutation<BarcodeType, ServerValidationError, BarcodeTypeSchemaType>(mutationFn, {
-		onSuccess() {
+		onSuccess(response) {
 			app.addSuccessNoitication({ description: 'Produktkodstypen har nu skapats.' });
-			onFinish?.();
+			onFinish?.(response);
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<BarcodeTypeSchemaType>(error)(setError);

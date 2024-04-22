@@ -1,12 +1,17 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { CreateBarcodeTypeModal } from '../../modals/CreateBarcodeTypeModal';
 import { useGetAllBarcodeTypes } from '../../../services/barcode-type/hooks/useGetAllBarcodeTypes';
 import { useShopStore } from '../../../services/shop/store';
 import { useQueryClient } from '@tanstack/react-query';
+import { BarcodeType } from '../../../services/barcode-type/BarcodeType';
 
-export const CreateBarcodeTypeButton = () => {
+export type CreateBarcodeTypeButtonProps = {
+	onCreated?: (barcodeType: BarcodeType) => void;
+};
+
+export const CreateBarcodeTypeButton: FC<CreateBarcodeTypeButtonProps> = ({ onCreated }) => {
 	const [modalOpen, setModalOpen] = useState(false);
 
 	const shopId = useShopStore((state) => state.shop.id);
@@ -17,13 +22,14 @@ export const CreateBarcodeTypeButton = () => {
 
 	const onCancel = () => setModalOpen(false);
 
-	const onFinish = () => {
+	const onFinish = (barcodeType: BarcodeType) => {
 		queryClient.refetchQueries({
 			queryKey,
 			exact: true,
 			type: 'active'
 		});
 		setModalOpen(false);
+		onCreated?.(barcodeType);
 	};
 
 	return (

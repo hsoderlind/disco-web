@@ -1,6 +1,6 @@
 import { ComponentProps, ReactNode } from 'react';
 import { useLoadAttributeValuesByAttributeType } from '../../../services/product-attribute/hooks/useLoadAttributeValuesByAttributeType';
-import { Divider, Select, Space } from 'antd';
+import { Divider, Form, Select, Space } from 'antd';
 import { CreateAttributeValueButton } from './CreateAttributeValueButton';
 import { Control, FieldPath, FieldValues, Path, useController } from 'react-hook-form';
 import { AttributeValue } from '../../../services/product-attribute/AttributeValue';
@@ -12,23 +12,26 @@ export type AttributeValueSelectProps<TFieldValues extends FieldValues = FieldVa
 > & {
 	control: Control<TFieldValues>;
 	connectedFieldName: FieldPath<TFieldValues>;
-	name?: Path<TFieldValues>;
+	name: Path<TFieldValues>;
 };
 
 export const AttributeValueSelect = <TFieldValues extends FieldValues = FieldValues>({
 	control,
 	connectedFieldName,
+	name,
 	...rest
 }: AttributeValueSelectProps<TFieldValues>) => {
+	const form = Form.useFormInstance();
 	const { field: connectedField } = useController({ name: connectedFieldName, control });
 	const attributeTypeId = connectedField.value;
-	const { field } = useController({ name: rest.name!, control, disabled: rest.disabled });
+	const { field } = useController({ name: name!, control, disabled: rest.disabled });
 	const { data, isFetching, isError } = useLoadAttributeValuesByAttributeType(attributeTypeId);
 	let placeholder: ReactNode;
 	const disabled = isFetching || isError;
 
 	const onCreated = (attributeValue: AttributeValue) => {
 		field.onChange(attributeValue.getKey());
+		form.setFieldValue(name, attributeValue.getKey());
 	};
 
 	if (isFetching) {

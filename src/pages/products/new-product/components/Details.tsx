@@ -1,18 +1,16 @@
-import { Button, Col, Divider, Input, Row, Segmented, Select, Space, Typography } from 'antd';
+import { Button, Col, Divider, Input, Row, Segmented, Typography } from 'antd';
 import { FC } from 'react';
 import FormItem from '../../../../lib/form/FormItem';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { ProductConditions } from '../../../../services/product/ProductConditions';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { ProductSchemaType } from '../../../../services/product/types';
-import { useLoadBarcodeTypes } from '../../../../services/barcode-type/hooks/useLoadBarcodeTypes';
-import { CreateBarcodeTypeButton } from '../../../../components/forms/controls/CreateBarcodeTypeButton';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { BarcodeTypeSelect } from '../../../../components/forms/controls/BarcodeTypeSelect';
 
 export const Details: FC = () => {
 	const { control } = useFormContext<ProductSchemaType>();
 	const { fields, append, remove } = useFieldArray({ control, name: 'barcodes', keyName: 'key' });
-	const barcodeTypeQuery = useLoadBarcodeTypes();
 
 	const [parent] = useAutoAnimate();
 
@@ -54,22 +52,7 @@ export const Details: FC = () => {
 								control={control}
 								name={`barcodes.${index}.barcode_type`}
 								label={index === 0 ? 'Produktkodstyp' : ''}>
-								<Select
-									placeholder='Välj streckkodstyp'
-									options={barcodeTypeQuery.data?.map((barcodeType) => ({
-										value: barcodeType.getKey(),
-										label: barcodeType.get<string>('label')
-									}))}
-									dropdownRender={(menu) => (
-										<>
-											{menu}
-											<Divider style={{ margin: '8px 0' }} />
-											<Space style={{ margin: '0 8px 4px' }}>
-												<CreateBarcodeTypeButton />
-											</Space>
-										</>
-									)}
-								/>
+								<BarcodeTypeSelect control={control} name={`barcodes.${index}.barcode_type`} />
 							</FormItem>
 						</Col>
 						<Col xl={5}>
