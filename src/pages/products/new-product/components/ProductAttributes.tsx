@@ -88,7 +88,7 @@ export const ProductsAttributes: FC = () => {
 									control={control}
 									name={`product_attributes.${index}.stock.initial_quantity`}
 									label='Lagersaldo'>
-									<InputNumber />
+									<InputNumber decimalSeparator=',' />
 								</FormItem>
 								<Row gutter={[12, 0]}>
 									<Col xl={5}>

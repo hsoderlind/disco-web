@@ -5,9 +5,26 @@ import { ArgsProps, NotificationInstance } from "antd/es/notification/interface"
 
 class ApplicationBuilder {
 	private i18nConfig: InitOptions = {};
-	private preferredLanguage: string = "en";
+	private preferredLanguage: string = "sv";
 	private validationSchemaBuilder: ValidationSchemaBuilder = null!;
 	private notificationApi: NotificationInstance = null!;
+	private _locale = 'sv-SE';
+
+	get locale() {
+		return this._locale;
+	}
+
+	set locale(value: string) {
+		if (!this.validateLocale(value)) {
+			throw `${value} is not a valid locale`;
+		}
+
+		this._locale = value;
+	}
+
+	validateLocale(value: string) {
+		return /[a-z]{2}[-]{1}[A-Z]{2}/gi.test(value);
+	}
 
 	addI18nConfig(config: InitOptions) {
 		this.i18nConfig = {...this.i18nConfig, ...config};

@@ -59,7 +59,7 @@ export const CreateTaxClassModal: FC<CreateTaxClassModalProps> = ({ open, onFini
 					<Input autoFocus autoComplete='off' />
 				</FormItem>
 				<FormItem control={control} name='value' label='Värde'>
-					<InputNumber addonBefore='+' addonAfter='%' min={0} />
+					<InputNumber addonBefore='+' addonAfter='%' min={0} decimalSeparator=',' />
 				</FormItem>
 				<FormItem control={control} name='priority' label='Prioritet'>
 					<InputNumber addonBefore='+' min={0} />

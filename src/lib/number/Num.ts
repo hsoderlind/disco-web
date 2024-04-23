@@ -1,3 +1,5 @@
+import app from "../application-builder/ApplicationBuilder";
+
 export abstract class Num {
 	static random(max = Math.random()) {
 		return Math.floor(Math.random() * max);
@@ -15,5 +17,19 @@ export abstract class Num {
 		const i = Math.floor(Math.log(bytes) / Math.log(k))
 
 		return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+	}
+
+	static percent(value: number) {
+		if (value > 1) {
+			value /= 100;
+		}
+		return new Intl.NumberFormat(
+			app.locale,
+			{
+				style: 'percent',
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 4,
+			}
+		).format(value)
 	}
 }

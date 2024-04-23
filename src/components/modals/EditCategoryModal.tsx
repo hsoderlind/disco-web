@@ -58,7 +58,7 @@ export const EditCategoryModal: FC<EditCategoryModalProps> = ({ category, open, 
 					<Input />
 				</FormItem>
 				<FormItem control={control} name='sort_order' label='Sorteringsordning'>
-					<InputNumber />
+					<InputNumber min={0} />
 				</FormItem>
 			</Form>
 		</Modal>

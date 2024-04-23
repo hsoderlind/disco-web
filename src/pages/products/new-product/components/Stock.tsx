@@ -21,7 +21,7 @@ export const Stock: FC = () => {
 
 	return (
 		<>
-			<Typography.Title>Lager</Typography.Title>
+			<Typography.Title level={2}>Lager</Typography.Title>
 			<Row gutter={[12, 0]}>
 				<Col sm={24} md={12}>
 					<FormItem control={control} name='stock.sku' label='Lagerplats'>
@@ -32,7 +32,7 @@ export const Stock: FC = () => {
 			<Row gutter={[12, 0]}>
 				<Col sm={24} md={12}>
 					<FormItem control={control} name='stock.initial_quantity' label='Initialt lagersaldo'>
-						<InputNumber readOnly={attributeStockQtySum > 0} />
+						<InputNumber readOnly={attributeStockQtySum > 0} decimalSeparator=',' />
 					</FormItem>
 				</Col>
 			</Row>
@@ -78,7 +78,7 @@ export const Stock: FC = () => {
 						name='stock.min_order_quantity'
 						label='Minsta beställningsantal'
 						tooltip='Ange det minsta antal som går att beställa av denna produkt.'>
-						<InputNumber readOnly={attributeStockQtySum > 0} />
+						<InputNumber readOnly={attributeStockQtySum > 0} decimalSeparator=',' />
 					</FormItem>
 				</Col>
 			</Row>

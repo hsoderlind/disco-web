@@ -1,27 +1,29 @@
-import { ComponentProps, useEffect } from 'react';
+import { ComponentProps, Ref, forwardRef, useEffect } from 'react';
 import { useGetTaxById } from '../../../services/tax/hooks/useGetTaxById';
 import { useQuery } from '@tanstack/react-query';
 import { Form, InputNumber } from 'antd';
-import { Control, FieldPath, FieldValues, useController } from 'react-hook-form';
+import { FieldPath, FieldValues, useController, useFormContext } from 'react-hook-form';
 
 export type GrossPriceOutputProps<TFieldValues extends FieldValues = FieldValues> = {
 	name: string;
 	label?: string;
 	initialValue?: number;
-	control: Control<TFieldValues>;
 	netPriceFieldName: FieldPath<TFieldValues>;
 	taxIdFieldName: FieldPath<TFieldValues>;
 } & ComponentProps<typeof InputNumber>;
 
-export const GrossPriceOutput = <TFieldValues extends FieldValues = FieldValues>({
-	name,
-	control,
-	netPriceFieldName,
-	taxIdFieldName,
-	label,
-	initialValue = 0,
-	...inputProps
-}: GrossPriceOutputProps<TFieldValues>) => {
+const InternalGrossPriceOutput = <TFieldValues extends FieldValues = FieldValues>(
+	{
+		name,
+		netPriceFieldName,
+		taxIdFieldName,
+		label,
+		initialValue = 0,
+		...inputProps
+	}: GrossPriceOutputProps<TFieldValues>,
+	ref: Ref<HTMLInputElement>
+) => {
+	const { control } = useFormContext();
 	const { field: netPriceField } = useController({ name: netPriceFieldName, control });
 	const { field: taxIdField } = useController({ name: taxIdFieldName, control });
 	const netPrice = netPriceField.value;
@@ -42,7 +44,11 @@ export const GrossPriceOutput = <TFieldValues extends FieldValues = FieldValues>
 
 	return (
 		<Form.Item name={name} label={label} initialValue={initialValue} validateStatus={isError ? 'error' : undefined}>
-			<InputNumber {...inputProps} readOnly />
+			<InputNumber ref={ref} {...inputProps} decimalSeparator=',' readOnly />
 		</Form.Item>
 	);
 };
+
+const GrossPriceOutput = forwardRef(InternalGrossPriceOutput);
+
+export { GrossPriceOutput };

@@ -41,7 +41,7 @@ export const ProductFileUpload: FC = () => {
 
 	return (
 		<ProductFileUploadContext.Provider value={value}>
-			<Typography.Title>Produktfiler</Typography.Title>
+			<Typography.Title level={2}>Produktfiler</Typography.Title>
 			<div className='mb-input'>
 				<div className='product-file-upload'>
 					<UploadHero

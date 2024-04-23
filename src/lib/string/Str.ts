@@ -10,4 +10,16 @@ export abstract class Str {
 			.replace(/[\s_]+/g, '-')
 			.toLowerCase();
 	}
+
+	static toNumber(input: string): number
+	{
+		let numberish = input;
+		
+		if (/[0-9]+[\s.]{1}[0-9]+[,]{1}[0-9]+/g.test(input)) {
+			numberish = input.replace(/[\s.]+/g, '')
+				.replace(/[,]/g, '.');
+		}
+
+		return parseFloat(numberish);
+	}
 }

@@ -43,7 +43,7 @@ export const ProductImageUpload: FC = () => {
 
 	return (
 		<ProductImageContext.Provider value={value}>
-			<Typography.Title>Produktbilder</Typography.Title>
+			<Typography.Title level={2}>Produktbilder</Typography.Title>
 			<div className='mb-input'>
 				<UploadHero
 					inputName='product_image'

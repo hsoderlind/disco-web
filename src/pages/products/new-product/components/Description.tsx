@@ -12,7 +12,7 @@ export const Description: FC = () => {
 
 	return (
 		<>
-			<Typography.Title>Beskrivning</Typography.Title>
+			<Typography.Title level={2}>Beskrivning</Typography.Title>
 			<Row gutter={[12, 0]}>
 				<Col xl={12}>
 					<FormItem control={control} name='name' label='Benämning'>
