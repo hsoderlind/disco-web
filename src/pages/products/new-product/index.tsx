@@ -56,6 +56,7 @@ export function Component() {
 			summary: '',
 			description: '',
 			price: 0,
+			price_incl_vat: 0,
 			cost_price: 0,
 			categories: category > 0 ? [category] : [],
 			condition: ProductConditions.NEW,

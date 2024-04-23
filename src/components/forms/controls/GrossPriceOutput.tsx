@@ -3,33 +3,27 @@ import { useGetTaxById } from '../../../services/tax/hooks/useGetTaxById';
 import { useQuery } from '@tanstack/react-query';
 import { Form, InputNumber } from 'antd';
 import { FieldPath, FieldValues, useController, useFormContext } from 'react-hook-form';
+import FormItem from '../../../lib/form/FormItem';
 
 export type GrossPriceOutputProps<TFieldValues extends FieldValues = FieldValues> = {
 	name: string;
 	label?: string;
-	initialValue?: number;
 	netPriceFieldName: FieldPath<TFieldValues>;
 	taxIdFieldName: FieldPath<TFieldValues>;
 } & ComponentProps<typeof InputNumber>;
 
 const InternalGrossPriceOutput = <TFieldValues extends FieldValues = FieldValues>(
-	{
-		name,
-		netPriceFieldName,
-		taxIdFieldName,
-		label,
-		initialValue = 0,
-		...inputProps
-	}: GrossPriceOutputProps<TFieldValues>,
+	{ name, netPriceFieldName, taxIdFieldName, label, ...inputProps }: GrossPriceOutputProps<TFieldValues>,
 	ref: Ref<HTMLInputElement>
 ) => {
 	const { control } = useFormContext();
 	const { field: netPriceField } = useController({ name: netPriceFieldName, control });
 	const { field: taxIdField } = useController({ name: taxIdFieldName, control });
+	const { field } = useController({ control, name });
 	const netPrice = netPriceField.value;
 	const taxId = taxIdField.value;
 	const [queryKey, queryFn] = useGetTaxById(taxId!);
-	const { data: tax, isError } = useQuery(queryKey, queryFn, { enabled: typeof taxId !== 'undefined' });
+	const { data: tax } = useQuery(queryKey, queryFn, { enabled: typeof taxId !== 'undefined' });
 	const form = Form.useFormInstance();
 
 	useEffect(() => {
@@ -37,15 +31,17 @@ const InternalGrossPriceOutput = <TFieldValues extends FieldValues = FieldValues
 			const taxValue = tax.get<number>('value') / 100 + 1.0;
 			const priceInclVat = netPrice * taxValue;
 			form.setFieldValue(name, priceInclVat);
+			field.onChange(priceInclVat);
 		} else if (typeof tax === 'undefined' && typeof netPrice !== 'undefined') {
 			form.setFieldValue(name, netPrice);
+			field.onChange(netPrice);
 		}
-	}, [form, tax, taxId, netPrice, name]);
+	}, [form, tax, taxId, netPrice, name, field]);
 
 	return (
-		<Form.Item name={name} label={label} initialValue={initialValue} validateStatus={isError ? 'error' : undefined}>
+		<FormItem control={control} name={name} label={label}>
 			<InputNumber ref={ref} {...inputProps} decimalSeparator=',' readOnly />
-		</Form.Item>
+		</FormItem>
 	);
 };
 

@@ -1,4 +1,4 @@
-import { FC, useRef } from 'react';
+import { FC } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { ProductSchemaType } from '../../../../services/product/types';
 import { Button, DatePicker, Divider, InputNumber, Row, Col, Typography, DescriptionsProps, Descriptions } from 'antd';
@@ -11,15 +11,14 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { Currency } from '../../../../lib/number/Currency';
 import { Accounting } from '../../../../lib/accounting';
 import { Num } from '../../../../lib/number/Num';
-import { Str } from '../../../../lib/string/Str';
 
 export const Price: FC = () => {
-	const grossPriceRef = useRef<HTMLInputElement>(null!);
 	const { control, watch } = useFormContext<ProductSchemaType>();
 	const { fields, append, remove } = useFieldArray({ control, name: 'special_prices', keyName: 'key' });
 
 	const priceValue = watch('price');
 	const costPriceValue = watch('cost_price');
+	const grossPriceValue = watch('price_incl_vat');
 
 	const summary: DescriptionsProps['items'] = [
 		{
@@ -45,7 +44,7 @@ export const Price: FC = () => {
 		{
 			key: '5',
 			label: 'Försäljningspris inkl. moms',
-			children: Currency.format(grossPriceRef?.current?.value ? Str.toNumber(grossPriceRef?.current?.value) : 0)
+			children: Currency.format(grossPriceValue ?? 0)
 		}
 	];
 
@@ -84,7 +83,6 @@ export const Price: FC = () => {
 					</Col>
 					<Col xl={6}>
 						<GrossPriceOutput
-							ref={grossPriceRef}
 							name='price_incl_vat'
 							label='Bruttopris'
 							netPriceFieldName='price'
