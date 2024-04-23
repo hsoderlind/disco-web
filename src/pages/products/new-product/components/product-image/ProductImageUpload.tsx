@@ -30,6 +30,7 @@ export const ProductImageUpload: FC = () => {
 					sort_order: 0,
 					use_as_cover: false,
 					meta: {
+						id: model.get<File>('model').get('id'),
 						extension: model.get<File>('model').get('extension'),
 						filename: model.get<File>('model').get('filename'),
 						mimetype: model.get<File>('model').get('mimetype'),

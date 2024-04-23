@@ -4,6 +4,7 @@ import { vsbInfer } from "../../lib/validation/validation-schema-builder";
 const vsb = app.getValidationSchemaBuilder();
 
 export const fileSchema = vsb.object({
+	id: vsb.number().nonnegative(),
 	filename: vsb.string().nonempty(),
 	size: vsb.number().min(0),
 	mimetype: vsb.string().nonempty(),
