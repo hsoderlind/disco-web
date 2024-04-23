@@ -2,6 +2,8 @@ import i18next, { InitOptions } from "i18next";
 import { ValidationSchemaBuilder, initValidationSchemaBuilder } from "../validation/validation-schema-builder";
 import zodTranslation from 'zod-i18n-map/locales/sv/zod.json';
 import { ArgsProps, NotificationInstance } from "antd/es/notification/interface";
+import 'dayjs/locale/sv';
+import dayjs from "dayjs";
 
 class ApplicationBuilder {
 	private i18nConfig: InitOptions = {};
@@ -80,8 +82,13 @@ class ApplicationBuilder {
 		i18next.init({...this.i18nConfig, lng: this.preferredLanguage});
 	}
 
+	private initDayJs() {
+		dayjs.locale('sv');
+	}
+
 	build() {
 		this.initI18n();
+		this.initDayJs();
 		this.validationSchemaBuilder = initValidationSchemaBuilder();
 	}
 }
