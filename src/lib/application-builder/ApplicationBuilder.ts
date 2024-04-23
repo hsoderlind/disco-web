@@ -4,6 +4,8 @@ import zodTranslation from 'zod-i18n-map/locales/sv/zod.json';
 import { ArgsProps, NotificationInstance } from "antd/es/notification/interface";
 import 'dayjs/locale/sv';
 import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
 class ApplicationBuilder {
 	private i18nConfig: InitOptions = {};
@@ -83,6 +85,9 @@ class ApplicationBuilder {
 	}
 
 	private initDayJs() {
+		dayjs.extend(utc);
+		dayjs.extend(timezone);
+		dayjs.tz.setDefault('Europe/Stockholm');
 		dayjs.locale('sv');
 	}
 
