@@ -1,20 +1,18 @@
 import { FC } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { ProductSchemaType } from '../../../../services/product/types';
-import { Button, Col, DatePicker, Divider, Input, InputNumber, Row, Select, Space, Switch, Typography } from 'antd';
+import { Button, Col, DatePicker, Input, InputNumber, Row, Switch, Typography } from 'antd';
 import { ExpandableControl } from '../../../../components/forms/controls/ExpandableControl';
 import FormItem from '../../../../lib/form/FormItem';
 import { AttributeValueSelect } from '../../../../components/forms/controls/AttributeValueSelect';
 import { CheckOutlined, CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { CreateAttributeTypeButton } from '../../../../components/forms/controls/CreateAttributeTypeButton';
 import dayjs from 'dayjs';
-import { useLoadAllAttributeTypes } from '../../../../services/product-attribute/hooks/useLoadAllAttributeTypes';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
+import { AttributeTypeSelect } from '../../../../components/forms/controls/AttributeTypeSelect';
 
 export const ProductsAttributes: FC = () => {
 	const { control } = useFormContext<ProductSchemaType>();
 	const { fields, append, remove } = useFieldArray({ control, name: 'product_attributes', keyName: 'key' });
-	const attributeTypeQuery = useLoadAllAttributeTypes();
 
 	const [parent] = useAutoAnimate();
 
@@ -50,22 +48,7 @@ export const ProductsAttributes: FC = () => {
 										control={control}
 										name={`product_attributes.${index}.attribute_type_id`}
 										label={index === 0 ? 'Attributtyp' : ''}>
-										<Select
-											placeholder='Välj attributtyp'
-											options={attributeTypeQuery.data?.map((attributeType) => ({
-												value: attributeType.getKey(),
-												label: attributeType.get<string>('label')
-											}))}
-											dropdownRender={(menu) => (
-												<>
-													{menu}
-													<Divider style={{ margin: '8px 0' }} />
-													<Space style={{ margin: '0 8px 4px' }}>
-														<CreateAttributeTypeButton />
-													</Space>
-												</>
-											)}
-										/>
+										<AttributeTypeSelect control={control} name={`product_attributes.${index}.attribute_type_id`} />
 									</FormItem>
 								</Col>
 								<Col xl={5}>

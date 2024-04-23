@@ -4,9 +4,14 @@ import { useShopStore } from '../../../services/shop/store';
 import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { CreateAttributeTypeModal } from '../../modals/CreateAttributeTypeModal';
-import { useState } from 'react';
+import { FC, useState } from 'react';
+import { AttributeType } from '../../../services/product-attribute/AttributeType';
 
-export const CreateAttributeTypeButton = () => {
+export type CreateAttributeTypeButtonProps = {
+	onCreated?: (attributeType: AttributeType) => void;
+};
+
+export const CreateAttributeTypeButton: FC<CreateAttributeTypeButtonProps> = ({ onCreated }) => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const shopId = useShopStore((state) => state.shop.id);
 	const [queryKey] = useGetAllAttributeTypes(shopId);
@@ -16,13 +21,14 @@ export const CreateAttributeTypeButton = () => {
 
 	const onCancel = () => setModalOpen(false);
 
-	const onFinish = () => {
+	const onFinish = (attributeType: AttributeType) => {
 		queryClient.refetchQueries({
 			queryKey,
 			exact: true,
 			type: 'active'
 		});
 		setModalOpen(false);
+		onCreated?.(attributeType);
 	};
 
 	return (

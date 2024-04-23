@@ -16,7 +16,7 @@ import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 export type CreateAttributeTypeModalProps = {
 	open: boolean;
 	onCancel?: () => void;
-	onFinish?: () => void;
+	onFinish?: (attributeType: AttributeType) => void;
 };
 
 export const CreateAttributeTypeModal: FC<CreateAttributeTypeModalProps> = ({ open, onCancel, onFinish }) => {
@@ -31,9 +31,9 @@ export const CreateAttributeTypeModal: FC<CreateAttributeTypeModalProps> = ({ op
 
 	const [mutationFn] = useCreateAttributeType(shopId);
 	const mutation = useMutation<AttributeType, ServerValidationError, AttributeTyoeSchemaType>(mutationFn, {
-		onSuccess() {
+		onSuccess(response) {
 			app.addSuccessNoitication({ description: 'Attributtypen har nu skapats.' });
-			onFinish?.();
+			onFinish?.(response);
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<AttributeTyoeSchemaType>(error)(setError);
