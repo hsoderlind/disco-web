@@ -1,4 +1,4 @@
-import { Enum } from "../../types/common";
+import { Enum, EnumInfer } from "../../types/common";
 
 export class ProductStates extends Enum {
 	static readonly DRAFT = 'draft';
@@ -19,5 +19,4 @@ export class ProductStates extends Enum {
 	}
 }
 
-const conditions = ProductStates.toObject();
-export type ProductConditionsUnion = keyof typeof conditions;
+export type ProductStatesUnion = EnumInfer<typeof ProductStates>;

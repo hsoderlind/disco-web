@@ -19,5 +19,5 @@ export type ProductSpecialPriceType = {
 	special_price: number;
 	entry_date: Dayjs;
 	expiration_date?: Dayjs;
-	product: ProductType | Product;
+	product?: ProductType | Product;
 }

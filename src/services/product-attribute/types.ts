@@ -3,6 +3,7 @@ import app from "../../lib/application-builder/ApplicationBuilder";
 import { vsbInfer } from "../../lib/validation/validation-schema-builder";
 import { AttributeType } from "./AttributeType";
 import { AttributeValueCollection } from "./AttributeValueCollection";
+import { Prettify } from "../../types/common";
 
 const vsb = app.getValidationSchemaBuilder();
 
@@ -53,3 +54,5 @@ export type AttributeTypeType = {
 	label: string;
 	attribute_values?: AttributeValueType[] | AttributeValueCollection;
 }
+
+export type ProductAttributeType = Prettify<{id: number} & ProductAttributeSchemaType>

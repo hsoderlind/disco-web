@@ -25,6 +25,9 @@ export abstract class Enum {
 	}
 }
 
+type EnumType = typeof Enum;
+export type EnumInfer<T extends EnumType> = keyof ReturnType<T['toObject']>
+
 export type Prettify<T extends object> = {
 	[P in keyof T]: T[P]
 };

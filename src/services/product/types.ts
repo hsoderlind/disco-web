@@ -1,11 +1,10 @@
-import { productAttributeStockSchema } from './../product-attribute/types';
+import { ProductAttributeType, productAttributeStockSchema } from './../product-attribute/types';
 import app from "../../lib/application-builder/ApplicationBuilder";
 import { vsbInfer } from "../../lib/validation/validation-schema-builder";
-import { BarcodeSchema, barcodeSchema } from "../barcode/types";
+import { BarcodeType, barcodeSchema } from "../barcode/types";
 import { productAttributeSchema } from "../product-attribute/types";
 import { ProductConditions, ProductConditionsUnion } from "./ProductConditions";
 import { Category } from '../category/Category';
-import { Barcode } from '../barcode/Barcode';
 import { ProductSpecialPriceType, productSpecialPriceSchema } from '../product-special-price/types';
 import { ProductSpecialPriceCollection } from '../product-special-price/ProductSpecialPriceCollection';
 import { ProductFileType, productFileSchema } from '../product-file/types';
@@ -14,7 +13,9 @@ import { ProductImageType, productImageSchema } from '../product-image/types';
 import { ProductImageCollection } from '../product-image/ProductImageCollection';
 import { ProductStockType, productStockSchema } from '../product-stock/types';
 import { ProductStock } from '../product-stock/ProductStock';
-import { ProductStates } from './ProductStates';
+import { ProductStates, ProductStatesUnion } from './ProductStates';
+import { ProductAttributeCollection } from '../product-attribute/ProductAttributeCollection';
+import { BarcodeCollection } from '../barcode/BarcodeCollection';
 
 const vsb = app.getValidationSchemaBuilder();
 
@@ -47,6 +48,7 @@ export type ProductSchemaType = vsbInfer<typeof productSchema>
 
 export type ProductType = {
 	id: number;
+	state: ProductStatesUnion,
 	tax_id: number;
 	supplier_id: number;
 	manufacturer_id: number;
@@ -59,10 +61,11 @@ export type ProductType = {
 	name: string;
 	summary?: string;
 	description: string;
-	categories?: Category[] | number[],
-	barcodes?: Barcode[] | BarcodeSchema[],
-	special_prices?: ProductSpecialPriceType[] | ProductSpecialPriceCollection;
-	files: ProductFileType[] | ProductFileCollection;
-	images: ProductImageType[] | ProductImageCollection;
-	stock: ProductStockType | ProductStock
+	categories?: Category[] | number[];
+	barcodes?: Partial<BarcodeType>[] | BarcodeCollection;
+	product_attributes: Partial<ProductAttributeType>[] | ProductAttributeCollection;
+	special_prices?: Partial<ProductSpecialPriceType>[] | ProductSpecialPriceCollection;
+	files: Partial<ProductFileType>[] | ProductFileCollection;
+	images: Partial<ProductImageType>[] | ProductImageCollection;
+	stock: Partial<ProductStockType> | ProductStock
 };
