@@ -29,9 +29,12 @@ import {
 	createOutline,
 	cubeOutline,
 	documentsOutline,
+	earthOutline,
 	imagesOutline,
 	optionsOutline,
-	pricetagsOutline
+	pricetagsOutline,
+	swapHorizontalOutline,
+	trendingUpOutline
 } from 'ionicons/icons';
 import { IonIcon } from '@ionic/react';
 
@@ -227,6 +230,7 @@ export function Component() {
 												Frakt
 											</Badge.Ribbon>
 										),
+										icon: <IonIcon size='small' md={earthOutline} aria-hidden />,
 										key: 'shipping',
 										disabled: true
 									},
@@ -236,6 +240,7 @@ export function Component() {
 												Korsförsäljning
 											</Badge.Ribbon>
 										),
+										icon: <IonIcon size='small' md={swapHorizontalOutline} aria-hidden />,
 										key: 'xsell',
 										disabled: true
 									},
@@ -245,6 +250,7 @@ export function Component() {
 												Uppförsäljning
 											</Badge.Ribbon>
 										),
+										icon: <IonIcon size='small' md={trendingUpOutline} aria-hidden />,
 										key: 'upsell',
 										disabled: true
 									}

@@ -6,7 +6,7 @@ const vsb = app.getValidationSchemaBuilder();
 
 export const barcodeSchema = vsb.object({
 	value: vsb.string().nonempty(),
-	barcode_type: vsb.number().nonnegative()
+	barcode_type_id: vsb.number().nonnegative()
 });
 
 export type BarcodeSchema = vsbInfer<typeof barcodeSchema>;

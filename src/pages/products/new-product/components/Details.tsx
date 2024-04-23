@@ -50,9 +50,9 @@ export const Details: FC = () => {
 						<Col xl={5}>
 							<FormItem
 								control={control}
-								name={`barcodes.${index}.barcode_type`}
+								name={`barcodes.${index}.barcode_type_id`}
 								label={index === 0 ? 'Produktkodstyp' : ''}>
-								<BarcodeTypeSelect control={control} name={`barcodes.${index}.barcode_type`} />
+								<BarcodeTypeSelect control={control} name={`barcodes.${index}.barcode_type_id`} />
 							</FormItem>
 						</Col>
 						<Col xl={5}>
@@ -77,7 +77,7 @@ export const Details: FC = () => {
 				onClick={() => {
 					append({
 						value: '',
-						barcode_type: null!
+						barcode_type_id: null!
 					});
 				}}>
 				Lägg till produktkod
