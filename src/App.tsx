@@ -18,7 +18,7 @@ const queryClient = new QueryClient({
 
 const App: FC = () => {
 	const [notificationApi, contextHolder] = notification.useNotification({
-		placement: 'bottomLeft',
+		placement: 'bottomRight',
 		stack: {
 			threshold: 3
 		},
