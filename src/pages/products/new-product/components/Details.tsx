@@ -7,6 +7,7 @@ import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { ProductSchemaType } from '../../../../services/product/types';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { BarcodeTypeSelect } from '../../../../components/forms/controls/BarcodeTypeSelect';
+import { VisualBarcode } from './visual-barcode';
 
 export const Details: FC = () => {
 	const { control } = useFormContext<ProductSchemaType>();
@@ -46,30 +47,37 @@ export const Details: FC = () => {
 			<Typography.Title level={2}>Produktkoder</Typography.Title>
 			<div ref={parent}>
 				{fields.map((barcode, index) => (
-					<Row gutter={[12, 0]} key={barcode.key}>
-						<Col xl={5}>
-							<FormItem
-								control={control}
-								name={`barcodes.${index}.barcode_type_id`}
-								label={index === 0 ? 'Produktkodstyp' : ''}>
-								<BarcodeTypeSelect control={control} name={`barcodes.${index}.barcode_type_id`} />
-							</FormItem>
-						</Col>
-						<Col xl={5}>
-							<FormItem control={control} name={`barcodes.${index}.value`} label={index === 0 ? 'Produktkod' : ''}>
-								<Input />
-							</FormItem>
-						</Col>
-						<Col flex='auto'>
-							<Button
-								type='link'
-								icon={<DeleteOutlined />}
-								onClick={() => remove(index)}
-								style={{ marginBlockStart: index === 0 ? '32px' : undefined }}
-								danger
-							/>
-						</Col>
-					</Row>
+					<>
+						<Row gutter={[12, 0]} key={barcode.key}>
+							<Col xl={5}>
+								<FormItem
+									control={control}
+									name={`barcodes.${index}.barcode_type_id`}
+									label={index === 0 ? 'Produktkodstyp' : ''}>
+									<BarcodeTypeSelect control={control} name={`barcodes.${index}.barcode_type_id`} />
+								</FormItem>
+							</Col>
+							<Col xl={5}>
+								<FormItem control={control} name={`barcodes.${index}.value`} label={index === 0 ? 'Produktkod' : ''}>
+									<Input />
+								</FormItem>
+							</Col>
+							<Col flex='auto'>
+								<Button
+									type='link'
+									icon={<DeleteOutlined />}
+									onClick={() => remove(index)}
+									style={{ marginBlockStart: index === 0 ? '32px' : undefined }}
+									danger
+								/>
+							</Col>
+						</Row>
+						<Row>
+							<Col flex='auto'>
+								<VisualBarcode name={`barcodes.${index}.value`} />
+							</Col>
+						</Row>
+					</>
 				))}
 			</div>
 			<Button
