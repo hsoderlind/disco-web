@@ -28,6 +28,7 @@ export const ProductFileUpload: FC = () => {
 					id: model.getKey(),
 					sort_order: 0,
 					meta: {
+						id: model.get<File>('model').get('id'),
 						extension: model.get<File>('model').get('extension'),
 						filename: model.get<File>('model').get('filename'),
 						mimetype: model.get<File>('model').get('mimetype'),
