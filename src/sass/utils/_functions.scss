@@ -1,5 +1,10 @@
 @use "sass:math";
+@use "../vars";
 
 @function toRem($pxValue) {
 	@return #{math.div($pxValue, 16)}rem;
+}
+
+@function antSpace() {
+	@return calc(vars.$space-5 - vars.$space-3);
 }

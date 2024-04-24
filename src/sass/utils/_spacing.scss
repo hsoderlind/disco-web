@@ -1,5 +1,6 @@
 @use "../vars";
 @use "./mixins" as m;
+@use "./functions" as fn;
 
 @each $name, $value in vars.$spaces {
 	.p-#{$name} {
@@ -61,4 +62,52 @@
 
 .mb-input {
 	@include m.mb-input();
+}
+
+.pt-ant-space {
+	padding-top: fn.antSpace();
+}
+
+.pr-ant-space {
+	padding-right: fn.antSpace();
+}
+
+.pb-ant-space {
+	padding-bottom: fn.antSpace();
+}
+
+.pl-ant-space {
+	padding-left: fn.antSpace();
+}
+
+.py-ant-space {
+	padding-block: fn.antSpace();
+}
+
+.px-ant-space {
+	padding-inline: fn.antSpace();
+}
+
+.mt-ant-space {
+	margin-top: fn.antSpace();
+}
+
+.mr-ant-space {
+	margin-right: fn.antSpace();
+}
+
+.mb-ant-space {
+	margin-bottom: fn.antSpace();
+}
+
+.ml-ant-space {
+	margin-left: fn.antSpace();
+}
+
+.my-ant-space {
+	margin-block: fn.antSpace();
+}
+
+.mx-ant-space {
+	margin-inline: fn.antSpace();
 }

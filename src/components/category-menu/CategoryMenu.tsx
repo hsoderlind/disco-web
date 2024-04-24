@@ -81,7 +81,7 @@ export const CategoryMenu = () => {
 
 		return (
 			<>
-				<div className='flex flex-column mb-3'>
+				<div className='flex flex-column mb-3 pt-4 px-ant-space'>
 					<div className='label label-sm label-smooth'>Vald kategori:</div>
 					<div className='flex justify-between items-center flex-1'>
 						<span className='output output-rough output-xl'>{category.get<string>('name')}</span>

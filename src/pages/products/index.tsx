@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { GridOptions } from 'ag-grid-community';
 import { ProductType } from '../../services/product/types';
 import { DataGrid } from '../../components/data-grid/DataGrid';
-import { Button, Row, Col, FloatButton } from 'antd';
+import { Button, FloatButton } from 'antd';
 import { ArrowRightOutlined, PlusOutlined } from '@ant-design/icons';
 import { useShopStore } from '../../services/shop/store';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -52,12 +52,7 @@ export function Component() {
 					<CategoryMenu />
 				</SidebarContentLayout>
 				<MainContentLayout>
-					<Row gutter={24}>
-						<Col span={24}></Col>
-						<Col span={24}>
-							<DataGrid containerWidth={'100%'} containerHeight={'500px'} columnDefs={columnDefs} rowData={rowData} />
-						</Col>
-					</Row>
+					<DataGrid containerHeight={'100%'} columnDefs={columnDefs} rowData={rowData} />
 				</MainContentLayout>
 			</ContentLayout>
 
