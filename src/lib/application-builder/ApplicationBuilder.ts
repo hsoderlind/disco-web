@@ -6,12 +6,15 @@ import 'dayjs/locale/sv';
 import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import { MessageInstance } from "antd/es/message/interface";
+import { ReactNode } from "react";
 
 class ApplicationBuilder {
 	private i18nConfig: InitOptions = {};
 	private preferredLanguage: string = "sv";
 	private validationSchemaBuilder: ValidationSchemaBuilder = null!;
 	private notificationApi: NotificationInstance = null!;
+	private messageApi: MessageInstance = null!;
 	private _locale = 'sv-SE';
 
 	get locale() {
@@ -78,6 +81,30 @@ class ApplicationBuilder {
 			message,
 			description
 		});
+	}
+
+	setMessageApi(api: MessageInstance) {
+		this.messageApi = api;
+	}
+
+	hideMessage() {
+		this.messageApi.destroy();
+	}
+
+	showInfoMessage(content: ReactNode) {
+		this.messageApi.info(content);
+	}
+
+	showSuccessMessage(content: ReactNode) {
+		this.messageApi.success(content);
+	}
+
+	showWarningMessage(content: ReactNode) {
+		this.messageApi.warning(content);
+	}
+
+	showErrorMessage(content: ReactNode) {
+		this.messageApi.error(content);
 	}
 
 	private initI18n() {

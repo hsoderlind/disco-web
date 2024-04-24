@@ -48,7 +48,7 @@ export const ProductsAttributes: FC = () => {
 										control={control}
 										name={`product_attributes.${index}.attribute_type_id`}
 										label={index === 0 ? 'Attributtyp' : ''}>
-										<AttributeTypeSelect control={control} name={`product_attributes.${index}.attribute_type_id`} />
+										<AttributeTypeSelect name={`product_attributes.${index}.attribute_type_id`} />
 									</FormItem>
 								</Col>
 								<Col xl={5}>
@@ -57,7 +57,6 @@ export const ProductsAttributes: FC = () => {
 										name={`product_attributes.${index}.attribute_value_id`}
 										label={index === 0 ? 'Attributvärde' : ''}>
 										<AttributeValueSelect
-											control={control}
 											name={`product_attributes.${index}.attribute_value_id`}
 											connectedFieldName={`product_attributes.${index}.attribute_type_id`}
 										/>

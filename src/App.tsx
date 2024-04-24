@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 import routes from './routes';
 import AuthProvider from './contexts/auth/AuthProvider';
-import { App as AntdApp, ConfigProvider, notification, theme } from 'antd';
+import { App as AntdApp, ConfigProvider, message, notification, theme } from 'antd';
 import locale from 'antd/locale/sv_SE';
 import app from './lib/application-builder/ApplicationBuilder';
 import useSystemTheme from './hooks/useSystemTheme';
@@ -26,11 +26,15 @@ const App: FC = () => {
 	});
 	app.setNotificationApi(notificationApi);
 
+	const [messageApi, messageContextHolder] = message.useMessage({
+		duration: 5
+	});
+	app.setMessageApi(messageApi);
+
 	const systemTheme = useSystemTheme('light');
 
 	return (
 		<>
-			{contextHolder}
 			<QueryClientProvider client={queryClient}>
 				<ConfigProvider
 					theme={{
@@ -38,6 +42,8 @@ const App: FC = () => {
 						algorithm: systemTheme === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm
 					}}
 					locale={locale}>
+					{contextHolder}
+					{messageContextHolder}
 					<AntdApp>
 						<AuthProvider>
 							<RouterProvider router={routes} future={{ v7_startTransition: true }} />

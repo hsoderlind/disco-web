@@ -37,6 +37,8 @@ import {
 	trendingUpOutline
 } from 'ionicons/icons';
 import { IonIcon } from '@ionic/react';
+import { DevTool } from '@hookform/devtools';
+import { useEffect } from 'react';
 
 const DEFAULT_SECTION = 'details';
 
@@ -77,14 +79,15 @@ export function Component() {
 		handleSubmit,
 		setError,
 		setValue,
-		formState: { isDirty, isSubmitting }
+		formState: { isDirty, isSubmitting, isValid, errors }
 	} = methods;
+	const isError = Object.keys(errors).length > 0;
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
 			app.addSuccessNoitication({ description: 'Produkten har nu skapats.' });
 			const productId = product.getKey();
-			navigate(`./${productId}`);
+			navigate(`../${productId}`);
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<ProductSchemaType>(error)(setError);
@@ -98,12 +101,12 @@ export function Component() {
 
 	const saveAndPublish = () => {
 		setValue('state', ProductStates.PUBLISHED);
-		handleSubmit(onSubmit, (...args) => console.log('args', args))();
+		handleSubmit(onSubmit)();
 	};
 
 	const saveDraft = () => {
 		setValue('state', ProductStates.DRAFT);
-		handleSubmit(onSubmit, (...args) => console.log('args', args))();
+		handleSubmit(onSubmit)();
 	};
 
 	const goToProducts = () => {
@@ -120,6 +123,16 @@ export function Component() {
 		}
 	};
 
+	const hasSectionErrors = (fieldsToCheck: Array<keyof ProductSchemaType>) => {
+		return Object.keys(errors).some((key) => fieldsToCheck.includes(key as keyof ProductSchemaType));
+	};
+
+	useEffect(() => {
+		if (!isValid && isError) {
+			app.showErrorMessage('Det förekommer fel i formuläret!');
+		}
+	}, [isValid, isError]);
+
 	return (
 		<FormProvider {...methods}>
 			<Form layout='vertical'>
@@ -135,6 +148,7 @@ export function Component() {
 								defaultSelectedKeys={[section!]}
 								items={[
 									{
+										danger: hasSectionErrors(['name', 'categories', 'summary', 'description']),
 										label: 'Beskrivning',
 										key: 'description',
 										icon: (
@@ -148,6 +162,7 @@ export function Component() {
 										)
 									},
 									{
+										danger: hasSectionErrors(['condition', 'reference', 'barcodes']),
 										label: 'Märkning',
 										key: 'details',
 										icon: (
@@ -161,6 +176,7 @@ export function Component() {
 										)
 									},
 									{
+										danger: hasSectionErrors(['product_attributes']),
 										label: 'Features',
 										key: 'features',
 										icon: (
@@ -174,6 +190,7 @@ export function Component() {
 										)
 									},
 									{
+										danger: hasSectionErrors(['price', 'tax_id', 'special_prices']),
 										label: 'Pris',
 										key: 'price',
 										icon: (
@@ -187,6 +204,7 @@ export function Component() {
 										)
 									},
 									{
+										danger: hasSectionErrors(['images']),
 										label: 'Bilder',
 										key: 'images',
 										icon: (
@@ -200,6 +218,7 @@ export function Component() {
 										)
 									},
 									{
+										danger: hasSectionErrors(['files']),
 										label: 'Filer',
 										key: 'files',
 										icon: (
@@ -213,6 +232,7 @@ export function Component() {
 										)
 									},
 									{
+										danger: hasSectionErrors(['stock']),
 										label: 'Lager',
 										key: 'stock',
 										icon: (
@@ -304,6 +324,7 @@ export function Component() {
 					</MainContentLayout>
 				</ContentLayout>
 			</Form>
+			<DevTool placement='top-left' control={methods.control} />
 		</FormProvider>
 	);
 }

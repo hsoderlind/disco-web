@@ -1,6 +1,6 @@
 import { Dayjs } from "dayjs";
 import app from "../../lib/application-builder/ApplicationBuilder"
-import { isDayJs, vsbInfer } from "../../lib/validation/validation-schema-builder";
+import { vsbInfer } from "../../lib/validation/validation-schema-builder";
 import { ProductType } from "../product/types";
 import { Product } from "../product/Product";
 
@@ -8,8 +8,8 @@ const vsb = app.getValidationSchemaBuilder();
 
 export const productSpecialPriceSchema = vsb.object({
 	special_price: vsb.number().min(0),
-	entry_date: isDayJs,
-	expiration_date: isDayJs
+	entry_date: vsb.date().optional(),
+	expiration_date: vsb.date().optional()
 });
 
 export type ProductSpecialPriceSchemaType = vsbInfer<typeof productSpecialPriceSchema>;

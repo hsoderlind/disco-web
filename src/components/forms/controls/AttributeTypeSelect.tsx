@@ -1,26 +1,20 @@
 import { Divider, Form, Select, Space } from 'antd';
-import { ComponentProps, ReactNode } from 'react';
-import { Control, FieldValues, Path, useController } from 'react-hook-form';
+import { ComponentProps, FC, ReactNode } from 'react';
+import { Path, useController, useFormContext } from 'react-hook-form';
 import { AttributeType } from '../../../services/product-attribute/AttributeType';
 import { useLoadAllAttributeTypes } from '../../../services/product-attribute/hooks/useLoadAllAttributeTypes';
 import { CreateAttributeTypeButton } from './CreateAttributeTypeButton';
+import { ProductSchemaType } from '../../../services/product/types';
 
 type SelectProps = ComponentProps<typeof Select>;
 
-export type AttributeTypeSelectProps<TFieldValues extends FieldValues = FieldValues> = Omit<
-	SelectProps,
-	'options' | 'dropdownRender'
-> & {
-	control: Control<TFieldValues>;
-	name: Path<TFieldValues>;
+export type AttributeTypeSelectProps = Omit<SelectProps, 'options' | 'dropdownRender'> & {
+	name: Path<ProductSchemaType>;
 };
 
-export const AttributeTypeSelect = <TFieldValues extends FieldValues = FieldValues>({
-	control,
-	name,
-	...props
-}: AttributeTypeSelectProps<TFieldValues>) => {
+export const AttributeTypeSelect: FC<AttributeTypeSelectProps> = ({ name, ...props }) => {
 	const form = Form.useFormInstance();
+	const { control } = useFormContext<ProductSchemaType>();
 	const { field } = useController({ control, name, disabled: props.disabled });
 	const { data, isFetching, isError } = useLoadAllAttributeTypes(name);
 
@@ -43,6 +37,7 @@ export const AttributeTypeSelect = <TFieldValues extends FieldValues = FieldValu
 
 	return (
 		<Select
+			{...props}
 			placeholder={placeholder}
 			options={data?.map((attributeType) => ({
 				value: attributeType.getKey(),

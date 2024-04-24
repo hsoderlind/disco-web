@@ -2,7 +2,7 @@ import { ComponentProps, ReactNode } from 'react';
 import { useLoadAttributeValuesByAttributeType } from '../../../services/product-attribute/hooks/useLoadAttributeValuesByAttributeType';
 import { Divider, Form, Select, Space } from 'antd';
 import { CreateAttributeValueButton } from './CreateAttributeValueButton';
-import { Control, FieldPath, FieldValues, Path, useController } from 'react-hook-form';
+import { FieldPath, FieldValues, Path, useController, useFormContext } from 'react-hook-form';
 import { AttributeValue } from '../../../services/product-attribute/AttributeValue';
 
 type SelectProps = ComponentProps<typeof Select>;
@@ -10,20 +10,18 @@ export type AttributeValueSelectProps<TFieldValues extends FieldValues = FieldVa
 	SelectProps,
 	'options' | 'dropdownRender'
 > & {
-	control: Control<TFieldValues>;
 	connectedFieldName: FieldPath<TFieldValues>;
 	name: Path<TFieldValues>;
 };
 
 export const AttributeValueSelect = <TFieldValues extends FieldValues = FieldValues>({
-	control,
 	connectedFieldName,
 	name,
 	...rest
 }: AttributeValueSelectProps<TFieldValues>) => {
 	const form = Form.useFormInstance();
-	const { field: connectedField } = useController({ name: connectedFieldName, control });
-	const attributeTypeId = connectedField.value;
+	const { control, watch } = useFormContext();
+	const attributeTypeId = watch(connectedFieldName);
 	const { field } = useController({ name: name!, control, disabled: rest.disabled });
 	const { data, isFetching, isError } = useLoadAttributeValuesByAttributeType(attributeTypeId);
 	let placeholder: ReactNode;

@@ -12,7 +12,7 @@ export const productStockSchema = vsb.object({
 	allow_order_out_of_stock: vsb.boolean(),
 	send_email_out_of_stock: vsb.boolean(),
 	in_stock_message: vsb.string().max(255).optional(),
-	available_at: isDayJs
+	available_at: vsb.date().or(isDayJs).optional()
 });
 
 export type ProductStockSchema = vsbInfer<typeof productStockSchema>;
