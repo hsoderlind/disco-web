@@ -6,6 +6,7 @@ import UserMenu from '../components/navigation/UserMenu';
 import SettingsMenu from '../components/navigation/SettingsMenu';
 import ShopsProvider from '../contexts/shops/ShopsProvider';
 import ShopsMenu from '../components/navigation/ShopsMenu';
+import { PostIt } from '../components/postit/post-it';
 
 const MainLayout: FC = () => {
 	return (
@@ -25,12 +26,14 @@ const MainLayout: FC = () => {
 						<div>
 							<UserMenu />
 						</div>
+						<div>
+							<PostIt />
+						</div>
 					</div>
 				</Layout.Header>
 				<Layout.Content>
 					<Outlet />
 				</Layout.Content>
-				{/* <Layout.Footer></Layout.Footer> */}
 			</Layout>
 		</ShopsProvider>
 	);

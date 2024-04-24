@@ -1,3 +1,4 @@
+@use "../vars";
 @use "./mixins" as m;
 
 .flex {
@@ -134,4 +135,14 @@
 
 .overflow-auto-y {
 	@include m.overflow-auto-y;
+}
+
+@each $name, $value in vars.$spaces {
+	.row-gap-#{name} {
+		row-gap: $value;
+	}
+
+	.column-gap-#{name} {
+		column-gap: $value;
+	}
 }
