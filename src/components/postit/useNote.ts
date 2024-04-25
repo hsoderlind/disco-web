@@ -6,5 +6,5 @@ export const useNote = (id: string) => {
 
 	const note = useMemo(() => notes.find((note) => note.id === id), [notes, id]);
 
-	return note;
+	return note!;
 }

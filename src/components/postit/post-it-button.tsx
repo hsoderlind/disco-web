@@ -1,4 +1,4 @@
-import { Menu, MenuProps } from 'antd';
+import { Menu, MenuProps, Tooltip } from 'antd';
 import { usePostItContext } from './usePostItContext';
 import { FileOutlined } from '@ant-design/icons';
 import { useMemo } from 'react';
@@ -23,7 +23,11 @@ export const PostItButton = () => {
 
 	const items: MenuProps['items'] = [
 		{
-			icon: <FileOutlined style={{ rotate: '180deg', fontSize: '24px' }} />,
+			icon: (
+				<Tooltip title='Anteckningar' placement='left'>
+					<FileOutlined style={{ rotate: '180deg', fontSize: '24px' }} />
+				</Tooltip>
+			),
 			key: 'notes',
 			theme: 'light',
 			onTitleClick: create,
