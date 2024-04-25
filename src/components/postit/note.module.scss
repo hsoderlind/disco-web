@@ -26,9 +26,7 @@
 	}
 
 	&--drop {
-		animation:
-			fadeout 100ms forwards linear,
-			drop 2000ms infinite linear;
+		animation: drop 500ms infinite ease-in;
 	}
 
 	> .toolbar {
