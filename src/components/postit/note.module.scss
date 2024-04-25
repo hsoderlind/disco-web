@@ -9,9 +9,26 @@
 	z-index: 1;
 	position: absolute;
 	color: hsl(0, 0%, 8%);
+	animation:
+		fadein 300ms forwards ease-in-out,
+		scaleup 300ms forwards ease-in-out;
+	transform-origin: top right;
+	box-shadow: -5px 3px 3px rgba(251, 191, 36, 0.5);
 
 	&:focus {
 		outline: 1px solid hsl(215, 62%, 22%);
+	}
+
+	&--fadeout {
+		animation:
+			fadeout 300ms forwards ease-in-out,
+			scaledown 300ms forwards ease-in-out;
+	}
+
+	&--drop {
+		animation:
+			fadeout 100ms forwards linear,
+			drop 2000ms infinite linear;
 	}
 
 	> .toolbar {
@@ -57,5 +74,43 @@
 		&:focus {
 			outline: 1px solid hsl(215, 62%, 22%);
 		}
+	}
+}
+
+@keyframes fadein {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeout {
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes scaleup {
+	0% {
+		scale: 0;
+	}
+	100% {
+		scale: 1;
+	}
+}
+
+@keyframes scaledown {
+	100% {
+		scale: 0;
+		top: 0;
+		left: 100%;
+	}
+}
+
+@keyframes drop {
+	to {
+		transform: translateY(400%);
 	}
 }

@@ -1,4 +1,5 @@
-import { CSSProperties, ReactNode } from "react"
+import { MenuRef } from "antd";
+import { CSSProperties, ReactNode, RefObject } from "react"
 
 type NoteIdType = string;
 
@@ -31,9 +32,14 @@ export type PostItContextType = {
 	remove: RemoveFn;
 	update: UpdateFn;
 	visibleNotes: NoteType[];
-	notes: NoteType[]
+	notes: NoteType[];
+	buttonRef: RefObject<MenuRef>;
 }
 
 export type PostItProviderProps = {
+	children: ReactNode;
+}
+
+export type DroppableProps = {
 	children: ReactNode;
 }

@@ -27,7 +27,6 @@ const InternalImageCard: FC<ImageCardProps> = ({ id, index, model }) => {
 	};
 
 	const onActionMenuClick: MenuProps['onClick'] = (info) => {
-		console.log('onActionMenuClick');
 		switch (info.key) {
 			case 'delete':
 				removeImage();

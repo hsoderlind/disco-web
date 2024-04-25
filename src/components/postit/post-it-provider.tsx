@@ -1,27 +1,32 @@
-import { FC, useState } from 'react';
+import { FC, createRef, useState } from 'react';
 import { CreateFn, NoteType, PositionType, PostItContextType, PostItProviderProps, RemoveFn, UpdateFn } from './types';
 import { PostItContext } from './post-it-context';
 import { Str } from '../../lib/string/Str';
+import { MenuRef } from 'antd';
+import { DndContext, DragEndEvent } from '@dnd-kit/core';
+import { Droppable } from './droppable';
 
 export const PostItProvider: FC<PostItProviderProps> = ({ children }) => {
+	const offsetLeft = document.body.offsetWidth - 320;
+	const buttonRef = createRef<MenuRef>();
 	const [notes, setNotes] = useState<NoteType[]>([]);
-	const [latestPosition, setLatestPosition] = useState<PositionType>({ x: 60, y: 60 });
+	const [position, setPosition] = useState<PositionType>({ x: offsetLeft, y: 64 });
 
 	const create: CreateFn = () => {
-		const newLatestPosition: PositionType = {
-			x: latestPosition.x + 20,
-			y: latestPosition.y + 20
-		};
-
 		const newNote: NoteType = {
 			id: Str.uuid(),
-			position: newLatestPosition,
+			position: position,
 			color: 'hsl(48, 97%, 77%)',
 			visible: true
 		};
 
+		const newPosition: PositionType = {
+			x: position.x + -20,
+			y: position.y + 20
+		};
+
 		setNotes((notes) => [...notes, newNote]);
-		setLatestPosition(newLatestPosition);
+		setPosition(newPosition);
 	};
 
 	const update: UpdateFn = (id, values) => {
@@ -47,8 +52,31 @@ export const PostItProvider: FC<PostItProviderProps> = ({ children }) => {
 		update,
 		remove,
 		notes,
-		visibleNotes
+		visibleNotes,
+		buttonRef
 	};
 
-	return <PostItContext.Provider value={value}>{children}</PostItContext.Provider>;
+	const handleDragEnd = (event: DragEndEvent) => {
+		const { active, delta } = event;
+		const newNotes = notes.map((note) => {
+			if (note.id !== active.id) {
+				return note;
+			}
+
+			note.position.y += delta.y;
+			note.position.x += delta.x;
+
+			return note;
+		});
+
+		setNotes(newNotes);
+	};
+
+	return (
+		<PostItContext.Provider value={value}>
+			<DndContext onDragEnd={handleDragEnd}>
+				<Droppable>{children}</Droppable>
+			</DndContext>
+		</PostItContext.Provider>
+	);
 };

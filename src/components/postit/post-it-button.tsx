@@ -4,7 +4,7 @@ import { FileOutlined } from '@ant-design/icons';
 import { useMemo } from 'react';
 
 export const PostItButton = () => {
-	const { create, notes, update } = usePostItContext();
+	const { create, notes, update, buttonRef } = usePostItContext();
 
 	const invisibleNotes = useMemo(() => notes.filter((note) => !note.visible), [notes]);
 
@@ -34,5 +34,5 @@ export const PostItButton = () => {
 		}
 	];
 
-	return <Menu onClick={handleClick} items={items} mode='horizontal' theme='dark' />;
+	return <Menu ref={buttonRef} onClick={handleClick} items={items} mode='horizontal' theme='dark' />;
 };
