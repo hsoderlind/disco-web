@@ -1,5 +1,5 @@
-@use "../../sass/vars";
-@use "../../sass/utils/mixins" as m;
+@use "../../../sass/vars";
+@use "../../../sass/utils/mixins" as m;
 
 .buttonbar {
 	display: flex;
@@ -7,6 +7,14 @@
 	background-color: vars.$clr-surface-medium;
 	border-top: 1px solid vars.$clr-border-light;
 	padding: vars.$space-4 3vw;
+
+	&--narrow {
+		padding-block: vars.$space-3;
+	}
+
+	&--items-end {
+		@include m.justify-end;
+	}
 
 	@include m.dark-theme {
 		background-color: vars.$clr-surface-900;

@@ -15,7 +15,7 @@ import app from '../../../lib/application-builder/ApplicationBuilder';
 import { SidebarContentLayout } from '../../../components/layout/content-layout/SidebarContentLayout';
 import { ProductConditions } from '../../../services/product/ProductConditions';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { FloatingButtonBar } from '../../../components/forms/FloatingButtonbar';
+import { ButtonBar } from '../../../components/forms/buttonbar';
 import { ProductImageUpload } from './components/product-image/ProductImageUpload';
 import { ProductFileUpload } from './components/product-file/ProductFileUpload';
 import { Stock } from './components/Stock';
@@ -281,7 +281,7 @@ export function Component() {
 					</SidebarContentLayout>
 					<MainContentLayout
 						renderButtonBar={() => (
-							<FloatingButtonBar>
+							<ButtonBar>
 								<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToProducts} size='large'>
 									Produkter
 								</Button>
@@ -311,7 +311,7 @@ export function Component() {
 										Spara & publicera
 									</Dropdown.Button>
 								</div>
-							</FloatingButtonBar>
+							</ButtonBar>
 						)}>
 						{section === 'description' && <Description />}
 						{section === 'details' && <Details />}

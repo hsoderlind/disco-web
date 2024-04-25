@@ -5,7 +5,11 @@ export const MainContentLayout: FC<MainContentLayoutProps> = ({ children, render
 	return (
 		<div className='main-content-layout'>
 			<div className='content'>{children}</div>
-			{typeof renderButtonBar === 'function' ? renderButtonBar() : null}
+			{typeof renderButtonBar === 'function'
+				? renderButtonBar()
+				: typeof renderButtonBar !== 'undefined'
+				? renderButtonBar
+				: null}
 		</div>
 	);
 };

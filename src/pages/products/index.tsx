@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { GridOptions } from 'ag-grid-community';
 import { ProductType } from '../../services/product/types';
 import { DataGrid } from '../../components/data-grid/DataGrid';
-import { Button, FloatButton } from 'antd';
+import { Button } from 'antd';
 import { ArrowRightOutlined, PlusOutlined } from '@ant-design/icons';
 import { useShopStore } from '../../services/shop/store';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -12,6 +12,8 @@ import { ContentLayout } from '../../components/layout/content-layout/ContentLay
 import { SidebarContentLayout } from '../../components/layout/content-layout/SidebarContentLayout';
 import { MainContentLayout } from '../../components/layout/content-layout/MainContentLayout';
 import { CategoryMenu } from '../../components/category-menu/CategoryMenu';
+import { Currency } from '../../lib/number/Currency';
+import { ButtonBar } from '../../components/forms/buttonbar';
 
 export function Component() {
 	const [searchParams] = useSearchParams();
@@ -31,13 +33,15 @@ export function Component() {
 		{
 			field: 'price',
 			headerName: 'Pris',
-			filter: true
+			filter: true,
+			valueFormatter: (params) => Currency.format(params.value)
 		},
 		{
 			colId: 'actions',
 			cellRenderer: () => {
 				return <Button shape='circle' icon={<ArrowRightOutlined />} />;
-			}
+			},
+			type: 'rightAligned'
 		}
 	]);
 
@@ -51,12 +55,23 @@ export function Component() {
 				<SidebarContentLayout enableShrink={false}>
 					<CategoryMenu />
 				</SidebarContentLayout>
-				<MainContentLayout>
-					<DataGrid containerHeight={'100%'} columnDefs={columnDefs} rowData={rowData} />
+				<MainContentLayout
+					renderButtonBar={
+						<ButtonBar buttonsPlacement='end' size='narrow'>
+							<Button icon={<PlusOutlined />} type='link' size='large' onClick={goToNewProductPage}>
+								Ny produkt
+							</Button>
+						</ButtonBar>
+					}>
+					<DataGrid
+						containerHeight={'100%'}
+						containerWidth={'100%'}
+						columnDefs={columnDefs}
+						rowData={rowData}
+						rowHeight={40}
+					/>
 				</MainContentLayout>
 			</ContentLayout>
-
-			<FloatButton icon={<PlusOutlined />} type='primary' tooltip='Ny produkt' onClick={goToNewProductPage} />
 		</>
 	);
 }
