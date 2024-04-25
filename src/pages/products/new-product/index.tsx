@@ -276,7 +276,6 @@ export function Component() {
 										disabled: true
 									}
 								]}
-								style={{ border: 'none' }}
 							/>
 						)}
 					</SidebarContentLayout>

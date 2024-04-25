@@ -26,6 +26,8 @@
 		"antd": "^5.9.3",
 		"clsx": "^2.1.0",
 		"dayjs": "^1.11.10",
+		"dexie": "^4.0.4",
+		"dexie-react-hooks": "^1.1.7",
 		"i18next": "^23.5.1",
 		"ionicons": "^7.3.1",
 		"js-cookie": "^3.0.5",
