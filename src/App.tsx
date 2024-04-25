@@ -39,7 +39,12 @@ const App: FC = () => {
 				<ConfigProvider
 					theme={{
 						cssVar: true,
-						algorithm: systemTheme === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm
+						algorithm: systemTheme === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm,
+						components: {
+							Menu: {
+								activeBarBorderWidth: 0
+							}
+						}
 					}}
 					locale={locale}>
 					{contextHolder}
