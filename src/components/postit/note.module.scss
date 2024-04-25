@@ -8,8 +8,6 @@
 	min-width: 300px;
 	z-index: 1;
 	position: absolute;
-	top: 5rem;
-	right: 5rem;
 	color: hsl(0, 0%, 8%);
 
 	&:focus {
@@ -46,7 +44,7 @@
 		resize: none;
 		color: currentColor;
 		font-size: 1rem;
-		padding: 0 vars.$space-4;
+		padding: vars.$space-3;
 		margin: vars.$space-3 vars.$space-3 vars.$space-3;
 		outline: none;
 		border: none;

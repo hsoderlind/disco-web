@@ -42,7 +42,7 @@
 		overflow: auto;
 		scrollbar-width: thin;
 		padding-block-end: fn.toRem(30);
-		transition: flex-basis 500ms ease-in-out;
+		transition: flex-basis 300ms ease-in-out;
 
 		.ant-menu-title-content {
 			transition: opacity 200 ease;
@@ -79,7 +79,7 @@
 
 			ion-icon {
 				transition: rotate 200ms ease;
-				transition-delay: 500ms;
+				transition-delay: 200ms;
 			}
 		}
 	}

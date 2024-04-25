@@ -6,35 +6,40 @@ import UserMenu from '../components/navigation/UserMenu';
 import SettingsMenu from '../components/navigation/SettingsMenu';
 import ShopsProvider from '../contexts/shops/ShopsProvider';
 import ShopsMenu from '../components/navigation/ShopsMenu';
-import { PostIt } from '../components/postit/post-it';
+import { PostItButton } from '../components/postit/post-it-button';
+import { PostItProvider } from '../components/postit/post-it-provider';
+import { NotesContainer } from '../components/postit/notes-container';
 
 const MainLayout: FC = () => {
 	return (
 		<ShopsProvider>
-			<Layout className='main-layout'>
-				<Layout.Header>
-					<div className='flex flex-fill-1'>
-						<div className='mr-4'>
-							<ShopsMenu />
+			<PostItProvider>
+				<Layout className='main-layout'>
+					<Layout.Header>
+						<div className='flex flex-fill-1'>
+							<div className='mr-4'>
+								<ShopsMenu />
+							</div>
+							<div className='flex-fill-1'>
+								<MainMenu />
+							</div>
+							<div>
+								<SettingsMenu />
+							</div>
+							<div>
+								<UserMenu />
+							</div>
+							<div>
+								<PostItButton />
+							</div>
 						</div>
-						<div className='flex-fill-1'>
-							<MainMenu />
-						</div>
-						<div>
-							<SettingsMenu />
-						</div>
-						<div>
-							<UserMenu />
-						</div>
-						<div>
-							<PostIt />
-						</div>
-					</div>
-				</Layout.Header>
-				<Layout.Content>
-					<Outlet />
-				</Layout.Content>
-			</Layout>
+					</Layout.Header>
+					<Layout.Content>
+						<Outlet />
+					</Layout.Content>
+				</Layout>
+				<NotesContainer />
+			</PostItProvider>
 		</ShopsProvider>
 	);
 };

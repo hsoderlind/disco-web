@@ -1,26 +1,39 @@
-import { CSSProperties } from "react"
+import { CSSProperties, ReactNode } from "react"
 
 type NoteIdType = string;
 
-type PositionType = {
+export type PositionType = {
 	x: number;
 	y: number;
 };
 
-export type NoteProps = {
-	color: CSSProperties['backgroundColor'];
-	position: PositionType;
-}
-
 export type NoteType = {
 	id: NoteIdType;
-	position: PositionType
+	position: PositionType;
+	color: CSSProperties['backgroundColor'];
+	visible: boolean;
+	content?: string;
 }
 
-export type PostItContext = {
-	add: () => void;
-	remove: (id: NoteIdType) => void;
-	latestNoteInitialPosition: PositionType;
+export type NoteProps = {
+	id: NoteIdType
+}
+
+
+export type CreateFn = () => void;
+
+export type RemoveFn = (id: NoteIdType) => void
+
+export type UpdateFn = (id: NoteIdType, values: Partial<Omit<NoteType, 'id' | 'position'>>) => void;
+
+export type PostItContextType = {
+	create: CreateFn;
+	remove: RemoveFn;
+	update: UpdateFn;
 	visibleNotes: NoteType[];
 	notes: NoteType[]
+}
+
+export type PostItProviderProps = {
+	children: ReactNode;
 }
