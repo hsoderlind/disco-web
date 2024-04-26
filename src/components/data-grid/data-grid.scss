@@ -1,0 +1,10 @@
+@use "ag-grid-community/styles/ag-theme-material.css";
+@use "../../sass/utils/mixins" as m;
+
+.ag-theme-material-auto-dark {
+	@include m.dark-theme {
+		--ag-material-primary-color: var(--ant-color-primary);
+		--ag-material-accent-color: var(--ant-blue-5);
+		--ag-row-hover-color: var(--ant-blue-6);
+	}
+}
