@@ -10,7 +10,7 @@ export const useDeleteProductImage = () => {
 	const deleteImage = (model: ProductImage, onDeleted: OnDeletedCb) => {
 		mutation.mutate(model, {
 			onSuccess() {
-				app.addSuccessNoitication({description: 'Bilden har nu raderats'});
+				app.addSuccessNotification({description: 'Bilden har nu raderats'});
 				onDeleted();
 			}
 		})

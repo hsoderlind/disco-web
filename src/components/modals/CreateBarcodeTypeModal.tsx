@@ -36,7 +36,7 @@ export const CreateBarcodeTypeModal: FC<CreateBarcodeTypeModalProps> = ({ open, 
 	const [mutationFn] = useCreateBarcodeType(shopId);
 	const mutation = useMutation<BarcodeType, ServerValidationError, BarcodeTypeSchemaType>(mutationFn, {
 		onSuccess(response) {
-			app.addSuccessNoitication({ description: 'Produktkodstypen har nu skapats.' });
+			app.addSuccessNotification({ description: 'Produktkodstypen har nu skapats.' });
 			onFinish?.(response);
 		},
 		onError(error) {

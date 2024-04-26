@@ -33,12 +33,12 @@ export const CreateTaxClassModal: FC<CreateTaxClassModalProps> = ({ open, onFini
 	const [mutationFn] = useCreateTaxClass(shopId);
 	const mutation = useMutation<Tax, ServerValidationError, TaxSchemaType>(mutationFn, {
 		onSuccess() {
-			app.addSuccessNoitication({ description: 'Momsklassen har nu skapats.' });
+			app.addSuccessNotification({ description: 'Momsklassen har nu skapats.' });
 			onFinish?.();
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<TaxSchemaType>(error)(setError);
-			app.addErrorNoitication({ description: error.message });
+			app.addErrorNotification({ description: error.message });
 		}
 	});
 

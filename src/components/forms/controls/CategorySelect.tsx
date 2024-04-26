@@ -27,7 +27,7 @@ export const CategorySelect: FC<CategorySelectProps> = (props) => {
 	}
 
 	if (isError) {
-		app.addErrorNoitication({ message: error.code!, description: error.message });
+		app.addErrorNotification({ message: error.code!, description: error.message });
 		return <Alert type='error' message={error.message} />;
 	}
 

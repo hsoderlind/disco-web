@@ -52,7 +52,6 @@ export const Note: FC<NoteProps> = ({ id }) => {
 			role='dialog'
 			aria-roledescription='dragbar dialog'
 			tabIndex={0}
-			id={id}
 			className={clsx(classes['note'], { [classes['note--fadeout']]: fadeout, [classes['note--drop']]: drop })}
 			style={style}>
 			<div role='toolbar' className={classes['toolbar']}>

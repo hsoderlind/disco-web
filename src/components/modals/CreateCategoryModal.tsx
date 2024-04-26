@@ -36,12 +36,12 @@ export const CreateCategoryModal: FC<CreateCategoryModalProps> = ({ open, onCanc
 
 	const mutation = useMutation<Category, ServerValidationError, CategorySchemaType>(mutationFn, {
 		onSuccess() {
-			app.addSuccessNoitication({ description: 'Kategorin har nu skapats' });
+			app.addSuccessNotification({ description: 'Kategorin har nu skapats' });
 			onFinish?.();
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<CategorySchemaType>(error)(setError);
-			app.addErrorNoitication({ description: error.message });
+			app.addErrorNotification({ description: error.message });
 		}
 	});
 

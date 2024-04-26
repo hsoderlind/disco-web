@@ -85,13 +85,13 @@ export function Component() {
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
-			app.addSuccessNoitication({ description: 'Produkten har nu skapats.' });
+			app.addSuccessNotification({ description: 'Produkten har nu skapats.' });
 			const productId = product.getKey();
 			navigate(`../${productId}`);
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<ProductSchemaType>(error)(setError);
-			app.addErrorNoitication({ description: error.message });
+			app.addErrorNotification({ description: error.message });
 		}
 	});
 

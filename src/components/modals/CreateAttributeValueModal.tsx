@@ -38,12 +38,12 @@ export const CreateAttributeValueModal: FC<CreateAttributeValueModalProps> = ({
 	const [mutationFn] = useCreateAttributeValue(shopId);
 	const mutation = useMutation<AttributeValue, ServerValidationError, AttributeValueSchemaType>(mutationFn, {
 		onSuccess(data) {
-			app.addSuccessNoitication({ description: 'Attributvärdet har nu skapats.' });
+			app.addSuccessNotification({ description: 'Attributvärdet har nu skapats.' });
 			onFinish?.(data);
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<AttributeValueSchemaType>(error)(setError);
-			app.addErrorNoitication({ description: error.message });
+			app.addErrorNotification({ description: error.message });
 		}
 	});
 

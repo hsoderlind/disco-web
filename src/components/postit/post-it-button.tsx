@@ -6,11 +6,17 @@ import { useMemo } from 'react';
 export const PostItButton = () => {
 	const { create, notes, update, buttonRef } = usePostItContext();
 
-	const invisibleNotes = useMemo(() => notes.filter((note) => !note.visible), [notes]);
+	const invisibleNotes = useMemo(() => notes?.filter((note) => !note.visible), [notes]);
 
 	const handleClick: MenuProps['onClick'] = (event) => {
-		update(event.key, { visible: true });
-		return false;
+		const note = notes!.find((note) => note.key === event.key);
+
+		if (typeof note === 'undefined') {
+			console.warn(`No note with key ${event.key}`);
+			return;
+		}
+
+		update(note._id!, { visible: true });
 	};
 
 	const truncateContent = (content: string) => {
@@ -31,8 +37,8 @@ export const PostItButton = () => {
 			key: 'notes',
 			theme: 'light',
 			onTitleClick: create,
-			children: invisibleNotes.map((note, index) => ({
-				key: note.id,
+			children: invisibleNotes?.map((note, index) => ({
+				key: note.key,
 				label: note.content ? truncateContent(note.content) : `Lapp ${index + 1}`
 			}))
 		}

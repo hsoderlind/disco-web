@@ -15,9 +15,9 @@ export const makeHttpClientForApi = () => {
 			}
 
 			if (error.response?.data.message) {
-				app.addErrorNoitication({message: error.code!, description: error.response.data.message});
+				app.addErrorNotification({message: error.code!, description: error.response.data.message});
 			} else if (error.message) {
-				app.addErrorNoitication({message: error.code!, description: error.message});
+				app.addErrorNotification({message: error.code!, description: error.message});
 			}
 
 			return Promise.reject(error);

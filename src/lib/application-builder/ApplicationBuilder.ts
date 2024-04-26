@@ -55,28 +55,28 @@ class ApplicationBuilder {
 		this.notificationApi = api;
 	}
 
-	addInfoNoitication({description, message = 'Info'}: Pick<ArgsProps,  'description'> & {message?: ArgsProps['message']}) {
+	addInfoNotification({description, message = 'Info'}: Pick<ArgsProps,  'description'> & {message?: ArgsProps['message']}) {
 		this.notificationApi.info({
 			message,
 			description
 		});
 	}
 
-	addSuccessNoitication({description, message = 'Lyckades!'}: Pick<ArgsProps,  'description'> & {message?: ArgsProps['message']}) {
+	addSuccessNotification({description, message = 'Lyckades!'}: Pick<ArgsProps,  'description'> & {message?: ArgsProps['message']}) {
 		this.notificationApi.success({
 			message,
 			description
 		});
 	}
 
-	addErrorNoitication({description, message = 'Fel!'}: Pick<ArgsProps,  'description'> & {message?: ArgsProps['message']}) {
+	addErrorNotification({description, message = 'Fel!'}: Pick<ArgsProps,  'description'> & {message?: ArgsProps['message']}) {
 		this.notificationApi.error({
 			message,
 			description
 		});
 	}
 
-	addWarningNoitication({description, message = 'Varning!'}: Pick<ArgsProps,  'description'> & {message?: ArgsProps['message']}) {
+	addWarningNotification({description, message = 'Varning!'}: Pick<ArgsProps,  'description'> & {message?: ArgsProps['message']}) {
 		this.notificationApi.warning({
 			message,
 			description

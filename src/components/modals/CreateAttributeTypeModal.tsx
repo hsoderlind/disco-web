@@ -32,7 +32,7 @@ export const CreateAttributeTypeModal: FC<CreateAttributeTypeModalProps> = ({ op
 	const [mutationFn] = useCreateAttributeType(shopId);
 	const mutation = useMutation<AttributeType, ServerValidationError, AttributeTyoeSchemaType>(mutationFn, {
 		onSuccess(response) {
-			app.addSuccessNoitication({ description: 'Attributtypen har nu skapats.' });
+			app.addSuccessNotification({ description: 'Attributtypen har nu skapats.' });
 			onFinish?.(response);
 		},
 		onError(error) {

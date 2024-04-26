@@ -5,47 +5,52 @@ import { Str } from '../../lib/string/Str';
 import { MenuRef } from 'antd';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import { Droppable } from './droppable';
+import { useStoreNote } from './useStoreNote';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { useFetchAllNotes } from './useFetchAllNotes';
+import { useUpdateNote } from './useUpdateNote';
+import { useRemoveNote } from './useRemoveNote';
 
 export const PostItProvider: FC<PostItProviderProps> = ({ children }) => {
 	const offsetLeft = document.body.offsetWidth - 320;
 	const buttonRef = createRef<MenuRef>();
-	const [notes, setNotes] = useState<NoteType[]>([]);
+	const fetchAll = useFetchAllNotes();
+	const dbUpdate = useUpdateNote();
+	const dbRemove = useRemoveNote();
+	const notes = useLiveQuery(() => fetchAll());
+	console.log('notes', notes);
 	const [position, setPosition] = useState<PositionType>({ x: offsetLeft, y: 64 });
+	const store = useStoreNote();
 
-	const create: CreateFn = () => {
+	const create: CreateFn = async () => {
 		const newNote: NoteType = {
-			id: Str.uuid(),
+			key: Str.uuid(),
 			position: position,
 			color: 'hsl(48, 97%, 77%)',
 			visible: true
 		};
+
+		const id = await store(newNote);
+
+		newNote._id = id;
 
 		const newPosition: PositionType = {
 			x: position.x + -20,
 			y: position.y + 20
 		};
 
-		setNotes((notes) => [...notes, newNote]);
 		setPosition(newPosition);
 	};
 
-	const update: UpdateFn = (id, values) => {
-		const newNotes = notes.map((note) => {
-			if (note.id !== id) {
-				return note;
-			}
-
-			return { ...note, ...values };
-		});
-
-		setNotes(newNotes);
+	const update: UpdateFn = async (id, values) => {
+		await dbUpdate(id, values);
 	};
 
-	const remove: RemoveFn = (id) => {
-		setNotes((notes) => notes.filter((note) => note.id !== id));
+	const remove: RemoveFn = async (id) => {
+		await dbRemove(id);
 	};
 
-	const visibleNotes = notes.filter((note) => note.visible);
+	const visibleNotes = notes?.filter((note) => note.visible);
 
 	const value: PostItContextType = {
 		create,
@@ -58,18 +63,17 @@ export const PostItProvider: FC<PostItProviderProps> = ({ children }) => {
 
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, delta } = event;
-		const newNotes = notes.map((note) => {
-			if (note.id !== active.id) {
-				return note;
-			}
+		notes &&
+			notes.forEach(async (note) => {
+				if (note._id !== active.id) {
+					return note;
+				}
 
-			note.position.y += delta.y;
-			note.position.x += delta.x;
+				note.position.y += delta.y;
+				note.position.x += delta.x;
 
-			return note;
-		});
-
-		setNotes(newNotes);
+				await dbUpdate(note._id, note);
+			});
 	};
 
 	return (
