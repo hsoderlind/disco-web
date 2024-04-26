@@ -53,10 +53,6 @@ export function Component() {
 			valueFormatter: (params) => (params.value === ProductStates.PUBLISHED ? 'Publicerad' : 'Utkast')
 		},
 		{
-			field: 'stock.approx_disposable_quantity',
-			hide: true
-		},
-		{
 			field: 'stock.disposable_quantity',
 			headerName: 'Disponibelt antal',
 			valueFormatter: (params) => {
@@ -73,7 +69,7 @@ export function Component() {
 		{
 			colId: 'actions',
 			cellRenderer: () => {
-				return <Button shape='circle' icon={<ArrowRightOutlined />} />;
+				return <Button icon={<ArrowRightOutlined />} />;
 			},
 			type: 'rightAligned'
 		}
@@ -98,13 +94,7 @@ export function Component() {
 							</Button>
 						</ButtonBar>
 					}>
-					<DataGrid
-						containerHeight={'100%'}
-						containerWidth={'100%'}
-						columnDefs={columnDefs}
-						rowData={rowData}
-						rowHeight={40}
-					/>
+					<DataGrid containerHeight={'100%'} containerWidth={'100%'} columnDefs={columnDefs} rowData={rowData} />
 				</MainContentLayout>
 			</ContentLayout>
 		</>
