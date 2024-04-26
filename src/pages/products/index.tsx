@@ -16,6 +16,7 @@ import { Currency } from '../../lib/number/Currency';
 import { ButtonBar } from '../../components/forms/buttonbar';
 import { ProductStates } from '../../services/product/ProductStates';
 import { Num } from '../../lib/number/Num';
+import { ProductStockType } from '../../services/product-stock/types';
 
 export function Component() {
 	const [searchParams] = useSearchParams();
@@ -58,7 +59,15 @@ export function Component() {
 		{
 			field: 'stock.disposable_quantity',
 			headerName: 'Disponibelt antal',
-			valueFormatter: (params) => Num.decimal(params.value),
+			valueFormatter: (params) => {
+				const hasStock = !!params.data?.stock;
+				const approxDisposableQty = (params.data?.stock as ProductStockType)?.approx_disposable_quantity;
+				const disposableQty = params.value;
+				const qtysDiffers = disposableQty !== approxDisposableQty;
+				return !hasStock
+					? '-'
+					: `${Num.decimal(params.value)}${qtysDiffers ? ` (${Num.decimal(approxDisposableQty)})` : ''}`;
+			},
 			type: 'rightAligned'
 		},
 		{
