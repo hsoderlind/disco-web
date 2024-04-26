@@ -14,6 +14,8 @@ import { MainContentLayout } from '../../components/layout/content-layout/MainCo
 import { CategoryMenu } from '../../components/category-menu/CategoryMenu';
 import { Currency } from '../../lib/number/Currency';
 import { ButtonBar } from '../../components/forms/buttonbar';
+import { ProductStates } from '../../services/product/ProductStates';
+import { Num } from '../../lib/number/Num';
 
 export function Component() {
 	const [searchParams] = useSearchParams();
@@ -32,9 +34,32 @@ export function Component() {
 		},
 		{
 			field: 'price',
-			headerName: 'Pris',
+			headerName: 'Pris (exkl. moms)',
 			filter: true,
-			valueFormatter: (params) => Currency.format(params.value)
+			valueFormatter: (params) => Currency.format(params.value),
+			type: 'rightAligned'
+		},
+		{
+			field: 'cost_price',
+			headerName: 'Inköpspris',
+			filter: true,
+			valueFormatter: (params) => Currency.format(params.value),
+			type: 'rightAligned'
+		},
+		{
+			field: 'state',
+			headerName: 'Status',
+			valueFormatter: (params) => (params.value === ProductStates.PUBLISHED ? 'Publicerad' : 'Utkast')
+		},
+		{
+			field: 'stock.approx_disposable_quantity',
+			hide: true
+		},
+		{
+			field: 'stock.disposable_quantity',
+			headerName: 'Disponibelt antal',
+			valueFormatter: (params) => Num.decimal(params.value),
+			type: 'rightAligned'
 		},
 		{
 			colId: 'actions',
@@ -56,9 +81,10 @@ export function Component() {
 					<CategoryMenu />
 				</SidebarContentLayout>
 				<MainContentLayout
+					noSpacing
 					renderButtonBar={
 						<ButtonBar buttonsPlacement='end' size='narrow'>
-							<Button icon={<PlusOutlined />} type='link' size='large' onClick={goToNewProductPage}>
+							<Button icon={<PlusOutlined />} type='default' size='large' onClick={goToNewProductPage}>
 								Ny produkt
 							</Button>
 						</ButtonBar>

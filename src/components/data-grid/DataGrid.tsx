@@ -21,7 +21,7 @@ export const DataGrid: FC<DataGridProps> = ({ style, containerWidth, containerHe
 	}, []);
 
 	return (
-		<div className='ag-grid-material' style={{ ...style, width, height }}>
+		<div className='ag-theme-material' style={{ ...style, width, height }}>
 			<AgGridReact {...props} defaultColDef={defaultColDef} />
 		</div>
 	);

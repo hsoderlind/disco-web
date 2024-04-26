@@ -12,11 +12,13 @@ export const productStockSchema = vsb.object({
 	allow_order_out_of_stock: vsb.boolean(),
 	send_email_out_of_stock: vsb.boolean(),
 	in_stock_message: vsb.string().max(255).optional(),
-	available_at: vsb.date().or(isDayJs).optional()
+	available_at: vsb.date().or(isDayJs).optional(),
 });
 
 export type ProductStockSchema = vsbInfer<typeof productStockSchema>;
 
 export type ProductStockType = Prettify<{
 	id: number;
+	disposable_quantity: number;
+	approx_disposable_quantity: number;
 } & ProductStockSchema>

@@ -9,6 +9,7 @@ export type ContentLayoutProps = CommonContentLayoutProps;
 
 export type MainContentLayoutProps = {
 	renderButtonBar?: ReactNode | (() => ReactNode);
+	noSpacing?: boolean;
 } & CommonContentLayoutProps;
 
 export type SidebarContentLayoutProps = {

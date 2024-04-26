@@ -32,4 +32,15 @@ export abstract class Num {
 			}
 		).format(value)
 	}
+
+	static decimal(value: number) {
+		return new Intl.NumberFormat(
+			app.locale,
+			{
+				style: 'decimal',
+				minimumFractionDigits: 2,
+				maximumFractionDigits: 4
+			}
+		).format(value ?? 0);
+	}
 }

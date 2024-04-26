@@ -75,7 +75,11 @@ export const Details: FC = () => {
 							</Row>
 							<Row>
 								<Col flex='auto'>
-									<VisualBarcode name={`barcodes.${index}.value`} />
+									<VisualBarcode
+										id={`barcodes.${index}.barcode`}
+										formatFrom={`barcodes.${index}.barcode_type_id`}
+										name={`barcodes.${index}.value`}
+									/>
 								</Col>
 							</Row>
 						</div>
