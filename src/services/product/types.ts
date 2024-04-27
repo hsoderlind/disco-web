@@ -1,4 +1,4 @@
-import { ProductAttributeType, productAttributeStockSchema } from './../product-attribute/types';
+import { ProductAttributeType } from './../product-attribute/types';
 import app from "../../lib/application-builder/ApplicationBuilder";
 import { vsbInfer } from "../../lib/validation/validation-schema-builder";
 import { BarcodeType, barcodeSchema } from "../barcode/types";
@@ -16,14 +16,15 @@ import { ProductStock } from '../product-stock/ProductStock';
 import { ProductStates, ProductStatesUnion } from './ProductStates';
 import { ProductAttributeCollection } from '../product-attribute/ProductAttributeCollection';
 import { BarcodeCollection } from '../barcode/BarcodeCollection';
+import { TaxType } from '../tax/types';
+import { Tax } from '../tax/Tax';
 
 const vsb = app.getValidationSchemaBuilder();
 
-const combinedProductAttributeSchema = productAttributeSchema.extend({stock: productAttributeStockSchema})
-
 export const productSchema = vsb.object({
+	id: vsb.number().nonnegative().optional(),
 	state: vsb.enum(ProductStates.values()),
-	tax_id: vsb.number().optional(),
+	tax_id: vsb.number(),
 	supplier_id: vsb.number().optional(),
 	manufacturer_id: vsb.number().optional(),
 	price: vsb.number().min(0),
@@ -37,7 +38,7 @@ export const productSchema = vsb.object({
 	description: vsb.string().optional(),
 	categories: vsb.array(vsb.number().nonnegative()),
 	barcodes: vsb.array(barcodeSchema).optional(),
-	product_attributes: vsb.array(combinedProductAttributeSchema),
+	product_attributes: vsb.array(productAttributeSchema).optional(),
 	special_prices: vsb.array(productSpecialPriceSchema).optional(),
 	images: vsb.array(productImageSchema).optional(),
 	files: vsb.array(productFileSchema).optional(),
@@ -50,22 +51,23 @@ export type ProductType = {
 	id: number;
 	state: ProductStatesUnion,
 	tax_id: number;
-	supplier_id: number;
-	manufacturer_id: number;
+	supplier_id?: number;
+	manufacturer_id?: number;
 	price: number;
 	price_incl_vat: number;
 	cost_price: number;
-	reference: string;
-	supplier_reference: string;
+	reference?: string;
+	supplier_reference?: string;
 	condition: ProductConditionsUnion;
 	name: string;
 	summary?: string;
-	description: string;
+	description?: string;
 	categories?: Category[] | number[];
 	barcodes?: Partial<BarcodeType>[] | BarcodeCollection;
-	product_attributes: Partial<ProductAttributeType>[] | ProductAttributeCollection;
+	product_attributes?: Partial<ProductAttributeType>[] | ProductAttributeCollection;
 	special_prices?: Partial<ProductSpecialPriceType>[] | ProductSpecialPriceCollection;
-	files: Partial<ProductFileType>[] | ProductFileCollection;
-	images: Partial<ProductImageType>[] | ProductImageCollection;
-	stock: Partial<ProductStockType> | ProductStock
+	files?: Partial<ProductFileType>[] | ProductFileCollection;
+	images?: Partial<ProductImageType>[] | ProductImageCollection;
+	stock: Partial<ProductStockType> | ProductStock;
+	tax: Partial<TaxType> | Tax;
 };

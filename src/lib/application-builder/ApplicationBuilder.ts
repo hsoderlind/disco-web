@@ -8,13 +8,15 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import { MessageInstance } from "antd/es/message/interface";
 import { ReactNode } from "react";
+import { QueryClient } from "@tanstack/react-query";
 
 class ApplicationBuilder {
 	private i18nConfig: InitOptions = {};
 	private preferredLanguage: string = "sv";
-	private validationSchemaBuilder: ValidationSchemaBuilder = null!;
-	private notificationApi: NotificationInstance = null!;
-	private messageApi: MessageInstance = null!;
+	private validationSchemaBuilder!: ValidationSchemaBuilder;
+	private notificationApi!: NotificationInstance;
+	private messageApi!: MessageInstance;
+	private _queryClient!: QueryClient;
 	private _locale = 'sv-SE';
 
 	get locale() {
@@ -27,6 +29,10 @@ class ApplicationBuilder {
 		}
 
 		this._locale = value;
+	}
+
+	get queryClient() {
+		return this._queryClient;
 	}
 
 	validateLocale(value: string) {
@@ -118,9 +124,20 @@ class ApplicationBuilder {
 		dayjs.locale('sv');
 	}
 
+	private initQueryClient() {
+		return new QueryClient({
+			defaultOptions: {
+				queries: {
+					refetchOnWindowFocus: false
+				}
+			}
+		});
+	}
+
 	build() {
 		this.initI18n();
 		this.initDayJs();
+		this._queryClient = this.initQueryClient();
 		this.validationSchemaBuilder = initValidationSchemaBuilder();
 	}
 }

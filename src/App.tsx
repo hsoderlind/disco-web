@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 import routes from './routes';
 import AuthProvider from './contexts/auth/AuthProvider';
@@ -7,14 +7,6 @@ import { App as AntdApp, ConfigProvider, message, notification, theme } from 'an
 import locale from 'antd/locale/sv_SE';
 import app from './lib/application-builder/ApplicationBuilder';
 import useSystemTheme from './hooks/useSystemTheme';
-
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			refetchOnWindowFocus: false
-		}
-	}
-});
 
 const App: FC = () => {
 	const [notificationApi, contextHolder] = notification.useNotification({
@@ -35,7 +27,7 @@ const App: FC = () => {
 
 	return (
 		<>
-			<QueryClientProvider client={queryClient}>
+			<QueryClientProvider client={app.queryClient}>
 				<ConfigProvider
 					theme={{
 						cssVar: true,

@@ -13,6 +13,11 @@ export type RouteMatch = UIMatch<unknown, {
 	menuKey: string
 }>
 
+export type RouteParams = {
+	urlAlias: string;
+	id: string;
+}
+
 export type ExtractObjectStructure<T> = T extends (infer U)[] ? U : never;
 
 export abstract class Enum {

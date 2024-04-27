@@ -18,7 +18,6 @@ export const PostItProvider: FC<PostItProviderProps> = ({ children }) => {
 	const dbUpdate = useUpdateNote();
 	const dbRemove = useRemoveNote();
 	const notes = useLiveQuery(() => fetchAll());
-	console.log('notes', notes);
 	const [position, setPosition] = useState<PositionType>({ x: offsetLeft, y: 64 });
 	const store = useStoreNote();
 

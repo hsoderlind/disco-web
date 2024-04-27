@@ -5,14 +5,13 @@ import { vsbInfer } from "../../lib/validation/validation-schema-builder";
 const vsb = app.getValidationSchemaBuilder();
 
 export const barcodeSchema = vsb.object({
+	id: vsb.number().nonnegative().optional(),
 	value: vsb.string().nonempty(),
 	barcode_type_id: vsb.number().nonnegative()
 });
 
 export type BarcodeSchema = vsbInfer<typeof barcodeSchema>;
 
-export type BarcodeType = {
-	id: number;
-	value: string;
+export type BarcodeType = BarcodeSchema & {
 	barcode_type: BarcodeTypeClass
 }

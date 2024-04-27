@@ -1,8 +1,5 @@
-import Shop from "../Shop"
+import { getShopByUrlAlias } from "../queries"
 
 export const useGetShopByUrlAlias = (urlAlias: string) => {
-	const queryKey = [Shop.GET_SHOP_URI, urlAlias] as const;
-	const queryFn = async () => await Shop.getByUrlAlias(urlAlias);
-
-	return [queryKey, queryFn] as const;
+	return getShopByUrlAlias(urlAlias);
 }

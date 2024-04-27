@@ -1,65 +1,47 @@
-import { useMutation } from '@tanstack/react-query';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { RouteParams } from '../../../types/common';
+import { useLoadProduct } from '../../../services/product/hooks/useLoadProduct';
 import { useForm } from '../../../hooks/useForm';
-import { useCreateProduct } from '../../../services/product/hooks/useCreateProduct';
 import { ProductSchemaType, productSchema } from '../../../services/product/types';
-import { useShopStore } from '../../../services/shop/store';
-import { ServerValidationError } from '../../../lib/error/types';
-import { Product } from '../../../services/product/Product';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ExtractErrors } from '../../../lib/error/ExtractErrors';
-import { FormProvider, SubmitHandler } from 'react-hook-form';
-import { Form, Button, Dropdown, MenuProps } from 'antd';
-import { ContentLayout } from '../../../components/layout/content-layout/ContentLayout';
-import { MainContentLayout } from '../../../components/layout/content-layout/MainContentLayout';
-import app from '../../../lib/application-builder/ApplicationBuilder';
-import { ProductConditions } from '../../../services/product/ProductConditions';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import { ButtonBar } from '../../../components/forms/buttonbar';
-import { ProductImageUpload } from './components/product-image/ProductImageUpload';
-import { ProductFileUpload } from './components/product-file/ProductFileUpload';
-import { Stock } from './components/Stock';
-import { Price } from './components/Prices';
-import { ProductsAttributes } from './components/ProductAttributes';
-import { Details } from './components/Details';
-import { Description } from './components/Description';
 import { ProductStates } from '../../../services/product/ProductStates';
-import { DevTool } from '@hookform/devtools';
+import { Button, Dropdown, Form, MenuProps } from 'antd';
 import { useEffect } from 'react';
-import { Sidebar } from './components/Sidebar';
+import app from '../../../lib/application-builder/ApplicationBuilder';
+import { useUpdateProduct } from '../../../services/product/hooks/useUpdateProduct';
+import { useMutation } from '@tanstack/react-query';
+import { ServerValidationError } from '../../../lib/error/types';
+import { ExtractErrors } from '../../../lib/error/ExtractErrors';
+import { Product } from '../../../services/product/Product';
+import { FormProvider, SubmitHandler } from 'react-hook-form';
+import { ContentLayout } from '../../../components/layout/content-layout/ContentLayout';
+import { Sidebar } from '../new-product/components/Sidebar';
+import { MainContentLayout } from '../../../components/layout/content-layout/MainContentLayout';
+import { ButtonBar } from '../../../components/forms/buttonbar';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import { Description } from '../new-product/components/Description';
+import { Details } from '../new-product/components/Details';
+import { ProductsAttributes } from '../new-product/components/ProductAttributes';
+import { Price } from '../new-product/components/Prices';
+import { ProductImageUpload } from '../new-product/components/product-image/ProductImageUpload';
+import { ProductFileUpload } from '../new-product/components/product-file/ProductFileUpload';
+import { Stock } from '../new-product/components/Stock';
+import { DevTool } from '@hookform/devtools';
+import { loadProduct as loader } from '../../../services/product/loaders';
 
 const DEFAULT_SECTION = 'description';
 
+export { loader };
+
 export function Component() {
+	const { id } = useParams<RouteParams>();
+	const { data: product } = useLoadProduct(parseInt(id!));
+	const mutationFn = useUpdateProduct(product!);
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams({ section: DEFAULT_SECTION });
-	const section = searchParams.get('section');
 	const category = searchParams.has('category') ? parseInt(searchParams.get('category')!) : 0;
-	const shopId = useShopStore((state) => state.shop.id);
-	const [mutationFn] = useCreateProduct(shopId);
+	const section = searchParams.get('section');
 	const methods = useForm<ProductSchemaType>({
-		defaultValues: {
-			state: ProductStates.PUBLISHED,
-			reference: '',
-			supplier_reference: '',
-			name: '',
-			summary: '',
-			description: '',
-			price: 0,
-			price_incl_vat: 0,
-			cost_price: 0,
-			categories: category > 0 ? [category] : [],
-			condition: ProductConditions.NEW,
-			barcodes: [],
-			product_attributes: [],
-			special_prices: [],
-			stock: {
-				min_order_quantity: 1,
-				out_of_stock_message: 'Slutsåld',
-				in_stock_message: 'I lager',
-				allow_order_out_of_stock: false,
-				send_email_out_of_stock: false
-			}
-		},
+		defaultValues: typeof product !== 'undefined' ? product.toFormValues() : {},
 		schema: productSchema
 	});
 	const {
@@ -72,7 +54,7 @@ export function Component() {
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
-			app.addSuccessNotification({ description: 'Produkten har nu skapats.' });
+			app.addSuccessNotification({ description: 'Produkten har nu sparats.' });
 			const productId = product.getKey();
 			navigate(`../${productId}`);
 		},
@@ -81,7 +63,6 @@ export function Component() {
 			app.addErrorNotification({ description: error.message });
 		}
 	});
-
 	const onSubmit: SubmitHandler<ProductSchemaType> = (values) => {
 		return mutation.mutateAsync(values);
 	};
@@ -122,39 +103,37 @@ export function Component() {
 				<ContentLayout>
 					<Sidebar />
 					<MainContentLayout
-						renderButtonBar={() => (
+						renderButtonBar={
 							<ButtonBar>
 								<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToProducts} size='large'>
 									Produkter
 								</Button>
-								<div>
-									<Dropdown.Button
-										type='primary'
-										size='large'
-										onClick={saveAndPublish}
-										disabled={!isDirty}
-										loading={isSubmitting}
-										menu={{
-											items: [
-												{
-													key: 'save draft',
-													label: 'Spara som utkast',
-													disabled: !isDirty || isSubmitting
-												},
-												{
-													key: 'delete',
-													label: 'Radera produkten',
-													danger: true,
-													disabled: isSubmitting
-												}
-											],
-											onClick: onMenuClick
-										}}>
-										Spara & publicera
-									</Dropdown.Button>
-								</div>
+								<Dropdown.Button
+									type='primary'
+									size='large'
+									onClick={saveAndPublish}
+									disabled={!isDirty}
+									loading={isSubmitting}
+									menu={{
+										items: [
+											{
+												key: 'save draft',
+												label: 'Spara som utkast',
+												disabled: !isDirty || isSubmitting
+											},
+											{
+												key: 'delete',
+												label: 'Radera produkten',
+												danger: true,
+												disabled: isSubmitting
+											}
+										],
+										onClick: onMenuClick
+									}}>
+									Spara & publicera
+								</Dropdown.Button>
 							</ButtonBar>
-						)}>
+						}>
 						{section === 'description' && <Description />}
 						{section === 'details' && <Details />}
 						{section === 'features' && <ProductsAttributes />}

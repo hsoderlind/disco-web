@@ -27,6 +27,8 @@ export function Component() {
 	const { data, isSuccess, isLoading } = useQuery(queryKey, queryFn);
 	const rowData = isSuccess ? data?.toJSON() : isLoading ? undefined : [];
 
+	const goToEditProduct = (id: number) => navigate(`./${id}`);
+
 	const [columnDefs] = useState<GridOptions<ProductType>['columnDefs']>([
 		{
 			field: 'name',
@@ -68,8 +70,8 @@ export function Component() {
 		},
 		{
 			colId: 'actions',
-			cellRenderer: () => {
-				return <Button icon={<ArrowRightOutlined />} />;
+			cellRenderer: (props: { data: { id: number } }) => {
+				return <Button icon={<ArrowRightOutlined />} onClick={() => goToEditProduct(props.data.id)} />;
 			},
 			type: 'rightAligned'
 		}
