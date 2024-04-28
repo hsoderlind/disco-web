@@ -1,12 +1,12 @@
 import { Button, Col, Divider, Input, Row, Segmented, Typography } from 'antd';
 import { FC } from 'react';
-import FormItem from '../../../../lib/form/FormItem';
+import FormItem from '../../../lib/form/FormItem';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { ProductConditions } from '../../../../services/product/ProductConditions';
+import { ProductConditions } from '../../../services/product/ProductConditions';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { ProductSchemaType } from '../../../../services/product/types';
+import { ProductSchemaType } from '../../../services/product/types';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { BarcodeTypeSelect } from '../../../../components/forms/controls/BarcodeTypeSelect';
+import { BarcodeTypeSelect } from '../../../components/forms/controls/BarcodeTypeSelect';
 import { VisualBarcode } from './visual-barcode';
 
 export const Details: FC = () => {

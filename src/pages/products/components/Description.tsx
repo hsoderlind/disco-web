@@ -1,11 +1,11 @@
 import { FC } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { ProductSchemaType } from '../../../../services/product/types';
+import { ProductSchemaType } from '../../../services/product/types';
 import { Col, Input, Row, Typography } from 'antd';
-import FormItem from '../../../../lib/form/FormItem';
-import { CategorySelect } from '../../../../components/forms/controls/CategorySelect';
-import { UncontrolledLabel } from '../../../../components/forms/UncontrolledLabel';
-import { Editor } from '../../../../components/forms/controls/Editor';
+import FormItem from '../../../lib/form/FormItem';
+import { CategorySelect } from '../../../components/forms/controls/CategorySelect';
+import { UncontrolledLabel } from '../../../components/forms/UncontrolledLabel';
+import { Editor } from '../../../components/forms/controls/Editor';
 
 export const Description: FC = () => {
 	const { control } = useFormContext<ProductSchemaType>();

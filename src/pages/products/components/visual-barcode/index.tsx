@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { Format, VisualBarcodeProps } from './types';
 import { useFormContext } from 'react-hook-form';
-import { ProductSchemaType } from '../../../../../services/product/types';
+import { ProductSchemaType } from '../../../../services/product/types';
 import Barcode from 'react-barcode';
-import { useLoadBarcodeTypes } from '../../../../../services/barcode-type/hooks/useLoadBarcodeTypes';
-import { canGenerateBarcodeGraphic } from '../../../../../services/barcode-type/formats';
+import { useLoadBarcodeTypes } from '../../../../services/barcode-type/hooks/useLoadBarcodeTypes';
+import { canGenerateBarcodeGraphic } from '../../../../services/barcode-type/formats';
 
 export const VisualBarcode: FC<VisualBarcodeProps> = ({ id, name, formatFrom, ...props }) => {
 	const [format, setFormat] = useState<string | null>(null);

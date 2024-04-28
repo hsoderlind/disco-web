@@ -52,6 +52,16 @@ export class Upload extends Model<UploadType, 'id'> {
 		}, 100);
 	}
 
+	checkIsUploaded(cb: (uploaded: boolean) => void) {
+		const t = setTimeout(() => {
+			cb(this.get('isUploaded'));
+
+			if (this.get<boolean>('isUploaded') || this.get<ServerValidationError>('error')) {
+				clearInterval(t);
+			}
+		}, 100);
+	}
+
 	async upload() {
 		if (!this.isset('model')) {
 			this.set('model', new FileModel({}, this.shopId));

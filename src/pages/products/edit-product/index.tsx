@@ -14,17 +14,17 @@ import { ExtractErrors } from '../../../lib/error/ExtractErrors';
 import { Product } from '../../../services/product/Product';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
 import { ContentLayout } from '../../../components/layout/content-layout/ContentLayout';
-import { Sidebar } from '../new-product/components/Sidebar';
+import { Sidebar } from '../components/Sidebar';
 import { MainContentLayout } from '../../../components/layout/content-layout/MainContentLayout';
 import { ButtonBar } from '../../../components/forms/buttonbar';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Description } from '../new-product/components/Description';
-import { Details } from '../new-product/components/Details';
-import { ProductsAttributes } from '../new-product/components/ProductAttributes';
-import { Price } from '../new-product/components/Prices';
-import { ProductImageUpload } from '../new-product/components/product-image/ProductImageUpload';
-import { ProductFileUpload } from '../new-product/components/product-file/ProductFileUpload';
-import { Stock } from '../new-product/components/Stock';
+import { Description } from '../components/Description';
+import { Details } from '../components/Details';
+import { ProductsAttributes } from '../components/ProductAttributes';
+import { Price } from '../components/Prices';
+import { ProductImageUpload } from '../components/product-image/ProductImageUpload';
+import { ProductFileUpload } from '../components/product-file/ProductFileUpload';
+import { Stock } from '../components/Stock';
 import { DevTool } from '@hookform/devtools';
 import { loadProduct as loader } from '../../../services/product/loaders';
 
@@ -51,20 +51,20 @@ export function Component() {
 		formState: { isDirty, isSubmitting, isValid, errors }
 	} = methods;
 	const isError = Object.keys(errors).length > 0;
+	console.log('form errors', errors);
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
-		onSuccess(product) {
+		onSuccess() {
 			app.addSuccessNotification({ description: 'Produkten har nu sparats.' });
-			const productId = product.getKey();
-			navigate(`../${productId}`);
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<ProductSchemaType>(error)(setError);
 			app.addErrorNotification({ description: error.message });
 		}
 	});
-	const onSubmit: SubmitHandler<ProductSchemaType> = (values) => {
-		return mutation.mutateAsync(values);
+	const onSubmit: SubmitHandler<ProductSchemaType> = (formValues) => {
+		// return mutation.mutateAsync(formValues);
+		console.log('form values', formValues);
 	};
 
 	const saveAndPublish = () => {

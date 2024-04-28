@@ -12,7 +12,8 @@ export type ImageProps = {
 	src: SrcType;
 	className?: string;
 	width?: CSSProperties['width'];
-	key: string;
+	queryKey: string;
+	downloadingIsDisabled?: boolean;
 };
 
 export type ImageLoaderProps = {

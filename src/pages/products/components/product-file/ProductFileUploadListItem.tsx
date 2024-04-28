@@ -1,10 +1,10 @@
 import { forwardRef, memo, useState } from 'react';
 import { ProductFileUploadListItemProps } from './types';
 import { DragOutlined, EllipsisOutlined, ExclamationCircleFilled } from '@ant-design/icons';
-import { FileIcon } from '../../../../../components/file-icons/FileIcon';
-import { File } from '../../../../../services/file/File';
+import { FileIcon } from '../../../../components/file-icons/FileIcon';
+import { File } from '../../../../services/file/File';
 import { Button, Dropdown, MenuProps, Modal, Progress } from 'antd';
-import { Num } from '../../../../../lib/number/Num';
+import { Num } from '../../../../lib/number/Num';
 import classes from './product-file-upload-list.module.scss';
 import { useProductFileUploadContext } from './hooks/useProductFileUploadContext';
 

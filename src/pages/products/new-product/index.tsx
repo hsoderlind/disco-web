@@ -15,17 +15,17 @@ import app from '../../../lib/application-builder/ApplicationBuilder';
 import { ProductConditions } from '../../../services/product/ProductConditions';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { ButtonBar } from '../../../components/forms/buttonbar';
-import { ProductImageUpload } from './components/product-image/ProductImageUpload';
-import { ProductFileUpload } from './components/product-file/ProductFileUpload';
-import { Stock } from './components/Stock';
-import { Price } from './components/Prices';
-import { ProductsAttributes } from './components/ProductAttributes';
-import { Details } from './components/Details';
-import { Description } from './components/Description';
+import { ProductImageUpload } from '../components/product-image/ProductImageUpload';
+import { ProductFileUpload } from '../components/product-file/ProductFileUpload';
+import { Stock } from '../components/Stock';
+import { Price } from '../components/Prices';
+import { ProductsAttributes } from '../components/ProductAttributes';
+import { Details } from '../components/Details';
+import { Description } from '../components/Description';
 import { ProductStates } from '../../../services/product/ProductStates';
 import { DevTool } from '@hookform/devtools';
 import { useEffect } from 'react';
-import { Sidebar } from './components/Sidebar';
+import { Sidebar } from '../components/Sidebar';
 
 const DEFAULT_SECTION = 'description';
 

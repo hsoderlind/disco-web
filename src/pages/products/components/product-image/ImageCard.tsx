@@ -1,18 +1,20 @@
 import { FC, memo, useState } from 'react';
 import classes from './product-image-list.module.scss';
-import { Num } from '../../../../../lib/number/Num';
+import { Num } from '../../../../lib/number/Num';
 import { Button, Dropdown, MenuProps, Progress } from 'antd';
 import { DragOutlined, EllipsisOutlined } from '@ant-design/icons';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { ImageCardProps } from './types';
 import { useProductImageContext } from './hooks/useProductImageContext';
-import { File } from '../../../../../services/file/File';
-import { Image } from '../../../../../components/image/Image';
+import { File } from '../../../../services/file/File';
+import { Image } from '../../../../components/image/Image';
 
 const InternalImageCard: FC<ImageCardProps> = ({ id, index, model }) => {
 	const [progress, setProgress] = useState(model.get<number>('uploadProgress'));
+	const [isUploaded, setIsUploaded] = useState(false);
 	model.getUploadProgress(setProgress);
+	model.checkIsUploaded((uploaded) => uploaded && setIsUploaded(true));
 	const { remove } = useProductImageContext();
 	const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
@@ -40,7 +42,8 @@ const InternalImageCard: FC<ImageCardProps> = ({ id, index, model }) => {
 					<Image
 						src={() => model.get<File>('model').download()}
 						className={classes['product-image-list__img-col__img']}
-						key={model.get<File>('model').get('id')}
+						queryKey={model.get<File>('model').get('id')}
+						downloadingIsDisabled={!isUploaded}
 					/>
 				</div>
 				<div className='w-full px-4 pt-2'>

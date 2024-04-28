@@ -1,16 +1,16 @@
 import { FC } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { ProductSchemaType } from '../../../../services/product/types';
+import { ProductSchemaType } from '../../../services/product/types';
 import { Button, DatePicker, Divider, InputNumber, Row, Col, Typography, DescriptionsProps, Descriptions } from 'antd';
-import { GrossPriceOutput } from '../../../../components/forms/controls/GrossPriceOutput';
-import FormItem from '../../../../lib/form/FormItem';
-import { TaxSelect } from '../../../../components/forms/controls/TaxSelect';
+import { GrossPriceOutput } from '../../../components/forms/controls/GrossPriceOutput';
+import FormItem from '../../../lib/form/FormItem';
+import { TaxSelect } from '../../../components/forms/controls/TaxSelect';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { Currency } from '../../../../lib/number/Currency';
-import { Accounting } from '../../../../lib/accounting';
-import { Num } from '../../../../lib/number/Num';
+import { Currency } from '../../../lib/number/Currency';
+import { Accounting } from '../../../lib/accounting';
+import { Num } from '../../../lib/number/Num';
 
 export const Price: FC = () => {
 	const { control, watch } = useFormContext<ProductSchemaType>();

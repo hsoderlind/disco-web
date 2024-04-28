@@ -1,14 +1,14 @@
 import { FC } from 'react';
 import { ProductFileUploadContextType } from './types';
-import { OnDropCb } from '../../../../../components/forms/controls/upload/types';
+import { OnDropCb } from '../../../../components/forms/controls/upload/types';
 import { CloudUploadOutlined } from '@ant-design/icons';
-import { UploadHero } from '../../../../../components/forms/controls/upload/UploadHero';
+import { UploadHero } from '../../../../components/forms/controls/upload/UploadHero';
 import { ProductFileUploadContext } from './ProductFileUploadContext';
 import { ProductFileUploadList } from './ProductFileUploadList';
 import { useProductFileStore } from './store';
 import { useFieldArray, useFormContext, FieldArrayWithId } from 'react-hook-form';
-import { ProductSchemaType } from '../../../../../services/product/types';
-import { File } from '../../../../../services/file/File';
+import { ProductSchemaType } from '../../../../services/product/types';
+import { File } from '../../../../services/file/File';
 import { Typography } from 'antd';
 
 export const ProductFileUpload: FC = () => {

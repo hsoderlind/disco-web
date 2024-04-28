@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { SidebarContentLayout } from '../../../../components/layout/content-layout/SidebarContentLayout';
+import { SidebarContentLayout } from '../../../components/layout/content-layout/SidebarContentLayout';
 import { Badge, Menu, Tooltip } from 'antd';
 import { useSearchParams } from 'react-router-dom';
 import { useFormContext } from 'react-hook-form';
-import { ProductSchemaType } from '../../../../services/product/types';
+import { ProductSchemaType } from '../../../services/product/types';
 import { IonIcon } from '@ionic/react';
 import {
 	barcodeOutline,

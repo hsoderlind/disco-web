@@ -5,13 +5,25 @@ import { Skeleton } from 'antd';
 import { ExclamationOutlined } from '@ant-design/icons';
 import { ImageLoader } from './ImageLoader';
 
-export const Image: FC<ImageProps> = ({ fallback, key, loading, src, className, width }) => {
-	const { data, isLoading, isError } = useQuery([key], src);
+export const Image: FC<ImageProps> = ({
+	fallback,
+	queryKey,
+	loading,
+	src,
+	className,
+	width,
+	downloadingIsDisabled = false
+}) => {
+	const { data, isLoading, isError } = useQuery([queryKey], src, { enabled: !downloadingIsDisabled });
 
 	const commonProps = {
 		className,
 		style: { width }
 	};
+
+	if (downloadingIsDisabled) {
+		return <ImageLoader active {...commonProps} />;
+	}
 
 	if (isLoading && typeof loading !== 'undefined') {
 		return typeof loading === 'function' ? loading() : loading;

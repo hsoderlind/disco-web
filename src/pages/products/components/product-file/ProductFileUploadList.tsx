@@ -1,6 +1,6 @@
 import { FC, ComponentProps } from 'react';
 import { ProductFileUploadListProps } from './types';
-import { Upload } from '../../../../../components/forms/controls/upload/types';
+import { Upload } from '../../../../components/forms/controls/upload/types';
 import { DndContext, KeyboardSensor, PointerSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { SortableItem } from './SortableItem';

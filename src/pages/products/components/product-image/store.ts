@@ -5,18 +5,13 @@ export const useProductImageStore = create<ProductImageStore>()((set) => ({
 	models: [],
 	add: (models) => set((state) => {
 		if (!Array.isArray(models)) {
-			state.models.push(models);
+			return {models: [...state.models, models]};
 		} else {
-			models.forEach((model) => state.models.push(model));
+			return {models: [...state.models, ...models]};
 		}
-
-		return state;
 	}),
 	remove: (model) => set((state) => {
-		const index = state.models.findIndex((item) => item.getKey() === model.getKey());
-		state.models.splice(index, 1);
-
-		return state
+		return {models: state.models.filter((m) => m.getKey() !== model.getKey())}
 	}),
 	clear: () => set({models: []})
 }));

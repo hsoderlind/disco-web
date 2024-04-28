@@ -1,14 +1,14 @@
 import { FC } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { ProductSchemaType } from '../../../../services/product/types';
+import { ProductSchemaType } from '../../../services/product/types';
 import { Button, Col, DatePicker, Input, InputNumber, Row, Switch, Typography } from 'antd';
-import { ExpandableControl } from '../../../../components/forms/controls/ExpandableControl';
-import FormItem from '../../../../lib/form/FormItem';
-import { AttributeValueSelect } from '../../../../components/forms/controls/AttributeValueSelect';
+import { ExpandableControl } from '../../../components/forms/controls/ExpandableControl';
+import FormItem from '../../../lib/form/FormItem';
+import { AttributeValueSelect } from '../../../components/forms/controls/AttributeValueSelect';
 import { CheckOutlined, CloseOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-import { AttributeTypeSelect } from '../../../../components/forms/controls/AttributeTypeSelect';
+import { AttributeTypeSelect } from '../../../components/forms/controls/AttributeTypeSelect';
 
 export const ProductsAttributes: FC = () => {
 	const { control } = useFormContext<ProductSchemaType>();
