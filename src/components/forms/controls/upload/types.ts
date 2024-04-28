@@ -24,21 +24,22 @@ export class FileRejectionCollection extends Collection<FileRejectionType, 'key'
 }
 
 export type UploadType = {
-	id: string;
+	key: string;
 	storageProvider: string;
 	model?: FileModel;
 	buffer: globalThis.File;
 	preview: ReturnType<typeof URL.createObjectURL>;
 	uploadProgress: number;
 	isUploaded: boolean;
-	error?: ServerValidationError
+	error?: ServerValidationError;
+	sort_order?: number;
 }
 
-export class Upload extends Model<UploadType, 'id'> {
+export class Upload extends Model<UploadType, 'key'> {
 	constructor(data: Partial<UploadType>, protected readonly shopId: number) {
 		data.uploadProgress = 0;
 		data.isUploaded = false;
-		super('id', data);
+		super('key', data);
 		this.httpClient.setHeaders({'x-shop-id': this.shopId});
 	}
 
@@ -105,12 +106,6 @@ export class Upload extends Model<UploadType, 'id'> {
 
 	async create(): Promise<this> {
 		return this.upload();
-	}
-}
-
-export class UploadCollection extends Collection<UploadType, 'id', Upload> {
-	constructor(items: Upload[]) {
-		super(items);
 	}
 }
 

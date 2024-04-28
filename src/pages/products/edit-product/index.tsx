@@ -27,6 +27,8 @@ import { ProductFileUpload } from '../components/product-file/ProductFileUpload'
 import { Stock } from '../components/Stock';
 import { DevTool } from '@hookform/devtools';
 import { loadProduct as loader } from '../../../services/product/loaders';
+import { useProductImageStore } from '../components/product-image/store';
+import { File } from '../../../services/file/File';
 
 const DEFAULT_SECTION = 'description';
 
@@ -35,6 +37,7 @@ export { loader };
 export function Component() {
 	const { id } = useParams<RouteParams>();
 	const { data: product } = useLoadProduct(parseInt(id!));
+	const productImageStore = useProductImageStore();
 	const mutationFn = useUpdateProduct(product!);
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams({ section: DEFAULT_SECTION });
@@ -63,8 +66,22 @@ export function Component() {
 		}
 	});
 	const onSubmit: SubmitHandler<ProductSchemaType> = (formValues) => {
-		// return mutation.mutateAsync(formValues);
-		console.log('form values', formValues);
+		if (productImageStore.models.length > 0) {
+			formValues.images = productImageStore.models.map((model) => ({
+				uploadModelRef: model.getKey(),
+				sort_order: model.get('sort_order'),
+				use_as_cover: false,
+				meta: {
+					id: model.get<File>('model').get('id'),
+					extension: model.get<File>('model').get('extension'),
+					filename: model.get<File>('model').get('filename'),
+					mimetype: model.get<File>('model').get('mimetype'),
+					size: model.get<File>('model').get('size'),
+					storage_provider: model.get<File>('model').get('storage_provider')
+				}
+			}));
+		}
+		return mutation.mutateAsync(formValues);
 	};
 
 	const saveAndPublish = () => {

@@ -8,7 +8,7 @@ import mime from 'mime-types';
 export const makeOnDrop: MakeOnDropFn = (storageProvider, shopId, onDrop, onUploadedCb, onError) => async (acceptedFile: FileWithPath[], fileRejections) => {
 	const models = acceptedFile.map((file) => {
 		return new Upload({
-			id: Str.uuid(),
+			key: Str.uuid(),
 			storageProvider,
 			buffer: file,
 			preview: URL.createObjectURL(file),
@@ -22,8 +22,6 @@ export const makeOnDrop: MakeOnDropFn = (storageProvider, shopId, onDrop, onUplo
 		}, shopId);
 	});
 		
-
-	// const collection = new UploadCollection(models);
 
 	const rejectionModels = fileRejections.map((fileRejection) => {
 		return new FileRejection({

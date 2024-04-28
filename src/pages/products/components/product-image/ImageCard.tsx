@@ -10,22 +10,28 @@ import { useProductImageContext } from './hooks/useProductImageContext';
 import { File } from '../../../../services/file/File';
 import { Image } from '../../../../components/image/Image';
 
-const InternalImageCard: FC<ImageCardProps> = ({ id, index, model }) => {
+const InternalImageCard: FC<ImageCardProps> = ({ id, model }) => {
+	const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 	const [progress, setProgress] = useState(model.get<number>('uploadProgress'));
 	const [isUploaded, setIsUploaded] = useState(false);
-	model.getUploadProgress(setProgress);
-	model.checkIsUploaded((uploaded) => uploaded && setIsUploaded(true));
 	const { remove } = useProductImageContext();
-	const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
+	console.log('isUploaded', isUploaded);
+
+	model.getUploadProgress(setProgress);
+	model.checkIsUploaded((uploaded) => {
+		if (uploaded) {
+			setIsUploaded(true);
+		}
+	});
 
 	const style = {
 		transform: CSS.Transform.toString(transform),
 		transition
 	};
 
-	const removeImage = async () => {
-		await model.delete();
-		remove(index);
+	const removeImage = () => {
+		remove(model);
+		model.delete();
 	};
 
 	const onActionMenuClick: MenuProps['onClick'] = (info) => {
