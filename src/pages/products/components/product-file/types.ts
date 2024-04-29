@@ -1,12 +1,9 @@
-import { FieldArrayWithId, UseFieldArrayMove, UseFieldArrayRemove } from "react-hook-form"
-import { ProductSchemaType } from "../../../../services/product/types"
 import { Upload } from "../../../../components/forms/controls/upload/types";
 import { DraggableAttributes } from "@dnd-kit/core";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
 
 export type ProductFileUploadListProps = {
-	fields: FieldArrayWithId<ProductSchemaType, 'files', 'key'>[];
 	models: Upload[];
 }
 
@@ -25,8 +22,8 @@ export type ProductFileUploadListItemProps = {
 }
 
 export type ProductFileUploadContextType = {
-	move: UseFieldArrayMove;
-	remove: UseFieldArrayRemove;
+	move: (fromIndex: number, toIndex: number) => void;
+	remove: (model: Upload) => void;
 }
 
 export type ProductFileStore = {
@@ -34,4 +31,5 @@ export type ProductFileStore = {
 	add: (models: Upload | Upload[]) => void;
 	remove: (model: Upload) => void;
 	clear: () => void;
+	move: (fromIndex: number, toIndex: number) => void;
 }

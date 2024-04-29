@@ -6,18 +6,19 @@ import { ServerValidationError } from "../../../../lib/error/types";
 import mime from 'mime-types';
 
 export const makeOnDrop: MakeOnDropFn = (storageProvider, shopId, onDrop, onUploadedCb, onError) => async (acceptedFile: FileWithPath[], fileRejections) => {
-	const models = acceptedFile.map((file) => {
+	const models = acceptedFile.map((file, index) => {
 		return new Upload({
 			key: Str.uuid(),
 			storageProvider,
 			buffer: file,
 			preview: URL.createObjectURL(file),
+			sort_order: index + 1,
 			model: new FileModel({
 				filename: file.name,
 				mimetype: file.type,
 				size: file.size,
 				extension: mime.extension(file.type) as string ?? 'bin',
-				storage_provider: storageProvider
+				storage_resolver: storageProvider
 			}, shopId),
 		}, shopId);
 	});

@@ -7,7 +7,6 @@ const vsb = app.getValidationSchemaBuilder();
 
 export const productImageSchema = vsb.object({
 	id: vsb.number().nonnegative().optional(),
-	uploadModelRef: vsb.string().optional(),
 	use_as_cover: vsb.boolean().default(false),
 	sort_order: vsb.number().min(0),
 	meta: fileSchema

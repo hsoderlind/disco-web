@@ -10,7 +10,6 @@ export type removeFailedUploadedFilCb = (file: Upload) => void;
 export type ProductImageContextType = {
 	move: (fromIndex: number, toIndex: number) => void;
 	remove: (model: Upload) => void;
-	append: (model: Upload) => void;
 }
 
 export type ProductImageStore = {

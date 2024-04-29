@@ -1,6 +1,5 @@
 import { FC, ComponentProps } from 'react';
 import { ProductFileUploadListProps } from './types';
-import { Upload } from '../../../../components/forms/controls/upload/types';
 import { DndContext, KeyboardSensor, PointerSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { SortableItem } from './SortableItem';
@@ -9,7 +8,7 @@ import { useProductFileUploadContext } from './hooks/useProductFileUploadContext
 
 type DndContextProps = ComponentProps<typeof DndContext>;
 
-export const ProductFileUploadList: FC<ProductFileUploadListProps> = ({ fields, models }) => {
+export const ProductFileUploadList: FC<ProductFileUploadListProps> = ({ models }) => {
 	const { move } = useProductFileUploadContext();
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -18,22 +17,11 @@ export const ProductFileUploadList: FC<ProductFileUploadListProps> = ({ fields, 
 		})
 	);
 
-	if (fields.length === 0) {
+	if (models.length === 0) {
 		return null;
 	}
 
-	const keyModelMap: Record<string, Upload> = {};
-	fields.forEach((field) => {
-		const model = models.find((m) => m.getKey() === field.id);
-
-		if (!model) {
-			return;
-		}
-
-		keyModelMap[field.key] = model;
-	});
-
-	const sortableItems = Object.keys(keyModelMap);
+	const sortableItems = models.map((model) => model.getKey());
 
 	const handleDragEnd: DndContextProps['onDragEnd'] = (event) => {
 		const { active, over } = event;
@@ -51,8 +39,8 @@ export const ProductFileUploadList: FC<ProductFileUploadListProps> = ({ fields, 
 		<div className={classes['product-file-upload-list']}>
 			<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
 				<SortableContext items={sortableItems} strategy={verticalListSortingStrategy}>
-					{fields.map((field, index) => (
-						<SortableItem key={field.key} id={field.key} index={index} model={keyModelMap[field.key]} />
+					{models.map((model, index) => (
+						<SortableItem key={model.getKey()} id={model.getKey()} index={index} model={model} />
 					))}
 				</SortableContext>
 			</DndContext>

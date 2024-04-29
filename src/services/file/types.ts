@@ -9,16 +9,9 @@ export const fileSchema = vsb.object({
 	size: vsb.number().min(0),
 	mimetype: vsb.string().nonempty(),
 	extension: vsb.string().nonempty(),
-	storage_provider: vsb.string().nonempty()
+	storage_resolver: vsb.string().nonempty()
 });
 
 export type FileSchemaType = vsbInfer<typeof fileSchema>;
 
-export type FileType = {
-	id: number | string;
-	filename: string;
-	size: number;
-	mimetype: string;
-	extension: string;
-	storage_provider: string;
-}
+export type FileType = FileSchemaType;

@@ -70,7 +70,7 @@ export class Upload extends Model<UploadType, 'key'> {
 
 		const formData = new FormData();
 		formData.append(this.get('storageProvider'), this.get<globalThis.File>('buffer'));
-		formData.append('storage_provider', this.get<string>('storageProvider'));
+		formData.append('storage_resolver', this.get<string>('storageProvider'));
 		try {
 			const response = await this.httpClient.post<FileType, FormData>(
 				this.get<FileModel>('model').getEndpoint(), 

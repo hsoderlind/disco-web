@@ -15,14 +15,9 @@ const InternalImageCard: FC<ImageCardProps> = ({ id, model }) => {
 	const [progress, setProgress] = useState(model.get<number>('uploadProgress'));
 	const [isUploaded, setIsUploaded] = useState(false);
 	const { remove } = useProductImageContext();
-	console.log('isUploaded', isUploaded);
 
 	model.getUploadProgress(setProgress);
-	model.checkIsUploaded((uploaded) => {
-		if (uploaded) {
-			setIsUploaded(true);
-		}
-	});
+	model.checkIsUploaded((uploaded) => uploaded && setIsUploaded(true));
 
 	const style = {
 		transform: CSS.Transform.toString(transform),
