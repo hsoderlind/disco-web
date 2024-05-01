@@ -47,7 +47,7 @@ const SettingsMenu: FC = () => {
 
 	const onClick: MenuProps['onClick'] = (e) => {
 		const uri = `/${params.urlAlias}/${e.key}`;
-		navigate(uri);
+		navigate(uri, { state: { title: e.domEvent.currentTarget.innerText } });
 	};
 
 	return <Menu onClick={onClick} disabled={!hasShops || !selectedShop} items={items} mode='horizontal' theme='dark' />;

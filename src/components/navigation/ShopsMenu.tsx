@@ -29,7 +29,7 @@ const ShopsMenu: FC = () => {
 
 		const shop = shops?.find((entry) => entry.get<string>('url_alias') === item.key);
 		setSelectedShop(shop!);
-		navigate(shop!.get<string>('url_alias')!);
+		navigate(shop!.get<string>('url_alias')!, { state: { title: shop?.get('name') } });
 	};
 
 	const openRegisterShopModal = () => {

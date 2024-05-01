@@ -20,7 +20,7 @@ const RegisterShopContainer: FC = () => {
 	const onAfterCreate = (shop: Shop) => {
 		setOpen(false);
 		queryClient.refetchQueries({ queryKey });
-		navigate(shop.get<string>('url_alias')!);
+		navigate(shop.get<string>('url_alias')!, { state: { title: shop.get('name') } });
 	};
 
 	if (isLoading) {

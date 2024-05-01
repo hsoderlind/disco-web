@@ -27,7 +27,7 @@ export function Component() {
 	const { data, isSuccess, isLoading } = useQuery(queryKey, queryFn);
 	const rowData = isSuccess ? data?.toJSON() : isLoading ? undefined : [];
 
-	const goToEditProduct = (id: number) => navigate(`./${id}`);
+	const goToEditProduct = (id: number, name: string) => navigate(`./${id}`, { state: { title: name } });
 
 	const [columnDefs] = useState<GridOptions<ProductType>['columnDefs']>([
 		{
@@ -70,15 +70,15 @@ export function Component() {
 		},
 		{
 			colId: 'actions',
-			cellRenderer: (props: { data: { id: number } }) => {
-				return <Button icon={<ArrowRightOutlined />} onClick={() => goToEditProduct(props.data.id)} />;
+			cellRenderer: (props: { data: { id: number; name: string } }) => {
+				return <Button icon={<ArrowRightOutlined />} onClick={() => goToEditProduct(props.data.id, props.data.name)} />;
 			},
 			type: 'rightAligned'
 		}
 	]);
 
 	const goToNewProductPage = () => {
-		navigate(`./new?section=description&category=${category}`);
+		navigate(`./new?section=description&category=${category}`, { state: { title: 'Ny produkt' } });
 	};
 
 	return (

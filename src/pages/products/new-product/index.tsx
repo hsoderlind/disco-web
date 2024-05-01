@@ -76,7 +76,7 @@ export function Component() {
 		onSuccess(product) {
 			app.addSuccessNotification({ description: 'Produkten har nu skapats.' });
 			const productId = product.getKey();
-			navigate(`../${productId}`);
+			navigate(`../${productId}`, { state: { title: product.get('name') } });
 		},
 		onError(error) {
 			ExtractErrors.fromServerValidationErrorToFormErrors<ProductSchemaType>(error)(setError);
@@ -99,7 +99,7 @@ export function Component() {
 	};
 
 	const goToProducts = () => {
-		navigate(`../?category=${category}`);
+		navigate(`../?category=${category}`, { state: { title: 'Produkter' } });
 	};
 
 	const onMenuClick: MenuProps['onClick'] = (event) => {

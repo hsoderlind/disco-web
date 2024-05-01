@@ -32,6 +32,7 @@ import { File } from '../../../services/file/File';
 import { useProductFileStore } from '../components/product-file/store';
 import { DiscogsButton } from '../../../services/discogs/components/DiscogsButton';
 import { Toolbar } from '../../../components/toolbar';
+import { Tabs } from '../../../components/tabs/Tabs';
 
 const DEFAULT_SECTION = 'description';
 
@@ -112,7 +113,7 @@ export function Component() {
 	};
 
 	const goToProducts = () => {
-		navigate(`../?category=${category}`);
+		navigate(`../?category=${category}`, { state: { title: 'Produkter' } });
 	};
 
 	const onMenuClick: MenuProps['onClick'] = (event) => {
@@ -170,6 +171,7 @@ export function Component() {
 						}
 						renderToolbar={
 							<Toolbar>
+								<Tabs />
 								<DiscogsButton />
 							</Toolbar>
 						}>

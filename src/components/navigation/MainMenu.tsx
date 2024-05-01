@@ -27,7 +27,7 @@ const MainMenu: FC = () => {
 			uri = makeUri(e.key);
 		}
 
-		navigate(uri);
+		navigate(uri, { state: { title: e.domEvent.currentTarget.innerText } });
 	};
 
 	const items: MenuProps['items'] = [
