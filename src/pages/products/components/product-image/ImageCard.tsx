@@ -13,7 +13,7 @@ import { Image } from '../../../../components/image/Image';
 const InternalImageCard: FC<ImageCardProps> = ({ id, model }) => {
 	const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 	const [progress, setProgress] = useState(model.get<number>('uploadProgress'));
-	const [isUploaded, setIsUploaded] = useState(false);
+	const [isUploaded, setIsUploaded] = useState(model.get<boolean>('isUploaded'));
 	const { remove } = useProductImageContext();
 
 	model.getUploadProgress(setProgress);

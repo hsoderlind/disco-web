@@ -1,0 +1,7 @@
+@use "../../../sass/vars";
+@use "../../../sass/utils/mixins" as m;
+
+.discogs-icon {
+	fill: currentColor;
+	padding-block-start: 0.2em;
+}

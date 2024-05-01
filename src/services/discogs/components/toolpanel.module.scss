@@ -1,0 +1,55 @@
+@use "../../../sass/vars";
+@use "../../../sass/utils/mixins" as m;
+
+.toolpanel {
+	--_width: 15.625rem;
+	position: fixed;
+	top: 4rem;
+	right: 0;
+	width: var(--_width);
+	height: calc(100vh - 4rem);
+	background-color: vars.$clr-surface-light;
+	z-index: 1;
+	isolation: isolate;
+	box-shadow: 10px 5px 5px vars.$clr-surface-500;
+	transform: translateX(var(--_width));
+	transition: transform 250ms linear;
+
+	&--expanded {
+		transform: translateX(0);
+	}
+
+	header {
+		@include m.flex;
+		@include m.justify-between;
+		@include m.items-center;
+		margin: vars.$space-4;
+	}
+
+	&__logo {
+		max-width: 100%;
+		height: auto;
+		max-height: 2rem;
+		margin-block-end: vars.$space-3;
+
+		&__fill {
+			fill: vars.$clr-surface-900;
+		}
+	}
+
+	&__navigation {
+		padding: 0 vars.$space-4 vars.$space-4;
+		max-height: calc(100% - 3rem);
+		overflow: auto;
+	}
+
+	@include m.dark-theme {
+		background-color: vars.$clr-surface-dark;
+
+		&__logo {
+			&__fill {
+				fill: vars.$clr-surface-medium;
+			}
+		}
+	}
+}

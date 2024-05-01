@@ -12,6 +12,7 @@ export type ProductImageContextType = {
 	remove: (model: Upload) => void;
 }
 
+
 export type ProductImageStore = {
 	models: Upload[];
 	add: (models: Upload | Upload[]) => void;

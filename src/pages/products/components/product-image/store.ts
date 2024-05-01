@@ -5,9 +5,16 @@ export const useProductImageStore = create<ProductImageStore>()((set) => ({
 	models: [],
 	add: (models) => set((state) => {
 		if (!Array.isArray(models)) {
-			return {models: [...state.models, models]};
+			const exists = state.models.some((model) => model.getKey() === models.getKey());
+
+			if (!exists) {
+				return {models: [...state.models, models]};
+			} else {
+				return state
+			}
 		} else {
-			return {models: [...state.models, ...models]};
+			const modelsThatDontExists = models.filter((model) => !state.models.some((m) => m.getKey() !== model.getKey()));
+			return {models: [...state.models, ...modelsThatDontExists]};
 		}
 	}),
 	remove: (model) => set((state) => {
