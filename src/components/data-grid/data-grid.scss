@@ -1,5 +1,22 @@
 @use "ag-grid-community/styles/ag-theme-material.css";
+@use "../../sass/vars";
 @use "../../sass/utils/mixins" as m;
+
+.data-grid {
+	overflow: hidden;
+
+	.ag-row .ag-cell {
+		display: flex;
+		align-items: center;
+	}
+
+	img {
+		max-width: 100%;
+		height: auto;
+		object-fit: cover;
+		aspect-ratio: 1;
+	}
+}
 
 .ag-theme-material-auto-dark {
 	@include m.dark-theme {

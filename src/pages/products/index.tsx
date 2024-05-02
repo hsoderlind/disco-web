@@ -96,7 +96,7 @@ export function Component() {
 							</Button>
 						</ButtonBar>
 					}>
-					<DataGrid containerHeight={'100%'} containerWidth={'100%'} columnDefs={columnDefs} rowData={rowData} />
+					<DataGrid containerHeight={'100%'} columnDefs={columnDefs} rowData={rowData} />
 				</MainContentLayout>
 			</ContentLayout>
 		</>

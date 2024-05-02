@@ -3,6 +3,8 @@
 
 .note {
 	--note-bg-color: hsl(48, 97%, 77%);
+	--note-border-focus: hsl(35, 96%, 52%);
+	--note-border-width: 2px;
 
 	background-color: var(--note-bg-color);
 	min-width: 300px;
@@ -13,10 +15,14 @@
 		fadein 300ms forwards ease-in-out,
 		scaleup 300ms forwards ease-in-out;
 	transform-origin: top right;
-	box-shadow: -5px 3px 3px rgba(251, 191, 36, 0.5);
+	box-shadow: 7px 8px 10px hsl(48, 98%, 46%);
 
-	&:focus {
-		outline: 1px solid hsl(215, 62%, 22%);
+	&:focus-visible {
+		outline: var(--note-border-width) solid var(--note-border-focus);
+	}
+
+	&:focus-within {
+		outline: var(--note-border-width) solid var(--note-border-focus);
 	}
 
 	&--fadeout {
@@ -67,10 +73,6 @@
 
 		&::selection {
 			background-color: hsl(31, 97%, 72%);
-		}
-
-		&:focus {
-			outline: 1px solid hsl(215, 62%, 22%);
 		}
 	}
 }

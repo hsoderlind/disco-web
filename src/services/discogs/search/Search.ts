@@ -4,7 +4,9 @@ import { Collection } from "./Collection";
 import { Model } from "./Model";
 import { SearchResultSchema, SearchSchema } from "./types";
 
-export class Search extends PaginatedCollection {
+export class Search extends PaginatedCollection<Collection> {
+	static readonly ENDPOINT = '/api/discogs/search';
+	
 	constructor(pagination: Pagination, collection: Collection, protected readonly shopId: number, protected criteria: SearchSchema) {
 		super(pagination, collection);
 		Search.httpClient.setHeaders({'x-shop-id': shopId});
@@ -12,8 +14,7 @@ export class Search extends PaginatedCollection {
 
 	static async find(criteria: SearchSchema, shopId: number) {
 		this.httpClient.setHeaders({'x-shop-id': shopId});
-
-		const response = await this.httpClient.post<PaginatedResponse<SearchResultSchema, 'results'>, SearchSchema>('/discogs/search', criteria);
+		const response = await this.httpClient.get<PaginatedResponse<SearchResultSchema, 'results'>, SearchSchema>(Search.ENDPOINT, {params: criteria});
 
 		if (response.data) {
 			const models = response.data.results.map((data) => new Model(data));

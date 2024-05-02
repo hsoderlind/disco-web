@@ -1,12 +1,32 @@
-import { Button, Collapse, CollapseProps, Menu, Typography } from 'antd';
+import { Button, Collapse, CollapseProps, Menu, MenuProps, Modal, Typography } from 'antd';
 import classes from './toolpanel.module.scss';
-import { CloseOutlined, InfoCircleOutlined, SearchOutlined } from '@ant-design/icons';
+import { CloseOutlined, ExclamationOutlined, InfoCircleOutlined, SearchOutlined } from '@ant-design/icons';
 import { Icon } from './Icon';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import clsx from 'clsx';
+import { useNavigation } from '../../../hooks/useNavigation';
+import { useShopPath } from '../../../hooks/useShopPath';
 
 export const Toolpanel = () => {
 	const [panelState, setPanelState] = useLocalStorage<'expanded' | 'collapsed'>('discogs.toolpanel', 'collapsed');
+	const navigate = useNavigation();
+	const shopPath = useShopPath();
+
+	const handleClick: MenuProps['onClick'] = (e) => {
+		switch (e.key) {
+			case 'search-search':
+				Modal.confirm({
+					title: 'Du kommer lämna sidan',
+					icon: <ExclamationOutlined />,
+					content:
+						'Du kommer dirigeras om till en annan vy så försäkra dig om att du har sparat ditt arbete innan du fortsätter.',
+					cancelText: 'Avbryt',
+					okText: 'Fortsätt',
+					onOk: () => navigate(`${shopPath}/discogs/search`, 'Sök i Discogs')
+				});
+				break;
+		}
+	};
 
 	const items: CollapseProps['items'] = [
 		{
@@ -40,6 +60,7 @@ export const Toolpanel = () => {
 								icon: <SearchOutlined />
 							}
 						]}
+						onClick={handleClick}
 					/>
 				</>
 			)
@@ -82,6 +103,7 @@ export const Toolpanel = () => {
 								label: 'Radera artikel'
 							}
 						]}
+						onClick={handleClick}
 					/>
 				</>
 			)
@@ -174,6 +196,7 @@ export const Toolpanel = () => {
 								label: 'Visa statistik över release'
 							}
 						]}
+						onClick={handleClick}
 					/>
 				</>
 			)
@@ -281,6 +304,7 @@ export const Toolpanel = () => {
 								label: 'Se värde av samling'
 							}
 						]}
+						onClick={handleClick}
 					/>
 				</>
 			)
@@ -320,6 +344,7 @@ export const Toolpanel = () => {
 								label: 'Hämta export'
 							}
 						]}
+						onClick={handleClick}
 					/>
 				</>
 			)
@@ -357,6 +382,7 @@ export const Toolpanel = () => {
 								label: 'Se releaser'
 							}
 						]}
+						onClick={handleClick}
 					/>
 				</>
 			)
@@ -390,6 +416,7 @@ export const Toolpanel = () => {
 								label: 'Lista release-versioner'
 							}
 						]}
+						onClick={handleClick}
 					/>
 				</>
 			)
@@ -439,6 +466,7 @@ export const Toolpanel = () => {
 								label: 'Release statistik'
 							}
 						]}
+						onClick={handleClick}
 					/>
 				</>
 			)
@@ -477,6 +505,7 @@ export const Toolpanel = () => {
 								label: 'Visa release'
 							}
 						]}
+						onClick={handleClick}
 					/>
 				</>
 			)
@@ -510,6 +539,7 @@ export const Toolpanel = () => {
 								label: 'Se lista'
 							}
 						]}
+						onClick={handleClick}
 					/>
 				</>
 			)

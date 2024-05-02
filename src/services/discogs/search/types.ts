@@ -1,6 +1,6 @@
 import app from "../../../lib/application-builder/ApplicationBuilder";
 import { vsbInfer } from "../../../lib/validation/validation-schema-builder";
-import { communitySchema } from "../types";
+import { communitySchema, userData } from "../types";
 
 const vsb = app.getValidationSchemaBuilder();
 
@@ -28,6 +28,7 @@ export const searchSchema = vsb.object({
 });
 
 export const searchResultSchema = vsb.object({
+	cover_image: vsb.string().url().optional(),
 	style: vsb.array(vsb.string()).optional(),
 	thumb: vsb.string().url().optional(),
 	title: vsb.string().optional(),
@@ -41,7 +42,8 @@ export const searchResultSchema = vsb.object({
 	genre: vsb.array(vsb.string()).optional(),
 	resource_url: vsb.string().url().optional(),
 	type: vsb.string().optional(),
-	id: vsb.number().optional()
+	id: vsb.number().optional(),
+	user_data: userData
 })
 
 export type SearchSchema = vsbInfer<typeof searchSchema>;

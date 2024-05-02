@@ -25,9 +25,15 @@ export const communitySchema = vsb.object({
 	have: vsb.number().optional()
 })
 
+export const userData = vsb.object({
+	in_collection: vsb.boolean().optional(),
+	in_wantlist: vsb.boolean().optional()
+});
+
 export type ImageSchema = vsbInfer<typeof imageSchema>;
 export type PaginationSchema = vsbInfer<typeof paginationSchema>;
 export type CommunitySchema = vsbInfer<typeof communitySchema>;
+export type UserData = vsbInfer<typeof userData>;
 
 export type Pagination = PaginationSchema;
 
