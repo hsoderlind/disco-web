@@ -1,0 +1,32 @@
+@use "../../sass/vars";
+@use "../../sass/utils/mixins" as m;
+
+.trackslist {
+	--_clr-border: #{vars.$clr-border-dark};
+	--_padding: #{vars.$space-3};
+
+	@include m.dark-theme {
+		--_clr-border: #{vars.$clr-border-light};
+	}
+
+	.trackslist__title {
+		@include m.h3;
+	}
+
+	.trackslist__tracks {
+		@include m.flex;
+		@include m.flex-column;
+
+		.track {
+			@include m.flex;
+			@include m.flex-1;
+			@include m.flex-row;
+			@include m.justify-between;
+			border-bottom: 1px dashed var(--_clr-border);
+
+			> * {
+				padding-block: var(--_padding);
+			}
+		}
+	}
+}

@@ -9,7 +9,7 @@ export const imageSchema = vsb.object({
 	type: vsb.string().optional(),
 	uri: vsb.string().url().optional(),
 	uri150: vsb.string().url().optional(),
-	width: vsb.number().nonnegative().optional()
+	width: vsb.number().nonnegative().optional(),
 });
 
 export const paginationSchema = vsb.object({
@@ -30,10 +30,45 @@ export const userData = vsb.object({
 	in_wantlist: vsb.boolean().optional()
 });
 
+export const videoSchema = vsb.object({
+	duration: vsb.number().optional(),
+	description: vsb.string().optional(),
+	embed: vsb.boolean().optional(),
+	uri: vsb.string().url().optional(),
+	title: vsb.string().optional()
+});
+
+export const commonArtistSchema = vsb.object({
+	join: vsb.string().optional(),
+	name: vsb.string().optional(),
+	anv: vsb.string().optional(),
+	tracks: vsb.string().optional(),
+	role: vsb.string().optional(),
+	resource_url: vsb.string().url().optional(),
+	id: vsb.number().nonnegative().optional()
+});
+
+export const tracksSchema = vsb.object({
+	duration: vsb.string().optional(),
+	position: vsb.string().optional(),
+	type_: vsb.string().optional(),
+	title: vsb.string().optional(),
+	extraartists: vsb.array(commonArtistSchema).optional()
+});
+
+export const ratingSchema = vsb.object({
+	average: vsb.number(),
+	count: vsb.number(),
+});
+
 export type ImageSchema = vsbInfer<typeof imageSchema>;
 export type PaginationSchema = vsbInfer<typeof paginationSchema>;
 export type CommunitySchema = vsbInfer<typeof communitySchema>;
 export type UserData = vsbInfer<typeof userData>;
+export type VideoSchema = vsbInfer<typeof videoSchema>;
+export type CommonArtistSchema = vsbInfer<typeof commonArtistSchema>;
+export type TrackSchema = vsbInfer<typeof tracksSchema>;
+export type RatingSchema = vsbInfer<typeof ratingSchema>;
 
 export type Pagination = PaginationSchema;
 

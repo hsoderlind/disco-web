@@ -1,4 +1,5 @@
 @use "./vars";
+@use "./utils/mixins" as m;
 
 html {
 	color-scheme: dark light;
@@ -13,6 +14,10 @@ body {
 	@media (prefers-color-scheme: dark) {
 		background-color: vars.$clr-surface-dark;
 	}
+}
+
+img {
+	@include m.reset-img;
 }
 
 #root {

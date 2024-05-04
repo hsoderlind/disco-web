@@ -43,4 +43,8 @@ export abstract class Num {
 			}
 		).format(value ?? 0);
 	}
+
+	static localeString(value: number) {
+		return value.toLocaleString(app.locale);
+	}
 }

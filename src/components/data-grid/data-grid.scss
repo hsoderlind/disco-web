@@ -8,6 +8,10 @@
 	.ag-row .ag-cell {
 		display: flex;
 		align-items: center;
+
+		&.ag-right-aligned-cell {
+			justify-content: end;
+		}
 	}
 
 	img {

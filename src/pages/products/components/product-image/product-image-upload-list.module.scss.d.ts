@@ -1,5 +1,4 @@
 declare const classNames: {
-	readonly 'reset-list': 'reset-list';
 	readonly 'product-image-upload-list': 'product-image-upload-list';
 	readonly 'product-image-upload-list__item': 'product-image-upload-list__item';
 	readonly 'product-image-upload-list__item--error': 'product-image-upload-list__item--error';

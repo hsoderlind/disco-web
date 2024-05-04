@@ -17,7 +17,6 @@ export const Tabs = () => {
 	const handleTabClick: TabsProps['onTabClick'] = (key: string) => navigate(key);
 
 	const handleEdit: TabsProps['onEdit'] = (e, action) => {
-		console.log('e', e);
 		const tab = store.tabs.find((t) => t.key === e);
 
 		if (tab && action === 'remove') {

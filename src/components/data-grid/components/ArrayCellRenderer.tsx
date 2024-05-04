@@ -4,12 +4,10 @@ import { ArrayCellRendererProps } from '../types';
 export const ArrayCellRenderer = <TData extends object, TValue extends any[]>(
 	props: ArrayCellRendererProps<TData, TValue>
 ) => {
-	const formattedValue = props.value.join(', ');
+	const formattedValue = Array.isArray(props.value) ? props.value.join(', ') : props.value;
 	return (
-		<div style={{ position: 'relative' }}>
-			<Tooltip title={formattedValue} placement='topLeft'>
-				<span>{formattedValue}</span>
-			</Tooltip>
-		</div>
+		<Tooltip title={formattedValue} placement='topLeft'>
+			{formattedValue}
+		</Tooltip>
 	);
 };

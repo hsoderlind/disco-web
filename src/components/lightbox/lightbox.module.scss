@@ -1,0 +1,85 @@
+@use "../../sass/utils/mixins" as m;
+@use "../../sass/vars";
+
+.lightbox {
+	--_bg--hsl: 0, 100%, 100%;
+	--_bg-dark-hsl: 0, 0%, 20%;
+
+	display: flex;
+	flex-direction: column;
+	z-index: 1001;
+	position: absolute;
+	inset: 0;
+	background-color: hsl(var(--_bg--hsl), 0.3);
+	backdrop-filter: blur(10px);
+	isolation: isolate;
+
+	.image-view {
+		flex: 1;
+		display: grid;
+		place-items: center;
+		position: relative;
+
+		.close {
+			position: absolute;
+			inset: vars.$space-4 vars.$space-4 auto auto;
+			z-index: 999;
+		}
+
+		.nav {
+			display: grid;
+			place-items: center;
+			position: absolute;
+			width: 4rem;
+			transition: background-color 250ms ease;
+
+			&:has(> *:hover) {
+				background-color: hsl(var(--_bg-dark-hsl), 0.3);
+			}
+
+			&[data-nav="back"] {
+				inset: 0 auto 0 0;
+			}
+
+			&[data-nav="forward"] {
+				inset: 0 0 0 auto;
+			}
+		}
+
+		.content {
+			img {
+				display: block;
+				max-width: 100%;
+				height: auto;
+			}
+		}
+	}
+
+	.thumbs-list {
+		--_thumb-size: 9.375rem;
+
+		display: flex;
+		height: var(--_thumb-size);
+		flex-wrap: nowrap;
+		overflow: auto;
+		gap: vars.$space-4;
+		align-items: center;
+		@include m.reset-list;
+
+		.thumb {
+			cursor: pointer;
+
+			&--active {
+				outline: 1px solid vars.$clr-border-light;
+			}
+		}
+
+		img {
+			display: block;
+			max-width: var(--_thumb-size);
+			height: auto;
+			object-fit: cover;
+			aspect-ratio: 1 / 1;
+		}
+	}
+}

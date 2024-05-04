@@ -1,8 +1,8 @@
-@use "../../../../sass/utils/resets";
+@use "../../../../sass/utils/mixins" as m;
 @use "../../../../sass/_vars";
 
 .product-image-upload-list {
-	@include resets.reset-list();
+	@include m.reset-list();
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;

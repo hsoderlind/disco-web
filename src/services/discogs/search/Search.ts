@@ -7,7 +7,7 @@ import { SearchResultSchema, SearchSchema } from "./types";
 export class Search extends PaginatedCollection<Collection> {
 	static readonly ENDPOINT = '/api/discogs/search';
 	
-	constructor(pagination: Pagination, collection: Collection, protected readonly shopId: number, protected criteria: SearchSchema) {
+	constructor(pagination: Pagination, collection: Collection, protected readonly shopId: number, public readonly criteria: SearchSchema) {
 		super(pagination, collection);
 		Search.httpClient.setHeaders({'x-shop-id': shopId});
 	}

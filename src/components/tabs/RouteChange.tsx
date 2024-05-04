@@ -8,12 +8,14 @@ export const RouteChange = () => {
 	const tabStore = useTabStore();
 
 	useEffect(() => {
-		const tab: Tab = {
-			key: `${location.pathname}${location.search}`,
-			label: location.state?.title ?? 'rubrik saknas',
-			url: `${location.pathname}${location.search}`
-		};
-		tabStore.add(tab);
+		if (location.state?.title) {
+			const tab: Tab = {
+				key: `${location.pathname}${location.search}`,
+				label: location.state?.title ?? 'rubrik saknas',
+				url: `${location.pathname}${location.search}`
+			};
+			tabStore.add(tab);
+		}
 		return () => {};
 	}, [location]);
 

@@ -4,18 +4,29 @@
 	background: rgb(240, 245, 255);
 	background: linear-gradient(
 		-45deg,
-		hsl(347, 77%, 50%) 20%,
-		hsl(50, 98%, 64%) 30%,
-		hsl(330, 81%, 60%) 45%,
-		hsl(293, 69%, 49%) 75%,
-		hsl(243, 75%, 59%) 100%
+		hsl(243, 75%, 59%) 10%,
+		hsl(293, 69%, 49%) 25%,
+		hsl(347, 97%, 72%) 50%,
+		hsl(330, 81%, 60%) 75%,
+		hsl(50, 98%, 64%) 100%
 	);
+	background-size: 300%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	height: 100%;
+	animation: bg 20s ease-in infinite alternate;
 
 	> * {
 		width: min(100vw, 375px);
+	}
+}
+
+@keyframes bg {
+	0% {
+		background-position: left;
+	}
+	100% {
+		background-position: right;
 	}
 }
