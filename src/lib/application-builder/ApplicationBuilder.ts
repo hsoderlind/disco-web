@@ -18,6 +18,7 @@ class ApplicationBuilder {
 	private messageApi!: MessageInstance;
 	private _queryClient!: QueryClient;
 	private _locale = 'sv-SE';
+	private _currency = 'SEK';
 
 	get locale() {
 		return this._locale;
@@ -35,8 +36,24 @@ class ApplicationBuilder {
 		return this._queryClient;
 	}
 
+	get currency() {
+		return this._currency;
+	}
+
+	set currency(value: string) {
+		if (!this.validateCurrency(value)) {
+			throw `${value} is not a valid currency`;
+		}
+
+		this._currency = value;
+	}
+
 	validateLocale(value: string) {
 		return /[a-z]{2}[-]{1}[A-Z]{2}/gi.test(value);
+	}
+
+	validateCurrency(value: string) {
+		return value.length == 3 && value.toUpperCase() === value;
 	}
 
 	addI18nConfig(config: InitOptions) {

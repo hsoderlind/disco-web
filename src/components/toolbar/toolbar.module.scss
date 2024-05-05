@@ -1,8 +1,0 @@
-@use "../../sass/utils/mixins" as m;
-@use "../../sass/vars";
-
-.toolbar {
-	@include m.flex;
-	@include m.justify-end;
-	padding: vars.$space-2;
-}

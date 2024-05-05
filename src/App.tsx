@@ -35,6 +35,9 @@ const App: FC = () => {
 						components: {
 							Menu: {
 								activeBarBorderWidth: 0
+							},
+							Tabs: {
+								horizontalMargin: '0'
 							}
 						}
 					}}

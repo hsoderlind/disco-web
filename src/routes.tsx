@@ -29,6 +29,7 @@ const routes = createBrowserRouter(
 						<Route path='discogs'>
 							<Route path='search' lazy={() => import('./pages/discogs/search')} />
 							<Route path='master/:id' lazy={() => import('./pages/discogs/master')} />
+							<Route path='release/:id' lazy={() => import('./pages/discogs/release')} />
 						</Route>
 					</Route>
 				</Route>

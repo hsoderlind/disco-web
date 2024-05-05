@@ -63,6 +63,39 @@ export const ratingSchema = vsb.object({
 	count: vsb.number(),
 });
 
+export const currAbbrSchema = vsb.enum(['USD', 'GBP', 'EUR', 'CAD', 'AUD', 'JPY', 'CHF', 'MXN', 'BRL', 'NZD', 'SEK', 'ZAR']);
+
+export const idSchema = vsb.number().int();
+
+export const companySchema = vsb.object({
+	catno: vsb.string(),
+	entity_type: vsb.string(),
+	entity_type_name: vsb.string(),
+	id: idSchema,
+	name: vsb.string(),
+	resource_url: vsb.string()
+});
+
+export const formatSchema = vsb.object({
+	descriptions: vsb.array(vsb.string()),
+	name: vsb.string(),
+	qty: vsb.string(),
+	text: vsb.string().optional()
+});
+
+export const identifierSchema = vsb.object({
+	type: vsb.string(),
+	value: vsb.string()
+});
+
+export const commonLabelSchema = vsb.object({
+	catno: vsb.string(),
+	entity_type: vsb.string(),
+	id: idSchema,
+	name: vsb.string(),
+	resource_url: vsb.string()
+});
+
 export type ImageSchema = vsbInfer<typeof imageSchema>;
 export type PaginationSchema = vsbInfer<typeof paginationSchema>;
 export type CommunitySchema = vsbInfer<typeof communitySchema>;
@@ -71,6 +104,11 @@ export type VideoSchema = vsbInfer<typeof videoSchema>;
 export type CommonArtistSchema = vsbInfer<typeof commonArtistSchema>;
 export type TrackSchema = vsbInfer<typeof tracksSchema>;
 export type RatingSchema = vsbInfer<typeof ratingSchema>;
+export type CompanySchema = vsbInfer<typeof companySchema>;
+export type FormatSchema = vsbInfer<typeof formatSchema>;
+export type IdentifierSchema = vsbInfer<typeof identifierSchema>;
+export type CommonLabelSchema = vsbInfer<typeof commonLabelSchema>;
+export type CurrAbbrSchema = vsbInfer<typeof currAbbrSchema>;
 
 export type Pagination = PaginationSchema;
 

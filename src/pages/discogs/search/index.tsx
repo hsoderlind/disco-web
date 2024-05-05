@@ -35,15 +35,15 @@ export function Component() {
 		{
 			key: 'release',
 			label: 'Releaser'
-		},
-		{
-			key: 'artist',
-			label: 'Artister/Grupper'
-		},
-		{
-			key: 'label',
-			label: 'Label'
 		}
+		// {
+		// 	key: 'artist',
+		// 	label: 'Artister/Grupper'
+		// },
+		// {
+		// 	key: 'label',
+		// 	label: 'Label'
+		// }
 	];
 
 	const handleTabClick: TabsProps['onTabClick'] = (tab) => setSearchParams({ tab });

@@ -7,16 +7,16 @@ export const ArtistSummary = ({ artists }: ArtistSummaryProps) => {
 		<>
 			{artists.map((artist) => (
 				<Card
-					className='my-4'
+					className='mb-4'
 					title='Artist/Grupp'
 					cover={artist.thumbnail_url ? <img src={artist.thumbnail_url} alt={artist.name} /> : undefined}>
 					<Card.Meta
 						title={artist.name}
-						description={
-							<Link to={`../artist/${artist.id}`} title={artist.name}>
-								Se mer från {artist.name}
-							</Link>
-						}
+						// description={
+						// 	<Link to={`../artist/${artist.id}`} title={artist.name}>
+						// 		Se mer från {artist.name}
+						// 	</Link>
+						// }
 					/>
 				</Card>
 			))}

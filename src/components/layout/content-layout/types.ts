@@ -8,7 +8,7 @@ export type CommonContentLayoutProps = {
 export type ContentLayoutProps = CommonContentLayoutProps;
 
 export type MainContentLayoutProps = {
-	renderToolbar?: ReactNode | (() => ReactNode);
+	renderToolbarExtraContent?: ReactNode;
 	renderButtonBar?: ReactNode | (() => ReactNode);
 	noSpacing?: boolean;
 } & CommonContentLayoutProps;

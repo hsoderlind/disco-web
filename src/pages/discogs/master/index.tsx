@@ -12,13 +12,12 @@ import { TrackslistProps } from '../../../components/trackslist/types';
 import { Trackslist } from '../../../components/trackslist';
 import { SidebarContentLayout } from '../../../components/layout/content-layout/SidebarContentLayout';
 import { ReleaseStats } from '../components/release-stats';
-import { ReleaseVersions } from './components/release-versions';
+import { ReleaseVersions } from '../components/release-versions';
 import { ArtistSummary } from '../components/artist-summary';
 import { CommonArtistSchema } from '../../../services/discogs/types';
 import { PageLoader } from '../../../components/page-loader/PageLoader';
-import { ImportOutlined, UnorderedListOutlined } from '@ant-design/icons';
-import { IonIcon } from '@ionic/react';
-import { exitOutline } from 'ionicons/icons';
+import { ArrowRightOutlined, ImportOutlined } from '@ant-design/icons';
+import { AddToWantListButton } from '../components/toolbar/add-to-wantlist';
 
 export function Component() {
 	const params = useParams<RouteParams>();
@@ -79,13 +78,19 @@ export function Component() {
 					renderToolbar={
 						<>
 							<Button type='text' icon={<ImportOutlined />} title='Importera artikeln' />
-							<Button type='text' icon={<UnorderedListOutlined />} title='Lägg till i din önskelista' />
+							{master && <AddToWantListButton releaseId={master.get<number>('main_release')!} />}
+							<Button
+								type='text'
+								icon={<ArrowRightOutlined />}
+								title='Se artikeln på Discogs'
+								onClick={() => window.open(master?.get<string>('uri') as string, 'tab')}
+							/>
 						</>
 					}>
 					<Row gutter={24} className='mb-5'>
 						<Col md={5} className='text-center'>
 							<img src={primaryImage?.resource_url} alt={master?.get('title')} />
-							<Button type='link' onClick={() => setLightboxOpen(true)}>
+							<Button className='mt-3' type='link' onClick={() => setLightboxOpen(true)}>
 								Visa alla bilder
 							</Button>
 						</Col>
