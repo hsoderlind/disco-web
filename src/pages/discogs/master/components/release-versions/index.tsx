@@ -2,14 +2,20 @@ import { useState } from 'react';
 import { useFindMasterReleaseVersions } from '../../../../../services/discogs/master/hooks/useFindMasterReleaseVersions';
 import { ReleaseVersionsProps } from './types';
 import { ColDef } from 'ag-grid-community';
-import { MasterReleaseVersionsResultSchema } from '../../../../../services/discogs/master/types';
+import {
+	MasterReleaseVersionsResultSchema,
+	MasterReleaseVersionsSchema
+} from '../../../../../services/discogs/master/types';
 import { CellRendererProps } from '../../../../../components/data-grid/types';
 import { WithTooltip } from '../../../../../components/data-grid/components/WithTooltip';
 import { ArrayCellRenderer } from '../../../../../components/data-grid/components/ArrayCellRenderer';
 import { DataGrid } from '../../../../../components/data-grid/DataGrid';
+import { Pagination, PaginationProps, Spin } from 'antd';
+import { Num } from '../../../../../lib/number/Num';
 
 export const ReleaseVersions = ({ masterId }: ReleaseVersionsProps) => {
-	const { data: releaseVersions, isFetching, isSuccess } = useFindMasterReleaseVersions(masterId);
+	const [fields, setFields] = useState<Partial<MasterReleaseVersionsSchema>>({ master_id: masterId });
+	const { data: releaseVersions, isFetching, isLoading, isSuccess } = useFindMasterReleaseVersions(fields);
 	const [columnDefs] = useState<ColDef<MasterReleaseVersionsResultSchema>[]>([
 		{
 			field: 'thumb',
@@ -54,16 +60,31 @@ export const ReleaseVersions = ({ masterId }: ReleaseVersionsProps) => {
 		? undefined
 		: [];
 
+	const handlePaginationChange: PaginationProps['onChange'] = (page, pageSize) => {
+		setFields((prevFields) => ({ ...prevFields, page, per_page: pageSize }));
+	};
+
 	return (
 		<>
 			<h3 className='h3'>Versioner</h3>
-			<DataGrid
-				containerHeight={'100%'}
-				containerWidth={'100%'}
-				columnDefs={columnDefs}
-				rowData={rowData}
-				rowHeight={130}
+			<Pagination
+				total={releaseVersions?.items}
+				pageSize={releaseVersions?.itemsPerPage}
+				showTotal={(total) => `Totalt ${Num.localeString(total)}st`}
+				onChange={handlePaginationChange}
+				className='mb-4'
 			/>
+			{isLoading || isFetching ? (
+				<Spin />
+			) : (
+				<DataGrid
+					containerHeight={'100%'}
+					containerWidth={'100%'}
+					columnDefs={columnDefs}
+					rowData={rowData}
+					rowHeight={130}
+				/>
+			)}
 		</>
 	);
 };

@@ -4,6 +4,10 @@
 .lightbox {
 	--_bg--hsl: 0, 100%, 100%;
 	--_bg-dark-hsl: 0, 0%, 20%;
+	--_thumb-size: 9.375rem;
+	--_content-spacing: #{vars.$space-5};
+	--_content-max-height: calc(100vh - (var(--_thumb-size) + (var(--_content-spacing) * 2)));
+	--_img-max-height: calc(100vh - (var(--_thumb-size) * 1.5));
 
 	display: flex;
 	flex-direction: column;
@@ -47,19 +51,18 @@
 		}
 
 		.content {
+			max-height: var(--_content-max-height);
+
 			img {
-				display: block;
-				max-width: 100%;
-				height: auto;
+				@include m.reset-img;
+				max-height: var(--_img-max-height);
 			}
 		}
 	}
 
 	.thumbs-list {
-		--_thumb-size: 9.375rem;
-
 		display: flex;
-		height: var(--_thumb-size);
+		max-height: var(--_thumb-size);
 		flex-wrap: nowrap;
 		overflow: auto;
 		gap: vars.$space-4;

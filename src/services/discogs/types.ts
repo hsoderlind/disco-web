@@ -5,10 +5,10 @@ const vsb = app.getValidationSchemaBuilder();
 
 export const imageSchema = vsb.object({
 	height: vsb.number().nonnegative().optional(),
-	resource_url: vsb.string().url().optional(),
+	resource_url: vsb.string().optional(),
 	type: vsb.string().optional(),
-	uri: vsb.string().url().optional(),
-	uri150: vsb.string().url().optional(),
+	uri: vsb.string().optional(),
+	uri150: vsb.string().optional(),
 	width: vsb.number().nonnegative().optional(),
 });
 
@@ -34,7 +34,7 @@ export const videoSchema = vsb.object({
 	duration: vsb.number().optional(),
 	description: vsb.string().optional(),
 	embed: vsb.boolean().optional(),
-	uri: vsb.string().url().optional(),
+	uri: vsb.string().optional(),
 	title: vsb.string().optional()
 });
 
@@ -44,8 +44,9 @@ export const commonArtistSchema = vsb.object({
 	anv: vsb.string().optional(),
 	tracks: vsb.string().optional(),
 	role: vsb.string().optional(),
-	resource_url: vsb.string().url().optional(),
-	id: vsb.number().nonnegative().optional()
+	resource_url: vsb.string().optional(),
+	id: vsb.number().nonnegative().optional(),
+	thumbnail_url: vsb.string().optional(),
 });
 
 export const tracksSchema = vsb.object({
@@ -53,7 +54,8 @@ export const tracksSchema = vsb.object({
 	position: vsb.string().optional(),
 	type_: vsb.string().optional(),
 	title: vsb.string().optional(),
-	extraartists: vsb.array(commonArtistSchema).optional()
+	extraartists: vsb.array(commonArtistSchema).optional(),
+	artists: vsb.array(commonArtistSchema).optional(),
 });
 
 export const ratingSchema = vsb.object({

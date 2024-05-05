@@ -3,10 +3,10 @@ import { useShopStore } from "../../../shop/store"
 import { Auth } from "../Auth";
 
 export const useCheckTokenExist = () => {
-	const shopId = useShopStore(state => state.shop.id);
+	const shopId = useShopStore(state => state.shop?.id);
 	const queryKey = [Auth.CHECK_URL, shopId] as const;
 	const queryFn = () => Auth.checkToken(shopId);
-	const query = useQuery(queryKey, queryFn);
+	const query = useQuery(queryKey, queryFn, {enabled: !!shopId});
 
 	return query;
 }

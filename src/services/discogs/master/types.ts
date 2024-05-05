@@ -14,13 +14,13 @@ export const masterResultSchema = vsb.object({
 	videos: vsb.array(videoSchema).optional(),
 	title: vsb.string().optional(),
 	main_release: vsb.number().int().optional(),
-	main_release_url: vsb.string().url().optional(),
-	uri: vsb.string().url().optional(),
+	main_release_url: vsb.string().optional(),
+	uri: vsb.string().optional(),
 	artists:  vsb.array(commonArtistSchema).optional(),
-	versions_url: vsb.string().url().optional(),
+	versions_url: vsb.string().optional(),
 	year: vsb.number().nonnegative().optional(),
 	images: vsb.array(imageSchema),
-	resource_url: vsb.string().url().optional(),
+	resource_url: vsb.string().optional(),
 	tracklist: vsb.array(tracksSchema).optional(),
 	id: vsb.number().nonnegative().optional(),
 	num_for_sale: vsb.number().optional(),
@@ -51,7 +51,7 @@ export const masterReleaseVersionsResultSchema = vsb.object({
 			in_wantlist: vsb.number().int()
 		})
 	}),
-	thumb: vsb.string().url(),
+	thumb: vsb.string(),
 	format: vsb.string(),
 	country: vsb.string(),
 	title: vsb.string(),
@@ -59,7 +59,7 @@ export const masterReleaseVersionsResultSchema = vsb.object({
 	released: vsb.string(),
 	major_formats: vsb.array(vsb.string()),
 	catno: vsb.string(),
-	resource_url: vsb.string().url(),
+	resource_url: vsb.string(),
 	id: vsb.number().int()
 });
 

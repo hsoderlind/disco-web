@@ -548,7 +548,12 @@ export const Toolpanel = () => {
 
 	return (
 		<>
-			<Button icon={<Icon />} onClick={() => setPanelState('expanded')} />
+			<Button
+				type='text'
+				icon={<Icon />}
+				onClick={() => setPanelState('expanded')}
+				title='Visa Discogs instrumentpanel'
+			/>
 			<aside className={clsx(classes['toolpanel'], { [classes['toolpanel--expanded']]: panelState === 'expanded' })}>
 				<header>
 					<Button type='text' icon={<CloseOutlined />} onClick={() => setPanelState('collapsed')} />

@@ -28,9 +28,9 @@ export const searchSchema = vsb.object({
 });
 
 export const searchResultSchema = vsb.object({
-	cover_image: vsb.string().url().optional(),
+	cover_image: vsb.string().optional(),
 	style: vsb.array(vsb.string()).optional(),
-	thumb: vsb.string().url().optional(),
+	thumb: vsb.string().optional(),
 	title: vsb.string().optional(),
 	country: vsb.string().optional(),
 	format: vsb.array(vsb.string()).optional(),
@@ -40,7 +40,7 @@ export const searchResultSchema = vsb.object({
 	catno: vsb.string().optional(),
 	year: vsb.string().optional(),
 	genre: vsb.array(vsb.string()).optional(),
-	resource_url: vsb.string().url().optional(),
+	resource_url: vsb.string().optional(),
 	type: vsb.string().optional(),
 	id: vsb.number().optional(),
 	user_data: userData

@@ -2,7 +2,7 @@ import { PaginatedCollection } from "../PaginatedCollection";
 import { PaginatedResponse, Pagination } from "../types";
 import { ReleaseVersion } from "./ReleaseVersion";
 import { ReleaseVersionCollection } from "./ReleaseVersionCollection";
-import { MasterReleaseVersionsResultSchema } from "./types";
+import { MasterReleaseVersionsResultSchema, MasterReleaseVersionsSchema } from "./types";
 
 export class ReleaseVersions extends PaginatedCollection<ReleaseVersionCollection> {
 	static readonly ENDPOINT = '/api/discogs/master/release-versions';
@@ -12,10 +12,10 @@ export class ReleaseVersions extends PaginatedCollection<ReleaseVersionCollectio
 		ReleaseVersions.httpClient.setHeaders({'x-shop-id': this.shopId});
 	}
 	
-	static async find(masterUd: number, shopId: number) {
+	static async find(fields: Partial<MasterReleaseVersionsSchema>, shopId: number) {
 		this.httpClient.setHeaders({'x-shop-id': shopId});
 		
-		const response = await this.httpClient.get<PaginatedResponse<MasterReleaseVersionsResultSchema, 'versions'>>(this.ENDPOINT, {params: {master_id: masterUd}});
+		const response = await this.httpClient.get<PaginatedResponse<MasterReleaseVersionsResultSchema, 'versions'>>(this.ENDPOINT, {params: fields});
 
 		if (response.data) {
 			const models = response.data.versions.map((data) => new ReleaseVersion(data, shopId));

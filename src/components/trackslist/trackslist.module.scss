@@ -22,6 +22,7 @@
 			@include m.flex-1;
 			@include m.flex-row;
 			@include m.justify-between;
+			gap: vars.$space-4;
 			border-bottom: 1px dashed var(--_clr-border);
 
 			> * {

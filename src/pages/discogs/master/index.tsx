@@ -13,10 +13,16 @@ import { Trackslist } from '../../../components/trackslist';
 import { SidebarContentLayout } from '../../../components/layout/content-layout/SidebarContentLayout';
 import { ReleaseStats } from '../components/release-stats';
 import { ReleaseVersions } from './components/release-versions';
+import { ArtistSummary } from '../components/artist-summary';
+import { CommonArtistSchema } from '../../../services/discogs/types';
+import { PageLoader } from '../../../components/page-loader/PageLoader';
+import { ImportOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { IonIcon } from '@ionic/react';
+import { exitOutline } from 'ionicons/icons';
 
 export function Component() {
 	const params = useParams<RouteParams>();
-	const { data: master } = useFindMaster(parseInt(params.id!));
+	const { data: master, isFetching, isLoading } = useFindMaster(parseInt(params.id!));
 	const [lightboxOpen, setLightboxOpen] = useState(false);
 
 	const images: LightboxImage[] = master
@@ -49,17 +55,33 @@ export function Component() {
 		? master.get<MasterResultSchema['tracklist']>('tracklist')!.map((track) => ({
 				position: track.position as string,
 				title: track.title as string,
-				duration: track.duration as string
+				duration: track.duration as string,
+				artists: track.artists as CommonArtistSchema[]
 		  }))
 		: [];
+
+	if (isLoading || isFetching) {
+		return <PageLoader />;
+	}
 
 	return (
 		<>
 			<ContentLayout>
 				<SidebarContentLayout enableShrink={false}>
-					{typeof master !== 'undefined' ? <ReleaseStats releaseId={master.get('main_release')} /> : null}
+					{typeof master !== 'undefined' ? (
+						<>
+							<ArtistSummary artists={master.get<CommonArtistSchema[]>('artists')} />
+							<ReleaseStats releaseId={master.get('main_release')} />
+						</>
+					) : null}
 				</SidebarContentLayout>
-				<MainContentLayout>
+				<MainContentLayout
+					renderToolbar={
+						<>
+							<Button type='text' icon={<ImportOutlined />} title='Importera artikeln' />
+							<Button type='text' icon={<UnorderedListOutlined />} title='Lägg till i din önskelista' />
+						</>
+					}>
 					<Row gutter={24} className='mb-5'>
 						<Col md={5} className='text-center'>
 							<img src={primaryImage?.resource_url} alt={master?.get('title')} />

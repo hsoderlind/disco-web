@@ -8,9 +8,10 @@ export const Trackslist = ({ title, tracks }: TrackslistProps) => {
 			<div className={classes['trackslist__tracks']}>
 				{tracks.map((track) => (
 					<div className={classes['track']}>
-						<div>
+						<div className='flex-1'>
 							{track.position}. {track.title}
 						</div>
+						{track.artists ? <div>{track.artists.map((artist) => artist.name).join(', ')}</div> : null}
 						<div>{track.duration}</div>
 					</div>
 				))}

@@ -8,7 +8,7 @@ export const memberSchema = vsb.object({
 	active: vsb.boolean().optional(),
 	id: vsb.number().nonnegative(),
 	name: vsb.string().optional(),
-	resource_url: vsb.string().url().optional()
+	resource_url: vsb.string().optional()
 });
 
 export const getArtistSchema = vsb.object({
@@ -19,10 +19,10 @@ export const artistSchema = vsb.object({
 	id: vsb.number().nonnegative(),
 	namevariations: vsb.string().optional(),
 	profile: vsb.string().optional(),
-	releases_url: vsb.string().url().optional(),
-	resource_url: vsb.string().url().optional(),
-	uri: vsb.string().url().optional(),
-	urls: vsb.array(vsb.string().url()).optional(),
+	releases_url: vsb.string().optional(),
+	resource_url: vsb.string().optional(),
+	uri: vsb.string().optional(),
+	urls: vsb.array(vsb.string()).optional(),
 	data_quality: vsb.string().optional(),
 	images: vsb.array(imageSchema).optional(),
 	members: vsb.array(memberSchema).optional(),
@@ -40,9 +40,9 @@ export const releaseSchema = vsb.object({
 	artist: vsb.string(),
 	id: vsb.number().nonnegative(),
 	main_release: vsb.number().nonnegative().optional(),
-	resource_url: vsb.string().url().optional(),
+	resource_url: vsb.string().optional(),
 	role: vsb.string().optional(),
-	thumb: vsb.string().url(),
+	thumb: vsb.string(),
 	title: vsb.string(),
 	type: vsb.string().optional(),
 	year: vsb.number().nonnegative().optional()

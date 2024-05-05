@@ -5,7 +5,7 @@ import { ReleaseStatsProps } from './types';
 import { RatingSchema } from '../../../../services/discogs/types';
 
 export const ReleaseStats = ({ releaseId }: ReleaseStatsProps) => {
-	const { data: stats } = useFindReleaseStats(releaseId);
+	const { data: stats, isLoading, isFetching } = useFindReleaseStats(releaseId);
 
 	const items: DescriptionsProps['items'] = [
 		{
@@ -31,8 +31,8 @@ export const ReleaseStats = ({ releaseId }: ReleaseStatsProps) => {
 	];
 
 	return (
-		<Card title='Statistik'>
-			<Descriptions column={1} items={items} />
+		<Card title='Statistik' loading={isLoading || isFetching}>
+			<Descriptions size='small' layout='vertical' column={1} items={items} />
 		</Card>
 	);
 };
