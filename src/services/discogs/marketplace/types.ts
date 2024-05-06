@@ -24,6 +24,20 @@ export const priceSuggestionsResponseSchema = vsb.object({
 	'Poor (P)': priceSchema
 });
 
+export const releaseStatsRequestSchema = vsb.object({
+	release_id: idSchema,
+	curr_abbr: vsb.enum(['USD', 'GBP', 'EUR', 'CAD', 'AUD', 'JPY', 'CHF', 'MXN', 'BRL', 'NZD', 'SEK', 'ZAR'])
+});
+
+export const releaseStatsResponseSchema = vsb.object({
+	release_id: idSchema,
+	lowest_price: priceSchema,
+	num_for_sale: vsb.number().int(),
+	blocked_from_sale: vsb.boolean()
+});
+
 export type PriceSuggestionsRequestSchema = vsbInfer<typeof priceSuggestionsRequestSchema>;
 export type PriceSuggestionsResponseSchema = vsbInfer<typeof priceSuggestionsResponseSchema>;
 export type PriceSchema = vsbInfer<typeof priceSchema>;
+export type ReleaseStatsRequestSchema = vsbInfer<typeof releaseStatsRequestSchema>;
+export type ReleaseStatsResponseSchema = vsbInfer<typeof releaseStatsResponseSchema>;

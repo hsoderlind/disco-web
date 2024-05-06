@@ -77,7 +77,7 @@ export const PriceSuggestions = ({ releaseId }: PriceSuggestionsProps) => {
 		: [];
 
 	return (
-		<Card title='Prisförslag' loading={isFetching || isLoading}>
+		<Card title='Prisförslag' loading={isFetching || isLoading} className='mb-4'>
 			<Descriptions size='small' layout='vertical' column={1} items={items} />
 		</Card>
 	);

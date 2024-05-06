@@ -27,6 +27,7 @@ import { ReleaseResponseSchema } from '../../../services/discogs/release/types';
 import { LabelSummary } from '../components/label-summary';
 import { FormatSummary } from '../components/format-summary';
 import { PriceSuggestions } from '../components/price-suggestions';
+import { ReleaseStats as MarketplaceReleaseStats } from '../components/marketplace/ReleaseStats';
 
 export function Component() {
 	const params = useParams<RouteParams>();
@@ -128,6 +129,7 @@ export function Component() {
 						<>
 							<ArtistSummary artists={release.get<CommonArtistSchema[]>('artists')} />
 							<PriceSuggestions releaseId={release.get('id')} />
+							<MarketplaceReleaseStats releaseId={release.get('id')} />
 							<ReleaseStats releaseId={release.get('id')} />
 						</>
 					) : null}

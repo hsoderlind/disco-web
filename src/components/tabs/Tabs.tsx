@@ -32,12 +32,10 @@ export const Tabs = ({ renderExtraContent }: TabsProps) => {
 			type='editable-card'
 			items={items}
 			tabBarExtraContent={
-				typeof renderExtraContent !== 'undefined' ? (
-					<>
-						{renderExtraContent}
-						<DiscogsButton />
-					</>
-				) : undefined
+				<>
+					{typeof renderExtraContent !== 'undefined' ? renderExtraContent : undefined}
+					<DiscogsButton />
+				</>
 			}
 			onTabClick={handleTabClick}
 			onEdit={handleEdit}
