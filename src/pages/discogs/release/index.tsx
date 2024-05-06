@@ -47,7 +47,7 @@ export function Component() {
 		{
 			key: 'release_id',
 			label: 'Release ID hos Discogs',
-			children: params.id
+			children: <Typography.Text copyable>{params.id}</Typography.Text>
 		},
 		{
 			key: 'labels',
@@ -156,10 +156,10 @@ export function Component() {
 								Visa alla bilder
 							</Button>
 						</Col>
-						<Col md={14}>
+						<Col md={19}>
 							<Typography.Title level={2}>{`${release?.get<ReleaseResponseSchema['artists']>('artists')?.[0]
 								.name} - ${release?.get<string>('title')}`}</Typography.Title>
-							<Descriptions items={items} column={1} />
+							<Descriptions size='middle' items={items} column={1} />
 						</Col>
 					</Row>
 					{release?.get('notes') && (

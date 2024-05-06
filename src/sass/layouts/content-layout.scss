@@ -28,7 +28,7 @@
 			@include m.overflow-auto-y;
 
 			&:not(.content--no-spacing) {
-				padding: 5vh 3vw;
+				padding: min(10vh, vars.$space-5) 3vw;
 			}
 		}
 	}
