@@ -1,0 +1,56 @@
+@use "../../../../sass/vars";
+
+.editor {
+	background-color: var(--ant-color-bg-container);
+
+	.ql-toolbar.ql-snow {
+		border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
+		color: var(--ant-color-text);
+		transition: border-color var(--ant-motion-duration-slow) ease-in-out;
+
+		.ql-formats:not(:hover),
+		.ql-picker-label:not(:hover) {
+			color: var(--ant-color-text);
+		}
+
+		svg * {
+			stroke: currentColor;
+		}
+	}
+
+	.ql-container {
+		background-color: var(--ant-color-bg-container);
+
+		&.ql-snow {
+			border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
+			transition: border-color var(--ant-motion-duration-slow) ease-in-out;
+		}
+	}
+
+	.ql-picker-options {
+		background-color: var(--ant-color-bg-container);
+		color: var(--ant-color-text);
+	}
+
+	.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+		border: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border);
+	}
+
+	&:hover {
+		.ql-toolbar.ql-snow,
+		.ql-container.ql-snow {
+			border-color: #3c89e8;
+		}
+	}
+
+	&:focus-within {
+		.ql-toolbar.ql-snow,
+		.ql-container.ql-snow {
+			border-color: #1668dc;
+		}
+	}
+
+	.ql-tooltip {
+		left: 0 !important;
+	}
+}

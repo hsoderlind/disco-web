@@ -5,8 +5,9 @@ import Link from '../../../../components/navigation/Link';
 export const ArtistSummary = ({ artists }: ArtistSummaryProps) => {
 	return (
 		<>
-			{artists.map((artist) => (
+			{artists.map((artist, index) => (
 				<Card
+					key={`artist-${index}`}
 					className='mb-4'
 					title='Artist/Grupp'
 					cover={artist.thumbnail_url ? <img src={artist.thumbnail_url} alt={artist.name} /> : undefined}>

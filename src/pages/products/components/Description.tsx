@@ -5,7 +5,7 @@ import { Col, Input, Row, Typography } from 'antd';
 import FormItem from '../../../lib/form/FormItem';
 import { CategorySelect } from '../../../components/forms/controls/CategorySelect';
 import { UncontrolledLabel } from '../../../components/forms/UncontrolledLabel';
-import { Editor } from '../../../components/forms/controls/Editor';
+import { Editor } from '../../../components/forms/controls/editor';
 
 export const Description: FC = () => {
 	const { control } = useFormContext<ProductSchemaType>();

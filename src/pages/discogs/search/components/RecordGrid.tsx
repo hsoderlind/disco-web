@@ -8,12 +8,12 @@ import { ArrayCellRenderer } from '../../../../components/data-grid/components/A
 import { Button, Dropdown, MenuProps, Tooltip } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 import { DataGrid } from '../../../../components/data-grid/DataGrid';
-import { useNavigation } from '../../../../hooks/useNavigation';
+import { useNavigate } from '../../../../hooks/useNavigate';
 
 type HndleDropdownClick = (model: SearchResultSchema) => MenuProps['onClick'];
 
 export const RecordGrid = ({ isLoading, isSuccess, searchResult }: RecordGridProps) => {
-	const navigate = useNavigation();
+	const navigate = useNavigate();
 
 	const handleDropdownClick: HndleDropdownClick = (data) => (event) => {
 		switch (event.key) {

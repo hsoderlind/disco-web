@@ -18,6 +18,7 @@ import { CommonArtistSchema } from '../../../services/discogs/types';
 import { PageLoader } from '../../../components/page-loader/PageLoader';
 import { ArrowRightOutlined, ImportOutlined } from '@ant-design/icons';
 import { AddToWantListButton } from '../components/toolbar/add-to-wantlist';
+import { ImportButton } from '../components/toolbar/import-button';
 
 export function Component() {
 	const params = useParams<RouteParams>();
@@ -75,17 +76,19 @@ export function Component() {
 					) : null}
 				</SidebarContentLayout>
 				<MainContentLayout
-					renderToolbar={
-						<>
-							<Button type='text' icon={<ImportOutlined />} title='Importera artikeln' />
-							{master && <AddToWantListButton releaseId={master.get<number>('main_release')!} />}
-							<Button
-								type='text'
-								icon={<ArrowRightOutlined />}
-								title='Se artikeln på Discogs'
-								onClick={() => window.open(master?.get<string>('uri') as string, 'tab')}
-							/>
-						</>
+					renderToolbarExtraContent={
+						master && (
+							<>
+								<ImportButton releaseId={master.get<number>('main_release')} />
+								<AddToWantListButton releaseId={master.get<number>('main_release')} />
+								<Button
+									type='text'
+									icon={<ArrowRightOutlined />}
+									title='Se artikeln på Discogs'
+									onClick={() => window.open(master?.get<string>('uri') as string, 'tab')}
+								/>
+							</>
+						)
 					}>
 					<Row gutter={24} className='mb-5'>
 						<Col md={5} className='text-center'>

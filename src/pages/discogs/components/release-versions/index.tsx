@@ -13,12 +13,12 @@ import { DataGrid } from '../../../../components/data-grid/DataGrid';
 import { Button, Dropdown, MenuProps, Pagination, PaginationProps, Spin, Tooltip } from 'antd';
 import { Num } from '../../../../lib/number/Num';
 import { EllipsisOutlined } from '@ant-design/icons';
-import { useNavigation } from '../../../../hooks/useNavigation';
+import { useNavigate } from '../../../../hooks/useNavigate';
 
 type HndleDropdownClick = (model: MasterReleaseVersionsResultSchema) => MenuProps['onClick'];
 
 export const ReleaseVersions = ({ masterId, title = 'Versioner' }: ReleaseVersionsProps) => {
-	const navigate = useNavigation();
+	const navigate = useNavigate();
 	const [fields, setFields] = useState<Partial<MasterReleaseVersionsSchema>>({ master_id: masterId });
 	const { data: releaseVersions, isFetching, isLoading, isSuccess } = useFindMasterReleaseVersions(fields);
 	const [columnDefs] = useState<ColDef<MasterReleaseVersionsResultSchema>[]>([

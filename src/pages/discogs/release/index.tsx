@@ -28,6 +28,7 @@ import { LabelSummary } from '../components/label-summary';
 import { FormatSummary } from '../components/format-summary';
 import { PriceSuggestions } from '../components/price-suggestions';
 import { ReleaseStats as MarketplaceReleaseStats } from '../components/marketplace/ReleaseStats';
+import { ImportButton } from '../components/toolbar/import-button';
 
 export function Component() {
 	const params = useParams<RouteParams>();
@@ -136,16 +137,18 @@ export function Component() {
 				</SidebarContentLayout>
 				<MainContentLayout
 					renderToolbarExtraContent={
-						<>
-							<Button type='text' icon={<ImportOutlined />} title='Importera artikeln' />
-							{release && <AddToWantListButton releaseId={release.get<number>('id')!} />}
-							<Button
-								type='text'
-								icon={<ArrowRightOutlined />}
-								title='Se artikeln på Discogs'
-								onClick={() => window.open(release?.get<string>('uri') as string, 'tab')}
-							/>
-						</>
+						release && (
+							<>
+								<ImportButton releaseId={release!.get<number>('id')} />
+								<AddToWantListButton releaseId={release.get<number>('id')!} />
+								<Button
+									type='text'
+									icon={<ArrowRightOutlined />}
+									title='Se artikeln på Discogs'
+									onClick={() => window.open(release?.get<string>('uri') as string, 'tab')}
+								/>
+							</>
+						)
 					}>
 					<Row gutter={24} className='mb-5'>
 						<Col md={5} className='text-center'>

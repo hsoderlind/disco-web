@@ -4,12 +4,12 @@ import { CloseOutlined, ExclamationOutlined, InfoCircleOutlined, SearchOutlined 
 import { Icon } from './Icon';
 import { useLocalStorage } from '../../../hooks/useLocalStorage';
 import clsx from 'clsx';
-import { useNavigation } from '../../../hooks/useNavigation';
+import { useNavigate } from '../../../hooks/useNavigate';
 import { useShopPath } from '../../../hooks/useShopPath';
 
 export const Toolpanel = () => {
 	const [panelState, setPanelState] = useLocalStorage<'expanded' | 'collapsed'>('discogs.toolpanel', 'collapsed');
-	const navigate = useNavigation();
+	const navigate = useNavigate();
 	const shopPath = useShopPath();
 
 	const handleClick: MenuProps['onClick'] = (e) => {

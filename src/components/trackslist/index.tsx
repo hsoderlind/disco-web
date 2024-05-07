@@ -6,8 +6,8 @@ export const Trackslist = ({ title, tracks }: TrackslistProps) => {
 		<section className={classes['trackslist']}>
 			<h3 className={classes['trackslist__title']}>{title}</h3>
 			<div className={classes['trackslist__tracks']}>
-				{tracks.map((track) => (
-					<div className={classes['track']}>
+				{tracks.map((track, index) => (
+					<div key={`track-${index}`} className={classes['track']}>
 						<div className='flex-1'>
 							{track.position}. {track.title}
 						</div>

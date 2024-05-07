@@ -156,12 +156,7 @@ export function Component() {
 									</Dropdown.Button>
 								</div>
 							</ButtonBar>
-						)}
-						renderToolbar={
-							<Toolbar>
-								<DiscogsButton />
-							</Toolbar>
-						}>
+						)}>
 						{section === 'description' && <Description />}
 						{section === 'details' && <Details />}
 						{section === 'features' && <ProductsAttributes />}

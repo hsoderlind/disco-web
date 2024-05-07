@@ -168,12 +168,6 @@ export function Component() {
 									Spara & publicera
 								</Dropdown.Button>
 							</ButtonBar>
-						}
-						renderToolbar={
-							<Toolbar>
-								<Tabs />
-								<DiscogsButton />
-							</Toolbar>
 						}>
 						{section === 'description' && <Description />}
 						{section === 'details' && <Details />}
