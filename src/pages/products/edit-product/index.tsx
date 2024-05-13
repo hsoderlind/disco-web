@@ -30,9 +30,6 @@ import { loadProduct as loader } from '../../../services/product/loaders';
 import { useProductImageStore } from '../components/product-image/store';
 import { File } from '../../../services/file/File';
 import { useProductFileStore } from '../components/product-file/store';
-import { DiscogsButton } from '../../../services/discogs/components/DiscogsButton';
-import { Toolbar } from '../../../components/toolbar';
-import { Tabs } from '../../../components/tabs/Tabs';
 
 const DEFAULT_SECTION = 'description';
 

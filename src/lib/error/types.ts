@@ -1,8 +1,10 @@
-import { Error } from "@hensod/HttpClient";
+import { Error as ResponseError } from "@hensod/HttpClient";
 
 export interface IServerValidationError {
 	errors: Record<string, string[]>;
 	message: string;
 }
 
-export type ServerValidationError<TData = any> = Error<IServerValidationError, TData>;
+export type { ResponseError };
+
+export type ServerValidationError<TData = any> = ResponseError<IServerValidationError, TData>;

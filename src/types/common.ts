@@ -1,5 +1,6 @@
 import React from 'react';
 import { UIMatch } from 'react-router-dom';
+import { QueryKey, UseMutationOptions as RCUseMutationOptions, UseQueryOptions as RQUseQueryOptions } from '@tanstack/react-query';
 
 export interface ReactCommonProps {
 	children?: React.ReactNode;
@@ -19,6 +20,22 @@ export type RouteParams = {
 }
 
 export type ExtractObjectStructure<T> = T extends (infer U)[] ? U : never;
+
+export type UseMutationOptions<
+	TData = unknown,
+	TError = unknown,
+	TVariables = void,
+	TContext = unknown
+> = Omit<RCUseMutationOptions<TData, TError, TVariables, TContext>, 'mutationFn'>;
+
+export type UseQueryOptions<
+	TQueryFnData = unknown,
+	TError = unknown,
+	TData = TQueryFnData,
+	TQueryKey extends QueryKey = QueryKey,
+> = Omit<
+		RQUseQueryOptions<TQueryFnData, TError, TData, TQueryKey>, 'queryKey' | 'queryFn' | 'initialData'
+	> & { initialData?: () => undefined };
 
 export abstract class Enum {
 	static values(): Readonly<[string, ...string[]] | [number, ...number[]]> {

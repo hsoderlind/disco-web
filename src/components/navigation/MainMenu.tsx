@@ -44,14 +44,14 @@ const MainMenu: FC = () => {
 					label: 'Produkter',
 					key: 'products'
 				},
-				{
-					label: 'Kategorier',
-					key: 'categories'
-				},
-				{
-					label: 'Attribut & varianter',
-					key: 'attributes'
-				},
+				// {
+				// 	label: 'Kategorier',
+				// 	key: 'categories'
+				// },
+				// {
+				// 	label: 'Attribut & varianter',
+				// 	key: 'attributes'
+				// },
 				{
 					label: 'Tillverkare',
 					key: 'manufacturers'
@@ -87,6 +87,10 @@ const MainMenu: FC = () => {
 			key: 'sales',
 			disabled: !hasShops || !selectedShop,
 			children: [
+				{
+					label: 'Skapa beställning',
+					key: 'sales/create'
+				},
 				{
 					label: 'Nyinkomna beställningar',
 					key: 'sales?status=new'

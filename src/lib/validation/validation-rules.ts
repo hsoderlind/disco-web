@@ -56,6 +56,22 @@ export const validateSsn = (ssn: string) => {
 
 export const validateOrgNumberOrSsn = (input: string) => validateOrgnumber(input) || validateSsn(input);
 
+export const validateOrgnumberOptional =(orgnumber: string) => {
+    if (orgnumber.length === 0 || orgnumber === null || typeof orgnumber === 'undefined') {
+        return true;
+    }
+
+    return validateOrgnumber(orgnumber);
+}
+
+export const validateSsnOptional = (ssn: string) => {
+    if (ssn.length === 0 || ssn === null || typeof ssn === 'undefined') {
+        return true;
+    }
+
+    return validateSsn(ssn);
+}
+
 export const validateZipCode = (zipCode: string) => {
 	if (zipCode.length < 5 || zipCode.length > 6) {
 		return false;

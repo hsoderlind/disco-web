@@ -1,4 +1,5 @@
-import { Account } from '../account/types';
+import { Account } from '../account/Account';
+import { AccountSchema } from '../account/types';
 
 export interface User {
 	id: number;
@@ -8,5 +9,5 @@ export interface User {
 	two_factor_confirmed_at: string;
 	created_at: string;
 	updated_at: string;
-	account: Account;
+	account: AccountSchema | Account;
 }

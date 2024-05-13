@@ -6,6 +6,7 @@ import 'dayjs/locale/sv';
 import dayjs from "dayjs";
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 import { MessageInstance } from "antd/es/message/interface";
 import { ReactNode } from "react";
 import { QueryClient } from "@tanstack/react-query";
@@ -135,10 +136,11 @@ class ApplicationBuilder {
 	}
 
 	private initDayJs() {
+		dayjs.locale('sv');
+		dayjs.extend(localizedFormat);
 		dayjs.extend(utc);
 		dayjs.extend(timezone);
 		dayjs.tz.setDefault('Europe/Stockholm');
-		dayjs.locale('sv');
 	}
 
 	private initQueryClient() {
