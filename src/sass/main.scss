@@ -1,22 +1,22 @@
-@import "reset";
-@import "base";
+@use "reset";
+@use "base";
 
 // Utilities
-@import "utils/spacing";
-@import "utils/layout";
-@import "utils/effects";
-@import "utils/resets";
-@import "utils/text";
+@use "utils/spacing";
+@use "utils/layout";
+@use "utils/effects";
+@use "utils/resets";
+@use "utils/text";
 
 // Layouts
-@import "layouts/AuthLayout";
-@import "layouts/MainLayout";
-@import "layouts/content-layout";
+@use "layouts/AuthLayout";
+@use "layouts/MainLayout";
+@use "layouts/content-layout";
 
 // Components
-@import "components/form";
-@import "components/page-loader";
-@import "components/toolbar"; // Pages
+@use "components/form";
+@use "components/page-loader";
+@use "components/toolbar"; // Pages
 
 // Vendors
-@import "./antd-override/an-app";
+@use "./antd-override/ant-app";

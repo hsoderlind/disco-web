@@ -2,7 +2,7 @@ import { Model } from "../../lib/model/Model";
 import { Account } from "../account/Account";
 import { AccountSchema } from "../account/types";
 import { CreditBalance } from "./CreditBalance";
-import { CreditBalanceSchema, CustomerType } from "./types";
+import { CreditBalanceType, CustomerType } from "./types";
 
 export class Customer extends Model<CustomerType, 'id'> {
 	static readonly ENDPOINT = '/api/customer';
@@ -59,7 +59,7 @@ export class Customer extends Model<CustomerType, 'id'> {
 
 	creditBalance(): CreditBalance {
 		if (!this.hasRelation('credit_balance')) {
-			return this.hasOneRelation(new CreditBalance(this.get<CreditBalanceSchema>('credit_balance'), this.shopId), 'credit_balance');
+			return this.hasOneRelation(new CreditBalance(this.get<CreditBalanceType>('credit_balance'), this.shopId), 'credit_balance');
 		}
 
 		return this.getHasOneRelation('credit_balance');

@@ -26,8 +26,6 @@ import { ProductStates } from '../../../services/product/ProductStates';
 import { DevTool } from '@hookform/devtools';
 import { useEffect } from 'react';
 import { Sidebar } from '../components/Sidebar';
-import { Toolbar } from '../../../components/toolbar';
-import { DiscogsButton } from '../../../services/discogs/components/DiscogsButton';
 
 const DEFAULT_SECTION = 'description';
 
