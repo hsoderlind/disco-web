@@ -108,6 +108,11 @@ const MainMenu: FC = () => {
 					key: 'sales?status=historic'
 				}
 			]
+		},
+		{
+			label: 'Kassa',
+			key: 'checkout',
+			disabled: !hasShops || !selectedShop
 		}
 	];
 
