@@ -2,7 +2,8 @@ import { FC } from 'react';
 import { MenuProps, Menu } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { useShopsContext } from '../../contexts/shops/useShopsContext';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useNavigate } from '../../hooks/useNavigate';
 
 const SettingsMenu: FC = () => {
 	const { hasShops, selectedShop } = useShopsContext();
@@ -17,6 +18,10 @@ const SettingsMenu: FC = () => {
 				{
 					label: 'Butiksprofil',
 					key: 'profile'
+				},
+				{
+					label: 'Företagsuppgifter',
+					key: 'company'
 				},
 				{
 					label: 'Användare',
@@ -47,7 +52,7 @@ const SettingsMenu: FC = () => {
 
 	const onClick: MenuProps['onClick'] = (e) => {
 		const uri = `/${params.urlAlias}/${e.key}`;
-		navigate(uri, { state: { title: e.domEvent.currentTarget.innerText } });
+		navigate(uri, e.domEvent.currentTarget.innerText);
 	};
 
 	return <Menu onClick={onClick} disabled={!hasShops || !selectedShop} items={items} mode='horizontal' theme='dark' />;
