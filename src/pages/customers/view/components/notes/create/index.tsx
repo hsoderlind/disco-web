@@ -1,16 +1,16 @@
 import { SubmitHandler } from 'react-hook-form';
-import { useForm } from '../../../../../../../hooks/useForm';
-import { useLoaderData } from '../../../../../../../hooks/useLoaderData';
-import { Customer } from '../../../../../../../services/customer/Customer';
-import { useCreateNote } from '../../../../../../../services/note/hooks/useCreateNote';
-import { NoteSchema, noteSchema } from '../../../../../../../services/note/types';
-import { NoteFormProps } from './types';
-import app from '../../../../../../../lib/application-builder/ApplicationBuilder';
-import { ExtractErrors } from '../../../../../../../lib/error/ExtractErrors';
+import { useForm } from '../../../../../../hooks/useForm';
+import { useLoaderData } from '../../../../../../hooks/useLoaderData';
+import { Customer } from '../../../../../../services/customer/Customer';
+import { useCreateNote } from '../../../../../../services/note/hooks/useCreateNote';
+import { NoteSchema, noteSchema } from '../../../../../../services/note/types';
+import { NoteCreateProps } from './types';
+import app from '../../../../../../lib/application-builder/ApplicationBuilder';
+import { ExtractErrors } from '../../../../../../lib/error/ExtractErrors';
 import { Form, Input, Modal } from 'antd';
-import FormItem from '../../../../../../../lib/form/FormItem';
+import FormItem from '../../../../../../lib/form/FormItem';
 
-export const NoteForm = ({ open, onCancel, onCreated }: NoteFormProps) => {
+export const NoteCreate = ({ open, onCancel, onCreated }: NoteCreateProps) => {
 	const customer = useLoaderData<Customer>();
 	const {
 		control,

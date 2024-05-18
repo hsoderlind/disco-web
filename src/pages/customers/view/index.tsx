@@ -6,7 +6,7 @@ import { Sidebar } from './components/sidebar';
 import { Details } from './components/details';
 import { Addresses } from './components/addresses';
 import { CreditBalance } from './components/credit-balance';
-import { Notes } from './components/credit-balance/notes';
+import { Notes } from './components/notes';
 
 export { loader, ErrorBoundary };
 

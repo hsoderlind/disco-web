@@ -53,3 +53,5 @@ export type EnumInfer<T extends EnumType> = keyof ReturnType<T['toObject']>
 export type Prettify<T extends object> = {
 	[P in keyof T]: T[P]
 };
+
+export type EmptyFn = () => void;
