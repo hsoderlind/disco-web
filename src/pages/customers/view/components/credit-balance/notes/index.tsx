@@ -1,4 +1,4 @@
-import { Button, Card, Col, List, Row } from 'antd';
+import { Button, Col, List, Popconfirm, Row } from 'antd';
 import { MainContentLayout } from '../../../../../../components/layout/content-layout/MainContentLayout';
 import { useLoaderData } from '../../../../../../hooks/useLoaderData';
 import { Customer } from '../../../../../../services/customer/Customer';
@@ -8,8 +8,10 @@ import { ButtonBar } from '../../../../../../components/forms/buttonbar';
 import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
 import { useNavigate } from '../../../../../../hooks/useNavigate';
 import { useMemo, useState } from 'react';
-import { NoteForm } from './form';
-import { Dayjs } from 'dayjs';
+import { NoteForm } from './create';
+import { useDeleteNote } from '../../../../../../services/note/hooks/useDeleteNote';
+import app from '../../../../../../lib/application-builder/ApplicationBuilder';
+import { NoteView } from './view';
 
 export const Notes = () => {
 	const [modalOpen, setModalOpen] = useState(false);
@@ -17,6 +19,14 @@ export const Notes = () => {
 	const navigate = useNavigate();
 	const customer = useLoaderData<Customer>();
 	const { data: notes, isLoading, isFetching, refetch } = useListNotes('customer', customer.getKey()!);
+	const mutation = useDeleteNote('customer', customer.getKey()!, {
+		onSuccess: () => {
+			app.addSuccessNotification({ description: 'Anteckningen har nu raderats' });
+		},
+		onError: (error) => {
+			app.addErrorNotification({ description: error.message });
+		}
+	});
 
 	const selectedNote = useMemo(() => notes?.find(selectedNoteId), [selectedNoteId, notes]);
 
@@ -26,6 +36,11 @@ export const Notes = () => {
 
 	const handleCreated = () => {
 		setModalOpen(false);
+		refetch();
+	};
+
+	const deleteNote = (id: number) => async () => {
+		await mutation.mutateAsync(id);
 		refetch();
 	};
 
@@ -53,9 +68,21 @@ export const Notes = () => {
 							renderItem={(note) => (
 								<List.Item
 									actions={[
-										<Button type='link' onClick={() => setSelectedNoteId(note.id)}>
+										<Button key='view' type='link' onClick={() => setSelectedNoteId(note.id)}>
 											Visa
-										</Button>
+										</Button>,
+										<Popconfirm
+											key='delete'
+											title='Radera anteckningen'
+											description='Är du säker på att du vill radera anteckningen?'
+											onConfirm={deleteNote(note.id!)}
+											okButtonProps={{ loading: mutation.isLoading }}
+											okText='Ja'
+											cancelText='Nej'>
+											<Button type='link' danger>
+												Radera
+											</Button>
+										</Popconfirm>
 									]}>
 									<List.Item.Meta title={note.title} description={<div className='line-clamp-2'>{note.content}</div>} />
 								</List.Item>
@@ -63,13 +90,7 @@ export const Notes = () => {
 						/>
 					</Col>
 					<Col sm={24} md={12}>
-						{selectedNote && (
-							<Card
-								title={selectedNote.get<string>('title')}
-								extra={selectedNote.get<Dayjs>('created_at').format('L LT')}>
-								<p className='white-space-pre-line'>{selectedNote.get<string>('content')}</p>
-							</Card>
-						)}
+						{selectedNote && <NoteView note={selectedNote} />}
 					</Col>
 				</Row>
 			</MainContentLayout>
