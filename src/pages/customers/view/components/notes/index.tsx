@@ -16,7 +16,6 @@ export const Notes = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const selectedNoteId = searchParams.has('note') ? parseInt(searchParams.get('note')!) : undefined;
 	const [modalOpen, setModalOpen] = useState(false);
-	// const [selectedNoteId, setSelectedNoteId] = useState<NoteType['id'] | undefined>();
 	const navigate = useNavigate();
 	const customer = useLoaderData<Customer>();
 	const { data: notes, isLoading, isFetching, refetch } = useListNotes('customer', customer.getKey()!);
