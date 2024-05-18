@@ -50,7 +50,7 @@ export const Notes = () => {
 						</Button>
 					</ButtonBar>
 				}>
-				<Row>
+				<Row gutter={[16, 0]}>
 					<Col sm={24} md={12}>
 						<List<NoteType>
 							loading={isLoading || isFetching}
