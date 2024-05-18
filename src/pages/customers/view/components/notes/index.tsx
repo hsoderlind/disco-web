@@ -39,6 +39,7 @@ export const Notes = () => {
 	return (
 		<>
 			<MainContentLayout
+				title='Anteckningar'
 				renderButtonBar={
 					<ButtonBar>
 						<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToCustomers} size='large'>

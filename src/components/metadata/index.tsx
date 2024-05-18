@@ -40,7 +40,7 @@ export const Metadata = ({ renderButtonBar, resource, resourceId }: MetadataProp
 
 	return (
 		<>
-			<MainContentLayout renderButtonBar={<>{renderButtonBar?.(renderButtonBarParams)}</>}>
+			<MainContentLayout renderButtonBar={<>{renderButtonBar?.(renderButtonBarParams)}</>} title='Metadata'>
 				<List<MetadataSchema>
 					loading={isLoading || isFetching}
 					itemLayout='horizontal'

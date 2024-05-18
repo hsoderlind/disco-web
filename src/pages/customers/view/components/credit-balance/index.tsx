@@ -30,7 +30,7 @@ export const CreditBalance = () => {
 					</Button>
 				</ButtonBar>
 			}>
-			<Typography.Title level={2}>Kreditbalans</Typography.Title>
+			<Typography.Title level={2}>Kreditsaldo</Typography.Title>
 			<Card
 				title='Nuvarande saldo'
 				extra={

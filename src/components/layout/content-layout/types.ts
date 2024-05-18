@@ -11,6 +11,7 @@ export type MainContentLayoutProps = {
 	renderToolbarExtraContent?: ReactNode;
 	renderButtonBar?: ReactNode | (() => ReactNode);
 	noSpacing?: boolean;
+	title?: ReactNode;
 } & CommonContentLayoutProps;
 
 export type SidebarContentLayoutProps = {
