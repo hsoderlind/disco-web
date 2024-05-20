@@ -9,7 +9,7 @@ export default class Shop extends Model<ShopType, 'id'> {
 	}
 
 	static async get(id: number) {
-		const {data} = await this.httpClient.get<Pick<ShopType, 'id'>, ShopType>(this.GET_SHOP_URI, {data: {id}});
+		const {data} = await this.httpClient.get<ShopType>(`${this.GET_SHOP_URI}/${id}`);
 
 		return new Shop(data);
 	}

@@ -20,6 +20,10 @@ img {
 	@include m.reset-img;
 }
 
+b {
+	font-weight: 700;
+}
+
 #root {
 	width: auto;
 	height: 100vh;

@@ -73,7 +73,7 @@ export class Upload extends Model<UploadType, 'key'> {
 		formData.append('storage_resolver', this.get<string>('storageProvider'));
 		try {
 			const response = await this.httpClient.post<FileType, FormData>(
-				this.get<FileModel>('model').getEndpoint(), 
+				this.get<FileModel>('model').getEndpoint('create'), 
 				formData,
 				{
 					onUploadProgress: (progressEvent) => {
@@ -135,8 +135,8 @@ export type UploadButtonProps = CommonUploadProps & {
 };
 
 export type UploadHeroProps = CommonUploadProps & {
-	icon: ReactNode;
-	infoText: ReactNode;
+	icon?: ReactNode;
+	infoText?: ReactNode;
 }
 
 export type MakeOnDropFn = (storageProvider: string, shopId: number, onDrop?: OnDropCb, onUploaded?: onUploadedCb, onError?: OnErrorCb) => DropzoneOptions['onDrop'];

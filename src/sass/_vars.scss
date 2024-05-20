@@ -18,13 +18,20 @@ $spaces: (
 );
 
 // Colors
-$clr-surface-light: hsl(0, 0%, 100%);
-$clr-surface-medium: hsl(240, 7%, 92%);
-$clr-surface-500: hsl(0, 0%, 84%);
-$clr-surface-900: hsl(0, 0%, 15%);
-$clr-surface-dark: hsl(0, 0%, 8%);
-$clr-border-light: hsl(0, 0%, 84%);
-$clr-border-dark: hsl(0, 0%, 15%);
+$hsl-surface-light: 0 0% 100%;
+$hsl-surface-medium: 240 7% 92%;
+$hsl-surface-500: 0 0% 84%;
+$hsl-surface-900: 0 0% 15%;
+$hsl-surface-dark: 0 0% 8%;
+$hsl-border-light: 0 0% 84%;
+$hsl-border-dark: 0 0% 15%;
+$clr-surface-light: hsl($hsl-surface-light);
+$clr-surface-medium: hsl($hsl-surface-medium);
+$clr-surface-500: hsl($hsl-surface-500);
+$clr-surface-900: hsl($hsl-surface-900);
+$clr-surface-dark: hsl($hsl-surface-dark);
+$clr-border-light: hsl($hsl-border-light);
+$clr-border-dark: hsl($hsl-border-dark);
 
 $colors: (
 	"surface": (

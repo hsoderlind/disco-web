@@ -1,0 +1,14 @@
+@use "../../../../../../sass/vars";
+
+.preview {
+	padding: vars.$space-4;
+	background: linear-gradient(transparent 50%, hsl(0 0% 100% / 0.5) 50%),
+		linear-gradient(90deg, transparent 50%, hsl(0 0% 100% / 0.5) 50%);
+	background-size: 1rem 1rem;
+
+	&--invert {
+		background: linear-gradient(transparent 50%, hsl(0 0% 15% / 0.5) 50%),
+			linear-gradient(90deg, transparent 50%, hsl(0 0% 15% / 0.5) 50%);
+		background-size: 1rem 1rem;
+	}
+}

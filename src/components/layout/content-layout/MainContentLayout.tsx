@@ -6,6 +6,7 @@ import { Typography } from 'antd';
 
 export const MainContentLayout: FC<MainContentLayoutProps> = ({
 	children,
+	className,
 	renderToolbarExtraContent,
 	renderButtonBar,
 	noSpacing = false,
@@ -14,7 +15,7 @@ export const MainContentLayout: FC<MainContentLayoutProps> = ({
 	return (
 		<div className='main-content-layout'>
 			<Tabs renderExtraContent={renderToolbarExtraContent} />
-			<div className={clsx('content', { 'content--no-spacing': noSpacing })}>
+			<div className={clsx('content', className, { 'content--no-spacing': noSpacing })}>
 				{title && <Typography.Title level={2}>{title}</Typography.Title>}
 				{children}
 			</div>
