@@ -1,4 +1,5 @@
 import { Model } from "../../lib/model/Model";
+import { LogotypeSchema } from "../logotype/types";
 import {Shop as ShopType} from './types'
 
 export default class Shop extends Model<ShopType, 'id'> {
@@ -23,5 +24,13 @@ export default class Shop extends Model<ShopType, 'id'> {
 	static async fetchAllByUser() {
 		const {data} = await this.httpClient.get<ShopType[]>(this.GET_SHOP_URI);
 		return data.map((shopData) => new Shop(shopData));
+	}
+
+	static async setLogotype(shopId: number, logotype: LogotypeSchema, context: 'default' | 'mini') {
+		this.httpClient.setHeaders({'x-shop-id': shopId});
+		
+		const response = await this.httpClient.put<ShopType, LogotypeSchema>(`${this.GET_SHOP_URI}/${shopId}/logotype/${context}`, logotype);
+		
+		return new Shop(response.data);
 	}
 }

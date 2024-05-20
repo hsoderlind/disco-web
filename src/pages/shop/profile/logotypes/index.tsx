@@ -1,8 +1,27 @@
 import { Alert, Typography } from 'antd';
 import { MainContentLayout } from '../../../../components/layout/content-layout/MainContentLayout';
 import { Logotype } from './logotype';
+import { useShopStore } from '../../../../services/shop/store';
+import { useSetLogotype } from '../../../../services/shop/hooks/useSetLogotype';
+import { Upload } from '../../../../components/forms/controls/upload/types';
+import { File } from '../../../../services/file/File';
+import { LogotypeSchema } from '../../../../services/logotype/types';
 
 export const Logotypes = () => {
+	const shopId = useShopStore((state) => state.shop.id);
+	const update = useShopStore((state) => state.update);
+	const mutation = useSetLogotype(shopId, {
+		onSuccess: (shop) => {
+			update(shop.toJSON());
+		}
+	});
+
+	const saveShopLogotype = (file: Upload, context: 'default' | 'mini') => {
+		const logotype: LogotypeSchema = { meta: file.get<File>('model').toJSON() };
+
+		mutation.mutate({ logotype, context });
+	};
+
 	return (
 		<MainContentLayout>
 			<Alert
@@ -38,7 +57,7 @@ export const Logotypes = () => {
 				className='my-5'
 				multiple={false}
 				accept={{ 'image/*': [] }}
-				onUploaded={(file) => console.log('file', file)}
+				onUploaded={(file) => saveShopLogotype(file, 'default')}
 			/>
 
 			<Logotype
@@ -56,7 +75,7 @@ export const Logotypes = () => {
 				className='my-5'
 				multiple={false}
 				accept={{ 'image/*': [] }}
-				onUploaded={(file) => console.log('file', file)}
+				onUploaded={(file) => saveShopLogotype(file, 'mini')}
 			/>
 		</MainContentLayout>
 	);
