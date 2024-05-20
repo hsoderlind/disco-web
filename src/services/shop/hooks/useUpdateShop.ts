@@ -9,7 +9,7 @@ export {ErrorBoundary};
 
 export const useUpdateShop = (id: number, options?: UseMutationOptions<Shop, ServerValidationError, ShopSchema>) => {
 	const mutationFn = (formValues: ShopSchema) => {
-		const model = new Shop({...formValues, id});
+		const model = Shop.make({...formValues, id});
 		return model.update();
 	}
 

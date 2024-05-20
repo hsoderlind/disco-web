@@ -12,18 +12,18 @@ export default class Shop extends Model<ShopType, 'id'> {
 	static async get(id: number) {
 		const {data} = await this.httpClient.get<ShopType>(`${this.GET_SHOP_URI}/${id}`);
 
-		return new Shop(data);
+		return Shop.make(data);
 	}
 
 	static async getByUrlAlias(urlAlias: string) {
 		const {data} = await this.httpClient.get<ShopType>(`${this.GET_SHOP_URI}/${urlAlias}`);
 
-		return new Shop(data);
+		return Shop.make(data);
 	}
 
 	static async fetchAllByUser() {
 		const {data} = await this.httpClient.get<ShopType[]>(this.GET_SHOP_URI);
-		return data.map((shopData) => new Shop(shopData));
+		return data.map((shopData) => Shop.make(shopData));
 	}
 
 	static async setLogotype(shopId: number, logotype: LogotypeSchema, context: 'default' | 'mini') {
@@ -31,6 +31,12 @@ export default class Shop extends Model<ShopType, 'id'> {
 		
 		const response = await this.httpClient.put<ShopType, LogotypeSchema>(`${this.GET_SHOP_URI}/${shopId}/logotype/${context}`, logotype);
 		
-		return new Shop(response.data);
+		return Shop.make(response.data);
+	}
+
+	static make(data?: Partial<ShopType>) {
+		const instance = new Shop(data);
+
+		return instance;
 	}
 }
