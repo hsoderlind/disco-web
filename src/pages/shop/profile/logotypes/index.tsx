@@ -1,4 +1,4 @@
-import { Alert, Typography } from 'antd';
+import { Alert, Skeleton, Typography } from 'antd';
 import { MainContentLayout } from '../../../../components/layout/content-layout/MainContentLayout';
 import { Logotype } from './logotype';
 import { useShopStore } from '../../../../services/shop/store';
@@ -119,7 +119,17 @@ export const Logotypes = () => {
 				onUploaded={(file) => saveShopLogotype(file, 'default')}
 			/>
 
-			{!isFetching && !isLoading && (
+			<Logotype
+				title='Mini'
+				inputName='logotype'
+				className='my-5'
+				multiple={false}
+				defaultValue={miniLogotype}
+				accept={{ 'image/*': [] }}
+				onUploaded={(file) => saveShopLogotype(file, 'mini')}
+			/>
+
+			{!isFetching && !isLoading ? (
 				<Logotype
 					title='Faktura'
 					inputName='logotype'
@@ -133,17 +143,9 @@ export const Logotypes = () => {
 					accept={{ 'image/*': [] }}
 					onUploaded={saveInvoiceLogotype}
 				/>
+			) : (
+				<Skeleton.Input />
 			)}
-
-			<Logotype
-				title='Mini'
-				inputName='logotype'
-				className='my-5'
-				multiple={false}
-				defaultValue={miniLogotype}
-				accept={{ 'image/*': [] }}
-				onUploaded={(file) => saveShopLogotype(file, 'mini')}
-			/>
 		</MainContentLayout>
 	);
 };
