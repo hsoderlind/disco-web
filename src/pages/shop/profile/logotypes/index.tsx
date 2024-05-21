@@ -9,6 +9,7 @@ import { LogotypeSchema } from '../../../../services/logotype/types';
 import { Str } from '../../../../lib/string/Str';
 import { useSetLogotype as useSetInvoiceLogotype } from '../../../../services/invoice-settings/hooks/useSetLogotype';
 import { useGetInvoiceSettings } from '../../../../services/invoice-settings/hooks/useGetInvoiceSettings';
+import { Obj } from '../../../../lib/object/Obj';
 
 export const Logotypes = () => {
 	const { data: invoiceSettings, isFetching, isLoading } = useGetInvoiceSettings();
@@ -33,37 +34,35 @@ export const Logotypes = () => {
 		invoiceLogotypeMutation.mutate(logotype);
 	};
 
-	const defaultLogotype =
-		typeof shop.default_logotype !== 'undefined'
-			? [
-					new Upload(
-						{
-							key: Str.uuid(),
-							isUploaded: true,
-							storageProvider: 'logotype',
-							uploadProgress: 100,
-							model: new File(shop.default_logotype.meta, shop.id)
-						},
-						shop.id
-					)
-			  ]
-			: undefined;
+	const defaultLogotype = Obj.isNotEmpty(shop.default_logotype)
+		? [
+				new Upload(
+					{
+						key: Str.uuid(),
+						isUploaded: true,
+						storageProvider: 'logotype',
+						uploadProgress: 100,
+						model: new File(shop.default_logotype.meta, shop.id)
+					},
+					shop.id
+				)
+		  ]
+		: undefined;
 
-	const miniLogotype =
-		typeof shop.mini_logotype !== 'undefined'
-			? [
-					new Upload(
-						{
-							key: Str.uuid(),
-							isUploaded: true,
-							storageProvider: 'logotype',
-							uploadProgress: 100,
-							model: new File(shop.mini_logotype.meta, shop.id)
-						},
-						shop.id
-					)
-			  ]
-			: undefined;
+	const miniLogotype = Obj.isNotEmpty(shop.mini_logotype)
+		? [
+				new Upload(
+					{
+						key: Str.uuid(),
+						isUploaded: true,
+						storageProvider: 'logotype',
+						uploadProgress: 100,
+						model: new File(shop.mini_logotype.meta, shop.id)
+					},
+					shop.id
+				)
+		  ]
+		: undefined;
 
 	const invoiceLogotype =
 		typeof invoiceSettings !== 'undefined' && typeof invoiceSettings.logotype()
@@ -125,7 +124,11 @@ export const Logotypes = () => {
 					title='Faktura'
 					inputName='logotype'
 					className='my-5'
-					defaultValue={invoiceLogotype}
+					defaultValue={
+						typeof invoiceLogotype !== 'undefined' && invoiceLogotype[0].get<File>('model').getKey() > 0
+							? invoiceLogotype
+							: undefined
+					}
 					multiple={false}
 					accept={{ 'image/*': [] }}
 					onUploaded={saveInvoiceLogotype}
