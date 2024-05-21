@@ -14,6 +14,7 @@ export type ImageProps = {
 	width?: CSSProperties['width'];
 	queryKey: string;
 	downloadingIsDisabled?: boolean;
+	maxWidthIsNaturalWidth?: boolean;
 };
 
 export type ImageLoaderProps = {

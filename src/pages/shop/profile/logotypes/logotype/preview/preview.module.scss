@@ -1,14 +1,30 @@
 @use "../../../../../../sass/vars";
 
 .preview {
+	display: grid !important;
+	place-items: center;
 	padding: vars.$space-4;
 	background: linear-gradient(transparent 50%, hsl(0 0% 100% / 0.5) 50%),
 		linear-gradient(90deg, transparent 50%, hsl(0 0% 100% / 0.5) 50%);
 	background-size: 1rem 1rem;
 
+	&--fill {
+		background: none;
+		background-color: vars.$clr-surface-medium;
+	}
+
 	&--invert {
 		background: linear-gradient(transparent 50%, hsl(0 0% 15% / 0.5) 50%),
 			linear-gradient(90deg, transparent 50%, hsl(0 0% 15% / 0.5) 50%);
 		background-size: 1rem 1rem;
+
+		&.preview--fill {
+			background: none;
+			background-color: vars.$clr-surface-900;
+		}
+	}
+
+	> img {
+		max-width: 300px;
 	}
 }

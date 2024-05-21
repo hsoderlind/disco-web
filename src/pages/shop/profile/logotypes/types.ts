@@ -16,6 +16,7 @@ export type LogotypeProps = {
 	className?: string;
 	onUploaded: (file: Upload) => void;
 	title?: string;
+	defaultValue?: LogotypeSchema['logotype'];
 } & LogotypeUploadProps;
 
 export type LogotypePreviewProps = {

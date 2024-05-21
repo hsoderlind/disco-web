@@ -1,4 +1,5 @@
 import { Model } from "../../lib/model/Model";
+import { Logotype } from "../logotype/Logotype";
 import { LogotypeSchema } from "../logotype/types";
 import {Shop as ShopType} from './types'
 
@@ -37,6 +38,27 @@ export default class Shop extends Model<ShopType, 'id'> {
 	static make(data?: Partial<ShopType>) {
 		const instance = new Shop(data);
 
+		instance.defaultLogotype();
+		instance.miniLogotype();
+
 		return instance;
+	}
+
+	defaultLogotype(): Logotype {
+		if (!this.hasRelation('default_logotype')) {
+			const model = new Logotype(this.get<LogotypeSchema>('default_logotype'), this.getKey());
+			return this.hasOneRelation(model, 'default_logotype');
+		}
+
+		return this.getHasOneRelation('default_logotype');
+	}
+
+	miniLogotype(): Logotype {
+		if (!this.hasRelation('mini_logotype')) {
+			const model = new Logotype(this.get<LogotypeSchema>('mini_logotype'), this.getKey());
+			return this.hasOneRelation(model, 'mini_logotype');
+		}
+
+		return this.getHasOneRelation('mini_logotype');
 	}
 }

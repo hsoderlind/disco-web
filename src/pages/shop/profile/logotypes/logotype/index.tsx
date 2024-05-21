@@ -4,11 +4,9 @@ import { LogotypeProps, LogotypeSchema, logotypeSchema } from '../types';
 import { Typography } from 'antd';
 import { LogotypeUpload } from './upload';
 
-export const Logotype = ({ className, onUploaded, title, ...uploadProps }: LogotypeProps) => {
+export const Logotype = ({ className, onUploaded, title, defaultValue = null!, ...uploadProps }: LogotypeProps) => {
 	const methods = useForm<LogotypeSchema>({
-		defaultValues: {
-			logotype: null!
-		},
+		defaultValues: { logotype: defaultValue },
 		schema: logotypeSchema
 	});
 

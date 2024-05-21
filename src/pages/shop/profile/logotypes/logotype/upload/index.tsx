@@ -23,7 +23,10 @@ export const LogotypeUpload = (props: LogotypeUploadProps) => {
 	return (
 		<>
 			<UploadHero {...props} onDrop={(files) => setValue('logotype', files)} />
-			{files && files.map((file, index) => <LogotypePreview file={file} index={index} remove={remove} />)}
+			{files &&
+				files.map((file, index) => (
+					<LogotypePreview key={file.get<string>('key')} file={file} index={index} remove={remove} />
+				))}
 		</>
 	);
 };

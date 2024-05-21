@@ -12,7 +12,8 @@ export const Image: FC<ImageProps> = ({
 	src,
 	className,
 	width,
-	downloadingIsDisabled = false
+	downloadingIsDisabled = false,
+	maxWidthIsNaturalWidth = false
 }) => {
 	const { data, isLoading, isError } = useQuery([queryKey], src, { enabled: !downloadingIsDisabled });
 
@@ -41,5 +42,15 @@ export const Image: FC<ImageProps> = ({
 		);
 	}
 
-	return <img src={data} {...commonProps} />;
+	return (
+		<img
+			ref={(el) => {
+				if (el && el.naturalWidth && maxWidthIsNaturalWidth) {
+					el.style.maxWidth = el?.naturalWidth ? `${el.naturalWidth}px` : '100%';
+				}
+			}}
+			src={data}
+			{...commonProps}
+		/>
+	);
 };

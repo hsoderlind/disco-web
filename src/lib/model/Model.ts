@@ -17,6 +17,14 @@ export class Model<T extends object, K extends keyof T> extends BaseModel<T, K> 
 		}
 		
 		const slugged = Str.kebabCase(this.constructor.name);
-		return `/api/${slugged}`;
+
+		let endpoint = `api/${slugged}`;
+
+		if (action === 'update' || action === 'delete') {
+			const key = this.getKey();
+			endpoint += `/${key}`;
+		}
+		
+		return endpoint;
 	}
 }

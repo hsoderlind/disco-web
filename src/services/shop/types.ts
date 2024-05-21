@@ -1,8 +1,7 @@
 import app from "../../lib/application-builder/ApplicationBuilder";
 import { validateOrgNumberOrSsn, validateZipCode } from "../../lib/validation/validation-rules";
 import { vsbInfer } from "../../lib/validation/validation-schema-builder";
-import { File } from "../file/File";
-import { FileType } from "../file/types";
+import { LogotypeSchema } from "../logotype/types";
 
 const vsb = app.getValidationSchemaBuilder();
 
@@ -23,7 +22,8 @@ export type Shop = {
 	account_owner: number;
 	deleted_at?: string;
 	created_at: string;
-	logotype: FileType | File
+	default_logotype?: LogotypeSchema;
+	mini_logotype?: LogotypeSchema;
 } & ShopSchema;
 
 export type ShopStore = {

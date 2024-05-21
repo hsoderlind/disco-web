@@ -37,8 +37,14 @@ export type UploadType = {
 
 export class Upload extends Model<UploadType, 'key'> {
 	constructor(data: Partial<UploadType>, protected readonly shopId: number) {
-		data.uploadProgress = 0;
-		data.isUploaded = false;
+		if (typeof data.uploadProgress === 'undefined') {
+			data.uploadProgress = 0;
+		}
+
+		if (typeof data.isUploaded === 'undefined') {
+			data.isUploaded = false;
+		}
+		
 		super('key', data);
 		this.httpClient.setHeaders({'x-shop-id': this.shopId});
 	}
