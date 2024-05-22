@@ -133,6 +133,74 @@
 	@include m.w-full;
 }
 
+.w-half {
+	@include m.w-full;
+}
+
+@each $name, $value in vars.$breakpoints {
+	@if $name == "xs" {
+		@include m.xs {
+			.#{$name}\:w-full {
+				@include m.w-full;
+			}
+
+			.#{$name}\:w-half {
+				@include m.w-half;
+			}
+		}
+	} @else if $name == "sm" {
+		@include m.sm {
+			.#{$name}\:w-full {
+				@include m.w-full;
+			}
+
+			.#{$name}\:w-half {
+				@include m.w-half;
+			}
+		}
+	} @else if $name == "md" {
+		@include m.md {
+			.#{$name}\:w-full {
+				@include m.w-full;
+			}
+
+			.#{$name}\:w-half {
+				@include m.w-half;
+			}
+		}
+	} @else if $name == "lg" {
+		@include m.lg {
+			.#{$name}\:w-full {
+				@include m.w-full;
+			}
+
+			.#{$name}\:w-half {
+				@include m.w-half;
+			}
+		}
+	} @else if $name == "xl" {
+		@include m.xl {
+			.#{$name}\:w-full {
+				@include m.w-full;
+			}
+
+			.#{$name}\:w-half {
+				@include m.w-half;
+			}
+		}
+	} @else if $name == "xxl" {
+		@include m.xxl {
+			.#{$name}\:w-full {
+				@include m.w-full;
+			}
+
+			.#{$name}\:w-half {
+				@include m.w-half;
+			}
+		}
+	}
+}
+
 .overflow-auto-y {
 	@include m.overflow-auto-y;
 }

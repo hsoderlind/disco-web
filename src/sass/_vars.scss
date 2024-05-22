@@ -17,6 +17,23 @@ $spaces: (
 	6: $space-6
 );
 
+// Breakpoints
+$breakpoint-xs: 29.25rem;
+$breakpoint-sm: 36rem;
+$breakpoint-md: 48rem;
+$breakpoint-lg: 62rem;
+$breakpoint-xl: 75rem;
+$breakpoint-xxl: 100rem;
+
+$breakpoints: (
+	"xs": $breakpoint-xs,
+	"sm": $breakpoint-sm,
+	"md": $breakpoint-md,
+	"lg": $breakpoint-lg,
+	"xl": $breakpoint-xl,
+	"xxl": $breakpoint-xxl
+);
+
 // Colors
 $hsl-surface-light: 0 0% 100%;
 $hsl-surface-medium: 240 7% 92%;

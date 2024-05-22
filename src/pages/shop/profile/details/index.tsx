@@ -73,7 +73,7 @@ export const Details = () => {
 					<Row gutter={[16, 0]}>
 						<Col xs={24} md={12}>
 							<FormItem control={control} name='address_zip' label='Postnummer'>
-								<Input />
+								<Input maxLength={6} />
 							</FormItem>
 						</Col>
 						<Col xs={24} md={12}>
@@ -88,22 +88,22 @@ export const Details = () => {
 					<Divider />
 					<Typography.Title level={3}>Kontaktuppgifter</Typography.Title>
 					<Row gutter={[16, 0]}>
-						<Col xs={24} md={8}>
+						<Col xs={24} md={12}>
 							<FormItem control={control} name='support_email' label='Kundtjänst e-post'>
 								<Input addonBefore={<MailOutlined />} />
 							</FormItem>
 						</Col>
-						<Col xs={24} md={8}>
+						<Col xs={24} md={12}>
 							<FormItem control={control} name='support_phone' label='Kundtjänst telefon'>
 								<Input addonBefore={<PhoneOutlined />} />
 							</FormItem>
 						</Col>
-						<Col xs={24} md={8}>
-							<FormItem control={control} name='support_website' label='Kundtjänst URL'>
-								<Input addonBefore={<FaGlobeEurope />} />
-							</FormItem>
-						</Col>
 					</Row>
+					<Divider />
+					<Typography.Title level={3}>Webbadresser</Typography.Title>
+					<FormItem control={control} name='support_website' label='Kundtjänst Hemsida'>
+						<Input addonBefore={<FaGlobeEurope />} />
+					</FormItem>
 					<Row gutter={[16, 0]}>
 						<Col xs={24} md={12}>
 							<FormItem control={control} name='privacy_police_url' label='Integritetspolicy'>
