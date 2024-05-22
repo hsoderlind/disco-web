@@ -11,7 +11,13 @@ export const shopSchema = vsb.object({
 	address_street1: vsb.string().nonempty(),
 	address_street2: vsb.string().nullable().optional(),
 	address_zip: vsb.string().nonempty().refine(validateZipCode),
-	address_city: vsb.string().nonempty()
+	address_city: vsb.string().nonempty(),
+	support_phone: vsb.string().optional(),
+	support_email: vsb.string().email().optional(),
+	official_website: vsb.string().url().optional(),
+	support_website: vsb.string().url().optional(),
+	terms_of_agreement_url: vsb.string().url().optional(),
+	privacy_police_url: vsb.string().url().optional(),
 });
 
 export type ShopSchema = vsbInfer<typeof shopSchema>;

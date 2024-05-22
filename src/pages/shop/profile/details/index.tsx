@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, Typography } from 'antd';
+import { Button, Col, Divider, Form, Input, Row, Typography } from 'antd';
 import { ButtonBar } from '../../../../components/forms/buttonbar';
 import { MainContentLayout } from '../../../../components/layout/content-layout/MainContentLayout';
 import { FormProvider, SubmitHandler } from 'react-hook-form';
@@ -9,6 +9,8 @@ import { ShopSchema, shopSchema } from '../../../../services/shop/types';
 import { useUpdateShop } from '../../../../services/shop/hooks/useUpdateShop';
 import app from '../../../../lib/application-builder/ApplicationBuilder';
 import { ExtractErrors } from '../../../../lib/error/ExtractErrors';
+import { MailOutlined, PhoneOutlined } from '@ant-design/icons';
+import { FaGlobeEurope } from 'react-icons/fa';
 
 export const Details = () => {
 	const shop = useShopStore((state) => state.shop);
@@ -77,6 +79,40 @@ export const Details = () => {
 						<Col xs={24} md={12}>
 							<FormItem control={control} name='address_city' label='Ort'>
 								<Input />
+							</FormItem>
+						</Col>
+					</Row>
+					<FormItem control={control} name='official_website' label='Hemsida'>
+						<Input addonBefore={<FaGlobeEurope />} />
+					</FormItem>
+					<Divider />
+					<Typography.Title level={3}>Kontaktuppgifter</Typography.Title>
+					<Row gutter={[16, 0]}>
+						<Col xs={24} md={8}>
+							<FormItem control={control} name='support_email' label='Kundtjänst e-post'>
+								<Input addonBefore={<MailOutlined />} />
+							</FormItem>
+						</Col>
+						<Col xs={24} md={8}>
+							<FormItem control={control} name='support_phone' label='Kundtjänst telefon'>
+								<Input addonBefore={<PhoneOutlined />} />
+							</FormItem>
+						</Col>
+						<Col xs={24} md={8}>
+							<FormItem control={control} name='support_website' label='Kundtjänst URL'>
+								<Input addonBefore={<FaGlobeEurope />} />
+							</FormItem>
+						</Col>
+					</Row>
+					<Row gutter={[16, 0]}>
+						<Col xs={24} md={12}>
+							<FormItem control={control} name='privacy_police_url' label='Integritetspolicy'>
+								<Input addonBefore={<FaGlobeEurope />} />
+							</FormItem>
+						</Col>
+						<Col xs={24} md={12}>
+							<FormItem control={control} name='terms_of_agreement_url' label='Försäljningsvillkor'>
+								<Input addonBefore={<FaGlobeEurope />} />
 							</FormItem>
 						</Col>
 					</Row>
