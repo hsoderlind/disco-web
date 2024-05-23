@@ -16,7 +16,11 @@ export const MainContentLayout: FC<MainContentLayoutProps> = ({
 		<div className='main-content-layout'>
 			<Tabs renderExtraContent={renderToolbarExtraContent} />
 			<div className={clsx('content', className, { 'content--no-spacing': noSpacing })}>
-				{title && <Typography.Title level={2}>{title}</Typography.Title>}
+				{title && (
+					<Typography.Title level={2} className={clsx({ 'pt-5': noSpacing, 'px-5': noSpacing })}>
+						{title}
+					</Typography.Title>
+				)}
 				{children}
 			</div>
 			{typeof renderButtonBar === 'function'

@@ -2,6 +2,7 @@ import app from "../../lib/application-builder/ApplicationBuilder";
 import { validateOrgNumberOrSsn, validateZipCode } from "../../lib/validation/validation-rules";
 import { vsbInfer } from "../../lib/validation/validation-schema-builder";
 import { LogotypeSchema } from "../logotype/types";
+import { User, UserStateUnion } from "../user/types";
 
 const vsb = app.getValidationSchemaBuilder();
 
@@ -20,7 +21,21 @@ export const shopSchema = vsb.object({
 	privacy_police_url: vsb.string().url().optional(),
 });
 
+export const shopUserSchema = vsb.object({
+	name: vsb.string(),
+	email: vsb.string().email(),
+	roles: vsb.array(vsb.number().int().nonnegative()).min(1)
+});
+
 export type ShopSchema = vsbInfer<typeof shopSchema>;
+
+export type ShopUserSchema = vsbInfer<typeof shopUserSchema>;
+
+export type ShopUserType = {
+	id: User['id'];
+	state: UserStateUnion;
+	roles: User['roles'];
+} & ShopUserSchema;
 
 export type Shop = {
 	id: number;
