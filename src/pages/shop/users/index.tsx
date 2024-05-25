@@ -9,28 +9,62 @@ import { ContentLayout } from '../../../components/layout/content-layout/Content
 import { MainContentLayout } from '../../../components/layout/content-layout/MainContentLayout';
 import { DataGrid } from '../../../components/data-grid/DataGrid';
 import { ButtonBar } from '../../../components/forms/buttonbar';
-import { Button, Dropdown } from 'antd';
-import { EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Modal } from 'antd';
+import { EllipsisOutlined, ExclamationCircleFilled, PlusOutlined } from '@ant-design/icons';
 import { CellRendererProps, HandleDropdownClick } from '../../../components/data-grid/types';
 import { useShopStore } from '../../../services/shop/store';
+import { CreateShopUser } from './components/create';
+import { useNavigate } from '../../../hooks/useNavigate';
+import { useAuthContext } from '../../../contexts/auth/useAuthContext';
+import { EditShopUser } from './components/edit';
+import { useRemoveShopUser } from '../../../services/shop/hooks/useRemoveShopUser';
+import app from '../../../lib/application-builder/ApplicationBuilder';
 
 export { loader, ErrorBoundary };
 
 export function Component() {
+	const navigate = useNavigate();
+	const [createModalOpen, setCreateModalOpen] = useState(false);
 	const [selectedUser, setSelectedUser] = useState<ShopUserType | undefined>();
 	const shopUsers = useLoaderData<ShopUserCollection>();
 	const shopOwner = useShopStore((state) => state.shop.account_owner);
+	const { user } = useAuthContext();
+	const mutation = useRemoveShopUser({
+		onSuccess: () => {
+			app.addSuccessNotification({ description: 'Användaren är nu borttagen' });
+		}
+	});
+
+	const removeShopUser = async (model: ShopUserType) => {
+		await mutation.mutateAsync(model.id);
+		navigate('.', 'Användare', { replace: true });
+	};
 
 	const handleDropdownClick: HandleDropdownClick<ShopUserType> = (model) => (e) => {
 		switch (e.key) {
 			case 'edit':
-				//
+				setSelectedUser(model);
 				break;
 			case 'transfer-ownership':
 				//
 				break;
-			case 'delete':
-				//
+			case 'remove':
+				Modal.confirm({
+					title: `Ta bort ${model.name}`,
+					icon: <ExclamationCircleFilled />,
+					content: (
+						<>
+							<b>Är du säker på att du vill ta bort {model.name} från butikskontot?</b>
+							<br />
+							Denna åtgärd kommer permanent ta bort användaren från kontot och det går inte att ångra.
+						</>
+					),
+					okText: 'Ja',
+					cancelText: 'Nej',
+					onOk: async () => {
+						await removeShopUser(model);
+					}
+				});
 				break;
 		}
 	};
@@ -47,8 +81,10 @@ export function Component() {
 			},
 			{
 				field: 'state',
-				headerName: 'Status'
-			},
+				headerName: 'Status',
+				valueFormatter: (params) =>
+					params.value === 'INVITED' ? 'Inbjuden' : params.value === 'REGISTERED' ? 'Registrerad' : 'n/a'
+			} as ColDef<ShopUserType, ShopUserType['state']>,
 			{
 				field: 'roles',
 				headerName: 'Roller',
@@ -68,11 +104,16 @@ export function Component() {
 								{
 									key: 'transfer-ownership',
 									label: 'Byt kontoägare',
-									disabled: shopOwner === props.data.id
+									disabled: shopOwner === props.data.id || props.data.state === 'INVITED'
 								},
 								{
-									key: 'delete',
-									label: 'Radera',
+									key: 'masquerade',
+									label: 'Maskera dig som användaren',
+									disabled: user?.getKey() === props.data.id || props.data.state === 'INVITED'
+								},
+								{
+									key: 'remove',
+									label: 'Ta bort',
 									danger: true,
 									disabled: shopOwner === props.data.id
 								}
@@ -90,19 +131,40 @@ export function Component() {
 
 	const rowData = shopUsers.toJSON();
 
+	const handleCreated = () => {
+		setCreateModalOpen(false);
+		navigate('.', 'Användare', { replace: true });
+	};
+
+	const handleUpdated = () => {
+		setSelectedUser(undefined);
+		navigate('.', 'Användare', { replace: true });
+	};
+
 	return (
-		<ContentLayout>
-			<MainContentLayout
-				noSpacing
-				renderButtonBar={
-					<ButtonBar buttonsPlacement='end'>
-						<Button type='primary' icon={<PlusOutlined />}>
-							Lägg till användare
-						</Button>
-					</ButtonBar>
-				}>
-				<DataGrid columnDefs={columnDefs} rowData={rowData} />
-			</MainContentLayout>
-		</ContentLayout>
+		<>
+			<ContentLayout>
+				<MainContentLayout
+					noSpacing
+					renderButtonBar={
+						<ButtonBar buttonsPlacement='end'>
+							<Button type='primary' icon={<PlusOutlined />} onClick={() => setCreateModalOpen(true)}>
+								Lägg till användare
+							</Button>
+						</ButtonBar>
+					}>
+					<DataGrid columnDefs={columnDefs} rowData={rowData} />
+				</MainContentLayout>
+			</ContentLayout>
+			{createModalOpen && <CreateShopUser open onCancel={() => setCreateModalOpen(false)} onCreated={handleCreated} />}
+			{typeof selectedUser !== 'undefined' && (
+				<EditShopUser
+					shopUser={selectedUser}
+					onCancel={() => setSelectedUser(undefined)}
+					onUpdated={handleUpdated}
+					open
+				/>
+			)}
+		</>
 	);
 }

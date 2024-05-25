@@ -3,7 +3,7 @@ import { ShopUser } from "./ShopUser";
 import { ShopUserType } from "./types";
 
 export class ShopUserCollection extends Collection<ShopUserType, 'id', ShopUser> {
-	static readonly ENDPOINT = '/api/shop/user';
+	static readonly ENDPOINT = '/api/shop-user';
 
 	constructor(items: ShopUser[]) {
 		super(items);

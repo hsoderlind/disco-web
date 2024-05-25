@@ -16,8 +16,8 @@ export interface User {
 }
 
 export class UserState extends Enum {
-	static readonly INVITED = 'invited';
-	static readonly REGISTERED = 'registered';
+	static readonly INVITED = 'INVITED';
+	static readonly REGISTERED = 'REGISTERED';
 
 	static values() {
 		return [

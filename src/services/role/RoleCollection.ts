@@ -14,7 +14,7 @@ export class RoleCollection extends Collection<RoleType, 'id'> {
 
 		const response = await this.httpClient.get<RoleType[]>(this.ENDPOINT);
 
-		const models = response.data.map((data) => Role.make(data));
+		const models = Object.values(response.data).map((data) => Role.make(data));
 		
 		return new RoleCollection(models);
 	}
