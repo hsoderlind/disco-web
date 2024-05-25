@@ -1,32 +1,32 @@
 @use "../utils/mixins" as m;
+@use "../vars";
 
 .auth-layout {
-	background: rgb(240, 245, 255);
-	background: linear-gradient(
-		-45deg,
-		hsl(243, 75%, 59%) 10%,
-		hsl(293, 69%, 49%) 25%,
-		hsl(347, 97%, 72%) 50%,
-		hsl(330, 81%, 60%) 75%,
-		hsl(50, 98%, 64%) 100%
-	);
-	background-size: 300%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
+	background: #0e7490;
+	background: linear-gradient(-75deg, #67e8f9 10%, #0e7490 75%, #115e59 100%);
 	height: 100%;
-	animation: bg 20s ease-in infinite alternate;
 
-	> * {
+	.panel {
+		@include m.flex;
+		@include m.flex-column;
+		@include m.row-gap(vars.$space-4);
+		background-color: var(--ant-color-bg-container);
 		width: min(100vw, 375px);
-	}
-}
+		height: 100%;
 
-@keyframes bg {
-	0% {
-		background-position: left;
-	}
-	100% {
-		background-position: right;
+		.logo {
+			@include m.pt-5;
+			@include m.pb-4;
+			@include m.px-5;
+
+			> img {
+				max-width: 150px;
+			}
+		}
+
+		.form {
+			@include m.flex-1;
+			overflow-y: auto;
+		}
 	}
 }
