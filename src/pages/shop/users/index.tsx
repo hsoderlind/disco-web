@@ -2,7 +2,7 @@ import { loadShopUsers as loader } from '../../../services/shop/loaders';
 import { ErrorBoundary } from '../../../components/error-boundary';
 import { useLoaderData } from '../../../hooks/useLoaderData';
 import { ShopUserCollection } from '../../../services/shop/ShopUserCollection';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { ColDef } from 'ag-grid-community';
 import { ShopUserType } from '../../../services/shop/types';
 import { ContentLayout } from '../../../components/layout/content-layout/ContentLayout';
@@ -19,6 +19,7 @@ import { useAuthContext } from '../../../contexts/auth/useAuthContext';
 import { EditShopUser } from './components/edit';
 import { useRemoveShopUser } from '../../../services/shop/hooks/useRemoveShopUser';
 import app from '../../../lib/application-builder/ApplicationBuilder';
+import { Sidebar } from '../components/sidebar';
 
 export { loader, ErrorBoundary };
 
@@ -35,39 +36,48 @@ export function Component() {
 		}
 	});
 
-	const removeShopUser = async (model: ShopUserType) => {
-		await mutation.mutateAsync(model.id);
-		navigate('.', 'Användare', { replace: true });
-	};
+	const removeShopUser = useCallback(
+		async (model: ShopUserType) => {
+			await mutation.mutateAsync(model.id);
+			navigate('.', 'Användare', { replace: true });
+		},
+		[mutation, navigate]
+	);
 
-	const handleDropdownClick: HandleDropdownClick<ShopUserType> = (model) => (e) => {
-		switch (e.key) {
-			case 'edit':
-				setSelectedUser(model);
-				break;
-			case 'transfer-ownership':
-				//
-				break;
-			case 'remove':
-				Modal.confirm({
-					title: `Ta bort ${model.name}`,
-					icon: <ExclamationCircleFilled />,
-					content: (
-						<>
-							<b>Är du säker på att du vill ta bort {model.name} från butikskontot?</b>
-							<br />
-							Denna åtgärd kommer permanent ta bort användaren från kontot och det går inte att ångra.
-						</>
-					),
-					okText: 'Ja',
-					cancelText: 'Nej',
-					onOk: async () => {
-						await removeShopUser(model);
-					}
-				});
-				break;
-		}
-	};
+	const handleDropdownClick: HandleDropdownClick<ShopUserType> = useCallback(
+		(model) => (e) => {
+			switch (e.key) {
+				case 'edit':
+					setSelectedUser(model);
+					break;
+				case 'transfer-ownership':
+					//
+					break;
+				case 'remove':
+					Modal.confirm({
+						title: `Ta bort ${model.name}`,
+						icon: <ExclamationCircleFilled />,
+						content: (
+							<>
+								<b>Är du säker på att du vill ta bort {model.name} från butikskontot?</b>
+								<br />
+								Denna åtgärd kommer permanent ta bort användaren från kontot och det går inte att ångra.
+							</>
+						),
+						okText: 'Ja',
+						cancelText: 'Nej',
+						onOk: async () => {
+							await removeShopUser(model);
+						}
+					});
+					break;
+				case 'masquerade':
+					//
+					break;
+			}
+		},
+		[removeShopUser]
+	);
 
 	const columnDefs = useMemo<ColDef<ShopUserType>[]>(
 		() => [
@@ -126,10 +136,10 @@ export function Component() {
 				type: 'rightAligned'
 			} as ColDef<ShopUserType>
 		],
-		[]
+		[handleDropdownClick, shopOwner, user]
 	);
 
-	const rowData = shopUsers.toJSON();
+	const rowData = useMemo(() => shopUsers.toJSON(), [shopUsers]);
 
 	const handleCreated = () => {
 		setCreateModalOpen(false);
@@ -144,6 +154,7 @@ export function Component() {
 	return (
 		<>
 			<ContentLayout>
+				<Sidebar selectedItems={['users']} />
 				<MainContentLayout
 					noSpacing
 					renderButtonBar={

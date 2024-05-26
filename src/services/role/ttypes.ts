@@ -11,4 +11,6 @@ export type RoleSchema = vsbInfer<typeof roleSchema>;
 
 export type RoleType = {
 	id: number;
+	editable: boolean;
+	deletable: boolean;
 } & RoleSchema;

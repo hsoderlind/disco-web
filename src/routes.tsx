@@ -23,6 +23,7 @@ const routes = createBrowserRouter(
 						<Route index handle={{ menuKey: 'landingPage' }} lazy={() => import('./pages/shop/LandingPage')} />
 						<Route path='profile' handle={{ menuKey: 'profile' }} lazy={() => import('./pages/shop/profile')} />
 						<Route path='users' handle={{ menuKey: 'users' }} lazy={() => import('./pages/shop/users')} />
+						<Route path='roles' handle={{ menuKey: 'users' }} lazy={() => import('./pages/shop/roles')} />
 						<Route path='company' handle={{ menuKey: 'company' }} lazy={() => import('./pages/company')} />
 						<Route path='products' handle={{ menuKey: 'products' }}>
 							<Route index lazy={() => import('./pages/products')} />
