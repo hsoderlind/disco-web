@@ -2,14 +2,11 @@ import { Route, createBrowserRouter, createRoutesFromElements } from 'react-rout
 import AuthLayout from './layouts/AuthLayout';
 import MainLayout from './layouts/MainLayout';
 import { RouteChange } from './components/tabs/RouteChange';
-
-// const _notYetImplemented = (path?: string) => {
-// 	return <div>not yet implemented{` ${path ? `@ ${path}` : ''}`}</div>;
-// };
+import { ErrorBoundary } from './components/error-boundary';
 
 const routes = createBrowserRouter(
 	createRoutesFromElements(
-		<Route>
+		<Route ErrorBoundary={ErrorBoundary}>
 			<Route element={<AuthLayout />}>
 				<Route path='register' lazy={() => import('./pages/auth/Register')} />
 				<Route path='login' lazy={() => import('./pages/auth/Login')} />

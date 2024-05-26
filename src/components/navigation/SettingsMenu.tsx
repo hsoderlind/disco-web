@@ -4,11 +4,14 @@ import { SettingOutlined } from '@ant-design/icons';
 import { useShopsContext } from '../../contexts/shops/useShopsContext';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from '../../hooks/useNavigate';
+import { useMatches } from '../../hooks/useMatches';
 
 const SettingsMenu: FC = () => {
 	const { hasShops, selectedShop } = useShopsContext();
-	const params = useParams();
 	const navigate = useNavigate();
+	const params = useParams();
+	const matches = useMatches();
+	const selectedKeys = matches.filter((match) => !!match.handle?.menuKey).map((match) => match.handle?.menuKey);
 	const items: MenuProps['items'] = [
 		{
 			icon: <SettingOutlined style={{ fontSize: '24px' }} />,
@@ -55,7 +58,16 @@ const SettingsMenu: FC = () => {
 		navigate(uri, e.domEvent.currentTarget.innerText);
 	};
 
-	return <Menu onClick={onClick} disabled={!hasShops || !selectedShop} items={items} mode='horizontal' theme='dark' />;
+	return (
+		<Menu
+			onClick={onClick}
+			disabled={!hasShops || !selectedShop}
+			items={items}
+			selectedKeys={selectedKeys}
+			mode='horizontal'
+			theme='dark'
+		/>
+	);
 };
 
 export default SettingsMenu;
