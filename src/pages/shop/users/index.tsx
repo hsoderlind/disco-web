@@ -1,7 +1,4 @@
-import { loadShopUsers as loader } from '../../../services/shop/loaders';
 import { ErrorBoundary } from '../../../components/error-boundary';
-import { useLoaderData } from '../../../hooks/useLoaderData';
-import { ShopUserCollection } from '../../../services/shop/ShopUserCollection';
 import { useCallback, useMemo, useState } from 'react';
 import { ColDef } from 'ag-grid-community';
 import { ShopUserType } from '../../../services/shop/types';
@@ -14,34 +11,46 @@ import { EllipsisOutlined, ExclamationCircleFilled, PlusOutlined } from '@ant-de
 import { CellRendererProps, HandleDropdownClick } from '../../../components/data-grid/types';
 import { useShopStore } from '../../../services/shop/store';
 import { CreateShopUser } from './components/create';
-import { useNavigate } from '../../../hooks/useNavigate';
 import { useAuthContext } from '../../../contexts/auth/useAuthContext';
 import { EditShopUser } from './components/edit';
 import { useRemoveShopUser } from '../../../services/shop/hooks/useRemoveShopUser';
 import app from '../../../lib/application-builder/ApplicationBuilder';
 import { Sidebar } from '../components/sidebar';
+import { useListShopUsers } from '../../../services/shop/hooks/useListShopUsers';
+import { useMasquerade } from '../../../services/user/hooks/useMasquerade';
+import { useTransferOwnership } from '../../../services/shop/hooks/useTransferOwnership';
+import { useGetShop } from '../../../services/shop/hooks/useGetShop';
 
-export { loader, ErrorBoundary };
+export { ErrorBoundary };
 
 export function Component() {
-	const navigate = useNavigate();
 	const [createModalOpen, setCreateModalOpen] = useState(false);
 	const [selectedUser, setSelectedUser] = useState<ShopUserType | undefined>();
-	const shopUsers = useLoaderData<ShopUserCollection>();
+	const { data: shopUsers, refetch } = useListShopUsers();
 	const shopOwner = useShopStore((state) => state.shop.account_owner);
+	const shopId = useShopStore((state) => state.shop.id);
+	const { refetch: refetchShop } = useGetShop(shopId);
 	const { user } = useAuthContext();
 	const mutation = useRemoveShopUser({
 		onSuccess: () => {
 			app.addSuccessNotification({ description: 'Användaren är nu borttagen' });
 		}
 	});
+	const masquerade = useMasquerade();
+	const transferOwnership = useTransferOwnership({
+		onSuccess: (shopUser) => {
+			app.addSuccessNotification({ description: `${shopUser.get('name')} är nu kontoägare.` });
+			refetch();
+			refetchShop();
+		}
+	});
 
 	const removeShopUser = useCallback(
 		async (model: ShopUserType) => {
 			await mutation.mutateAsync(model.id);
-			navigate('.', 'Användare', { replace: true });
+			refetch();
 		},
-		[mutation, navigate]
+		[mutation, refetch]
 	);
 
 	const handleDropdownClick: HandleDropdownClick<ShopUserType> = useCallback(
@@ -51,7 +60,16 @@ export function Component() {
 					setSelectedUser(model);
 					break;
 				case 'transfer-ownership':
-					//
+					Modal.confirm({
+						title: `Byt kontoägare till ${model.name}`,
+						icon: <ExclamationCircleFilled />,
+						content: `Är du säker på att du vill att ${model.name} ska bli ägare för butikskontot?`,
+						okText: 'Ja',
+						cancelText: 'Nej',
+						onOk: async () => {
+							await transferOwnership.mutateAsync(model.id);
+						}
+					});
 					break;
 				case 'remove':
 					Modal.confirm({
@@ -72,11 +90,30 @@ export function Component() {
 					});
 					break;
 				case 'masquerade':
-					//
+					Modal.confirm({
+						title: 'Maskera dig som annan användare',
+						icon: <ExclamationCircleFilled />,
+						content: (
+							<>
+								<b>Är du säker på att du vill maskera dig som {model.name}?</b>
+								<br />
+								Att maskera sig som en annan användare innebär att man loggar in som denna användaren och alla åtgärder
+								man gör loggas på användaren.
+								<br />
+								Att maskera sig som en annan användare kan vara bra att göra om användaren själv t.ex. inte kan logga in
+								till sitt konto för att genomföra en åtgärd.
+							</>
+						),
+						okText: 'Ja',
+						cancelText: 'Nej',
+						onOk: async () => {
+							masquerade.mutateAsync(model.id);
+						}
+					});
 					break;
 			}
 		},
-		[removeShopUser]
+		[removeShopUser, masquerade]
 	);
 
 	const columnDefs = useMemo<ColDef<ShopUserType>[]>(
@@ -139,16 +176,16 @@ export function Component() {
 		[handleDropdownClick, shopOwner, user]
 	);
 
-	const rowData = useMemo(() => shopUsers.toJSON(), [shopUsers]);
+	const rowData = useMemo(() => shopUsers?.toJSON() ?? [], [shopUsers]);
 
 	const handleCreated = () => {
 		setCreateModalOpen(false);
-		navigate('.', 'Användare', { replace: true });
+		refetch();
 	};
 
 	const handleUpdated = () => {
 		setSelectedUser(undefined);
-		navigate('.', 'Användare', { replace: true });
+		refetch();
 	};
 
 	return (

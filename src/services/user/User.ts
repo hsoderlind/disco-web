@@ -21,6 +21,22 @@ export class User extends Model<UserType, 'id'> {
 		return this.getHasManyRelation('roles');
 	}
 
+	static async masquerade(maskToId: number, shopId: number) {
+		this.httpClient.setHeaders({'x-shop-id': shopId});
+
+		const response = await this.httpClient.post<UserType>(`${this.GET_USER_URI}/${maskToId}/masquerade`);
+
+		return User.make(response.data);
+	}
+
+	static async unmasquerade(id: number, shopId: number) {
+		this.httpClient.setHeaders({'x-shop-id': shopId});
+
+		const response = await this.httpClient.post<UserType>(`${this.GET_USER_URI}/${id}/unmasquerade`);
+
+		return User.make(response.data);
+	}
+
 	static make(data: Partial<UserType>) {
 		const instance = new User(data);
 
