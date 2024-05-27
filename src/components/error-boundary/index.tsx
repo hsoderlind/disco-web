@@ -6,6 +6,7 @@ import { ContentLayout } from '../layout/content-layout/ContentLayout';
 
 export function ErrorBoundary() {
 	const error = useRouteError() as ServerValidationError;
+	console.log('error', error);
 	const status = error.response?.status;
 	const isResultStatus = status === 403 || status === 404 || status === 500;
 

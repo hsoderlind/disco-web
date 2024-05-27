@@ -1,4 +1,4 @@
-import { HttpClient } from "@hensod/HttpClient";
+import { HttpClient } from "@hensod/http-client";
 import { Collection } from "../../lib/model/Collection";
 import { Pagination } from "./types";
 import { makeHttpClientForApi } from "../../lib/http/http";

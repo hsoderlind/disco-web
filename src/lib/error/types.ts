@@ -1,4 +1,4 @@
-import { Error as ResponseError } from "@hensod/HttpClient";
+import { Error as ResponseError } from "@hensod/http-client";
 
 export interface IServerValidationError {
 	errors: Record<string, string[]>;

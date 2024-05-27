@@ -1,4 +1,4 @@
-import { Collection as BaseCollection } from "@hensod/Model";
+import { Collection as BaseCollection } from "@hensod/model";
 import { Model } from "./Model";
 import { makeHttpClientForApi } from "../http/http";
 

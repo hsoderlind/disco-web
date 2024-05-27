@@ -4,7 +4,7 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
+		"dev": "vite --force",
 		"build": "tsc && vite build",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview"
@@ -15,8 +15,8 @@
 		"@dnd-kit/sortable": "^8.0.0",
 		"@dnd-kit/utilities": "^3.2.2",
 		"@formkit/auto-animate": "^0.8.2",
-		"@hensod/HttpClient": "link:/Users/henriksoderlind/Projekt/hensod modules/http",
-		"@hensod/Model": "link:/Users/henriksoderlind/Projekt/hensod modules/model",
+		"@hensod/http-client": "link:/Users/henriksoderlind/Projekt/hensod modules/http",
+		"@hensod/model": "link:/Users/henriksoderlind/Projekt/hensod modules/model",
 		"@hookform/resolvers": "^3.3.1",
 		"@ionic/react": "^8.0.0",
 		"@tanstack/react-query": "^4.35.3",

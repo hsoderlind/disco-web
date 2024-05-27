@@ -1,4 +1,4 @@
-import { HttpClient } from "@hensod/HttpClient"
+import { HttpClient } from "@hensod/http-client"
 import app from "../application-builder/ApplicationBuilder";
 import { ServerValidationError } from "../error/types";
 

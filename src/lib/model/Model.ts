@@ -1,6 +1,6 @@
-import {Model as BaseModel} from '@hensod/Model';
+import {Model as BaseModel} from '@hensod/model';
 import { makeHttpClientForApi } from '../http/http';
-import { HttpClient } from '@hensod/HttpClient';
+import { HttpClient } from '@hensod/http-client';
 import { Str } from '../string/Str';
 
 export class Model<T extends object, K extends keyof T> extends BaseModel<T, K> {

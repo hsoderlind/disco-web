@@ -113,7 +113,7 @@ export function Component() {
 					break;
 			}
 		},
-		[removeShopUser, masquerade]
+		[removeShopUser, masquerade, transferOwnership]
 	);
 
 	const columnDefs = useMemo<ColDef<ShopUserType>[]>(
