@@ -37,7 +37,8 @@ const TRANSLATIONS: Record<string, string> = {
 	subscription: 'Prenumeration',
 	tax: 'Moms',
 	tradera: 'Tradera',
-	'user management': 'Användarhantering'
+	'user management': 'Användarhantering',
+	'payment methods': 'Betalningsmetoder'
 };
 
 export function Component() {
