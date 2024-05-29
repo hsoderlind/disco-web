@@ -32,6 +32,10 @@ const routes = createBrowserRouter(
 							<Route index lazy={() => import('./pages/customers')} />
 							<Route path='view/:id' lazy={() => import('./pages/customers/view')} />
 						</Route>
+						<Route path='payment-methods' handle={{ menuKey: 'payment-methods' }}>
+							<Route index lazy={() => import('./pages/payment-methods')} />
+							<Route path='modules' lazy={() => import('./pages/payment-methods/modules')} />
+						</Route>
 						<Route path='discogs'>
 							<Route path='search' lazy={() => import('./pages/discogs/search')} />
 							<Route path='master/:id' lazy={() => import('./pages/discogs/master')} />

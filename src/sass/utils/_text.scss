@@ -4,6 +4,11 @@
 	@include m.h3;
 }
 
+i,
+em {
+	font-style: italic;
+}
+
 .text-wrap {
 	text-wrap: wrap;
 }
