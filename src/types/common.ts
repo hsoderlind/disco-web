@@ -22,6 +22,10 @@ export type RouteParams = {
 
 export type ExtractObjectStructure<T> = T extends (infer U)[] ? U : never;
 
+export type ExtractArrayType<T> = ExtractObjectStructure<T>;
+
+export type AnyArray = any[];
+
 export type UseMutationOptions<
 	TData = unknown,
 	TError = ServerValidationError,

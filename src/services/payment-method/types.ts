@@ -1,5 +1,5 @@
 import app from "../../lib/application-builder/ApplicationBuilder";
-import { isDayJs, vsbInfer } from "../../lib/validation/validation-schema-builder";
+import { vsbInfer } from "../../lib/validation/validation-schema-builder";
 import {logotypeSchema } from "../logotype/types";
 
 const vsb = app.getValidationSchemaBuilder();
@@ -24,8 +24,10 @@ export const paymentMethodModuleSchema = basePaymentMethodSchema.extend({
 	presentation_component: vsb.string(),
 	admin_component: vsb.string(),
 	installed: vsb.boolean(),
-	published_at: isDayJs.or(vsb.string()),
-	updated_at: isDayJs.or(vsb.string())
+	update_available: vsb.number().int().min(-1).max(1),
+	published_at: vsb.string(),
+	updated_at: vsb.string(),
+	logotype: logotypeSchema.nullable().optional(),
 })
 
 export type BasePaymentMethodSchema = vsbInfer<typeof basePaymentMethodSchema>;

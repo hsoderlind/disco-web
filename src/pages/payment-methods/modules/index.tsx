@@ -1,4 +1,4 @@
-import { Button, Card, Col, Descriptions, List, Row, Tag, Tooltip, Typography } from 'antd';
+import { Button, Card, Descriptions, Tag, Tooltip, Typography } from 'antd';
 import { ErrorBoundary } from '../../../components/error-boundary';
 import { ContentLayout } from '../../../components/layout/content-layout/ContentLayout';
 import { MainContentLayout } from '../../../components/layout/content-layout/MainContentLayout';
@@ -6,157 +6,122 @@ import { useLoadModules } from '../../../services/payment-method/hooks/useLoadMo
 import { Sidebar } from '../components/sidebar';
 import { RiInstallLine } from 'react-icons/ri';
 import { RiUninstallLine } from 'react-icons/ri';
-import { RiInformationLine } from 'react-icons/ri';
-import { useSearchParams } from 'react-router-dom';
 import { PaymentMethodModule } from '../../../services/payment-method/PaymentMethodModule';
-import { useMemo } from 'react';
 import { useInstallPaymentMethod } from '../../../services/payment-method/hooks/useInstallPaymentMethod';
 import app from '../../../lib/application-builder/ApplicationBuilder';
+import { useUninstallPaymentMethod } from '../../../services/payment-method/hooks/useUninstallPaymentMethod';
+import { PaymentMethodType } from '../../../services/payment-method/types';
+import { PaymentMethod } from '../../../services/payment-method/PaymentMethod';
+import { RxUpdate } from 'react-icons/rx';
+import { CardList } from '../../../components/card-list';
 
 export { ErrorBoundary };
 
 export function Component() {
 	const { data: modules, isFetching, isLoading, refetch } = useLoadModules();
-	const [searchParams, setSearchParams] = useSearchParams();
-	const selectedModuleId = searchParams.has('module') ? searchParams.get('module') : undefined;
-	const mutation = useInstallPaymentMethod({
+	const installMutation = useInstallPaymentMethod({
 		onSuccess: () => {
-			app.addSuccessNotification({ description: 'Betalningssättet installerades.' });
+			app.addSuccessNotification({ description: 'Betalningssättet har nu installerats.' });
 			refetch();
 		},
-		onError: (error) => {
-			app.addErrorNotification({ description: error.message });
-		}
+		onError: (error) => app.addErrorNotification({ description: error.message })
+	});
+	const uninstallMutation = useUninstallPaymentMethod({
+		onSuccess: () => {
+			app.addSuccessNotification({ description: 'Betalningssättet har nu avinstallerats.' });
+			refetch();
+		},
+		onError: (error) => app.addErrorNotification({ description: error.message })
 	});
 
-	const selectedModule = useMemo(
-		() => !!selectedModuleId && modules?.find(selectedModuleId),
-		[selectedModuleId, modules]
-	);
+	const installModule = (model: PaymentMethodModule) => () => installMutation.mutateAsync(model.toJSON());
 
-	const handleMoreInfoClick = (model: PaymentMethodModule) => () => {
-		searchParams.set('module', model.getKey());
-		setSearchParams(searchParams);
+	const uninstallModule = (model: PaymentMethodModule) => () => {
+		const paymentMethodData: Partial<PaymentMethodType> = {
+			name: model.get('name')
+		};
+
+		const paymentMethod = new PaymentMethod(paymentMethodData, model.shopId);
+
+		return uninstallMutation.mutateAsync(paymentMethod);
 	};
-
-	const installModule = (model: PaymentMethodModule) => () => mutation.mutateAsync(model.toJSON());
 
 	return (
 		<ContentLayout>
 			<Sidebar selectedItems={['modules']} />
 			<MainContentLayout title='Betalningsmoduler'>
-				<Row gutter={[16, 0]}>
-					<Col sm={24} md={12}>
-						<List
-							bordered
-							loading={isFetching || isLoading}
-							itemLayout='horizontal'
-							dataSource={modules?.getItems()}
-							rowKey={(model) => model.get<string>('name')}
-							renderItem={(model) => {
-								return (
-									<List.Item
-										actions={[
-											model.get<boolean>('installed') ? (
-												<Tooltip title='Installera'>
-													<Button type='link' icon={<RiInstallLine style={{ fontSize: '1.25rem' }} />} />
-												</Tooltip>
-											) : (
-												<Tooltip title='Installera'>
-													<Button
-														type='link'
-														icon={<RiUninstallLine style={{ fontSize: '1.25rem' }} />}
-														onClick={installModule(model)}
-													/>
-												</Tooltip>
-											),
-											<Tooltip title='Mer information'>
-												<Button
-													type='link'
-													icon={<RiInformationLine style={{ fontSize: '1.25rem' }} />}
-													onClick={handleMoreInfoClick(model)}
-												/>
-											</Tooltip>
-										]}>
-										<div className='flex flex-column flex-1 row-gap-4'>
-											<List.Item.Meta
-												avatar={<img src='https://place-hold.it/200x150' style={{ maxWidth: '100px' }} />}
-												title={
-													<>
-														<Typography.Title level={5} style={{ display: 'inline-block' }}>
-															{model.get<string>('title')}{' '}
-														</Typography.Title>
-														<Typography.Text type='secondary' italic>
-															(Vers: {model.get<string>('version')})
-														</Typography.Text>
-													</>
-												}
-												description={
-													<Typography.Text>
-														<div className='line-clamp-2'>{model.get<string>('description')}</div>
-													</Typography.Text>
-												}
-											/>
-											<div className='flex flex-row justify-end '>
-												{model.get('installed') && (
-													<div>
-														<Tag color='green' bordered={false}>
-															Installerad
-														</Tag>
-													</div>
-												)}
-											</div>
-										</div>
-									</List.Item>
-								);
-							}}
-						/>
-					</Col>
-					{selectedModule && (
-						<Col xs={24} md={12}>
-							<Card
-								title={selectedModule.get<string>('title')}
-								extra={
-									selectedModule.get<boolean>('installed') ? (
-										<Tooltip title='Installera'>
-											<Button type='link' icon={<RiInstallLine style={{ fontSize: '1.25rem' }} />} />
-										</Tooltip>
-									) : (
-										<Tooltip title='Installera'>
-											<Button
-												type='link'
-												icon={<RiUninstallLine style={{ fontSize: '1.25rem' }} />}
-												onClick={installModule(selectedModule)}
-											/>
-										</Tooltip>
-									)
-								}>
-								<Card.Meta description={selectedModule.get<string>('description')} />
-								<Descriptions
-									className='mt-5'
-									column={1}
-									items={[
-										{
-											key: 'version',
-											label: 'Version',
-											children: selectedModule.get<string>('version')
-										},
-										{
-											key: 'published_at',
-											label: 'Publicerades',
-											children: selectedModule.get<string>('published_at')
-										},
-										{
-											key: 'updated_at',
-											label: 'Uppdaterades senast',
-											children: selectedModule.get<string>('updated_at') ?? '-'
-										}
-									]}
-								/>
-							</Card>
-						</Col>
+				<CardList
+					loading={isFetching || isLoading}
+					rowProps={{ gutter: 16 }}
+					column={3}
+					dataSource={modules?.getItems()}
+					renderItem={(model) => (
+						<Card
+							title={model.get<string>('title')}
+							extra={<Typography.Text type='secondary'>Vers: {model.get<string>('version')}</Typography.Text>}
+							cover={<img src='https://place-hold.it/200x150' />}
+							actions={[
+								model.get('installed') && model.get('update_available') ? (
+									<Tooltip title='Uppdatera'>
+										<Button
+											type='link'
+											icon={<RxUpdate style={{ fontSize: '1.25rem', color: 'var(--ant-magenta-7)' }} />}
+										/>
+									</Tooltip>
+								) : null,
+								model.get('installed') ? (
+									<Tooltip title='Installera'>
+										<Button
+											type='link'
+											icon={<RiInstallLine style={{ fontSize: '1.25rem' }} />}
+											onClick={uninstallModule(model)}
+											loading={uninstallMutation.isLoading}
+										/>
+									</Tooltip>
+								) : (
+									<Tooltip title='Installera'>
+										<Button
+											type='link'
+											icon={<RiUninstallLine style={{ fontSize: '1.25rem' }} />}
+											onClick={installModule(model)}
+											loading={installMutation.isLoading}
+										/>
+									</Tooltip>
+								)
+							]}>
+							<Card.Meta description={<Typography.Text>{model.get<string>('description')}</Typography.Text>} />
+							<Descriptions
+								className='mt-5'
+								layout='vertical'
+								column={2}
+								items={[
+									{
+										key: 'published_at',
+										label: 'Publicerades',
+										children: model.get<string>('published_at')
+									},
+									{
+										key: 'updated_at',
+										label: 'Uppdaterades senast',
+										children: model.get<string>('updated_at') ?? '-'
+									}
+								]}
+							/>
+							<div className='mt-4'>
+								{model.get('installed') && (
+									<Tag color='green' bordered={false}>
+										Installerad
+									</Tag>
+								)}
+								{model.get('installed') && !!model.get('update_available') && (
+									<Tag color='magenta' bordered={false}>
+										Uppdatering tillgänglig
+									</Tag>
+								)}
+							</div>
+						</Card>
 					)}
-				</Row>
+				/>
 			</MainContentLayout>
 		</ContentLayout>
 	);
