@@ -14,6 +14,7 @@ import { PaymentMethodType } from '../../../services/payment-method/types';
 import { PaymentMethod } from '../../../services/payment-method/PaymentMethod';
 import { RxUpdate } from 'react-icons/rx';
 import { CardList } from '../../../components/card-list';
+import { useUpdateCore } from '../../../services/payment-method/hooks/useUpdateCore';
 
 export { ErrorBoundary };
 
@@ -21,17 +22,26 @@ export function Component() {
 	const { data: modules, isFetching, isLoading, refetch } = useLoadModules();
 	const installMutation = useInstallPaymentMethod({
 		onSuccess: () => {
-			app.addSuccessNotification({ description: 'Betalningssättet har nu installerats.' });
+			app.addSuccessNotification({ description: 'Betalningsmodulen har nu installerats.' });
 			refetch();
 		},
 		onError: (error) => app.addErrorNotification({ description: error.message })
 	});
 	const uninstallMutation = useUninstallPaymentMethod({
 		onSuccess: () => {
-			app.addSuccessNotification({ description: 'Betalningssättet har nu avinstallerats.' });
+			app.addSuccessNotification({ description: 'Betalningsmodulen har nu avinstallerats.' });
 			refetch();
 		},
 		onError: (error) => app.addErrorNotification({ description: error.message })
+	});
+	const updateMutation = useUpdateCore({
+		onSuccess: () => {
+			app.addSuccessNotification({ description: 'Betalningsmodulen har nu uppdaterats' });
+			refetch();
+		},
+		onError: (error) => {
+			app.addErrorNotification({ description: error.message });
+		}
 	});
 
 	const installModule = (model: PaymentMethodModule) => () => installMutation.mutateAsync(model.toJSON());
@@ -45,6 +55,8 @@ export function Component() {
 
 		return uninstallMutation.mutateAsync(paymentMethod);
 	};
+
+	const updateModule = (model: PaymentMethodModule) => () => updateMutation.mutateAsync(model.getKey());
 
 	return (
 		<ContentLayout>
@@ -66,6 +78,8 @@ export function Component() {
 										<Button
 											type='link'
 											icon={<RxUpdate style={{ fontSize: '1.25rem', color: 'var(--ant-magenta-7)' }} />}
+											onClick={updateModule(model)}
+											loading={updateMutation.isLoading}
 										/>
 									</Tooltip>
 								) : null,

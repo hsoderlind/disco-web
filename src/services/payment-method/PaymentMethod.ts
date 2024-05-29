@@ -27,6 +27,10 @@ export class PaymentMethod extends Model<PaymentMethodType, 'name'> {
 			endpoint += '/uninstall';
 		}
 
+		if (action === 'update-core') {
+			endpoint += `/${this.getKey()}/core`;
+		}
+
 		return endpoint;
 	}
 
@@ -42,9 +46,16 @@ export class PaymentMethod extends Model<PaymentMethodType, 'name'> {
 		const model = PaymentMethod.make({}, shopId);
 		const endpoint = model.getEndpoint(this.ACTION_READ);
 		
-		model.getHttpClient().setHeaders({'x-shop-id': shopId});
-
 		const response = await model.getHttpClient().get<PaymentMethodType>(`${endpoint}/${name}`);
+
+		return model.fill(response.data);
+	}
+
+	static async updateCore(name: string, shopId: number) {
+		const model = this.make({name}, shopId);
+		const endpoint = model.getEndpoint('update-core');
+
+		const response = await model.getHttpClient().put<PaymentMethodType, {name: string}>(endpoint, {name});
 
 		return model.fill(response.data);
 	}
