@@ -33,7 +33,9 @@ const routes = createBrowserRouter(
 							<Route path='view/:id' lazy={() => import('./pages/customers/view')} />
 						</Route>
 						<Route path='payment-methods' handle={{ menuKey: 'payment-methods' }}>
-							<Route index lazy={() => import('./pages/payment-methods')} />
+							<Route path='' lazy={() => import('./pages/payment-methods')}>
+								<Route path=':name' lazy={() => import('./pages/payment-methods/edit')} />
+							</Route>
 							<Route path='modules' lazy={() => import('./pages/payment-methods/modules')} />
 						</Route>
 						<Route path='discogs'>
