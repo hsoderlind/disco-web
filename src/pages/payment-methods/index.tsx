@@ -1,15 +1,23 @@
-import { Alert, Button, Col, List, Row, Tooltip } from 'antd';
+import { Alert, Button, Col, List, Row, Tag, Tooltip } from 'antd';
 import { ErrorBoundary } from '../../components/error-boundary';
 import { ContentLayout } from '../../components/layout/content-layout/ContentLayout';
 import { MainContentLayout } from '../../components/layout/content-layout/MainContentLayout';
 import { Sidebar } from './components/sidebar';
 import { useListPaymentMethods } from '../../services/payment-method/hooks/useListPaymentMethods';
 import { EditOutlined } from '@ant-design/icons';
+import { Outlet } from 'react-router-dom';
+import { PaymentMethod } from '../../services/payment-method/PaymentMethod';
+import { useNavigate } from '../../hooks/useNavigate';
 
 export { ErrorBoundary };
 
 export function Component() {
-	const { data: paymentMethods, isFetching, isLoading } = useListPaymentMethods();
+	const navigate = useNavigate();
+	const { data: paymentMethods, isFetching, isLoading } = useListPaymentMethods(true);
+
+	const handleSelectMethod = (model: PaymentMethod) => () => {
+		navigate(`./${model.getKey()}`, model.get('title'));
+	};
 
 	return (
 		<ContentLayout>
@@ -34,16 +42,20 @@ export function Component() {
 								<List.Item
 									actions={[
 										<Tooltip title='Redigera'>
-											<Button type='link' icon={<EditOutlined />} />
+											<Button type='link' icon={<EditOutlined />} onClick={handleSelectMethod(model)} />
 										</Tooltip>
 									]}>
 									<List.Item.Meta
 										title={model.get<string>('title')}
 										description={<div className='line-clamp-2'>{model.get<string>('description')}</div>}
 									/>
+									{model.get('active') ? <Tag color='green'>Aktiv</Tag> : <Tag color='volcano'>Inaktiv</Tag>}
 								</List.Item>
 							)}
 						/>
+					</Col>
+					<Col xs={24} md={12}>
+						<Outlet />
 					</Col>
 				</Row>
 			</MainContentLayout>

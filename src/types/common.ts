@@ -18,6 +18,7 @@ export type RouteMatch = UIMatch<unknown, {
 export type RouteParams = {
 	urlAlias: string;
 	id: string;
+	name: string;
 }
 
 export type ExtractObjectStructure<T> = T extends (infer U)[] ? U : never;

@@ -34,3 +34,11 @@ export const isDayJs = z.instanceof(dayjs as unknown as typeof Dayjs);
 
 export const id = z.number().int().nonnegative();
 
+export const emptyRecord = z.record(z.never());
+
+export const emptyObject = z.object({});
+
+export type EmptyRecord = z.infer<typeof emptyRecord>;
+
+export type EmptyObject = z.infer<typeof emptyObject>;
+

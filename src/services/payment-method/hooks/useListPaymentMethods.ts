@@ -1,11 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { useShopStore } from "../../shop/store"
-import { PaymentMethodCollection } from "../PaymentMethodCollection";
+import { queryListPaymentMethods } from "../queries";
 
-export const useListPaymentMethods = () => {
+export const useListPaymentMethods = (includeInactive = false) => {
 	const shopId = useShopStore(state => state.shop.id);
-	const queryKey = [PaymentMethodCollection.ENDPOINT, shopId];
-	const queryFn = () => PaymentMethodCollection.list(shopId);
+	const [queryKey, queryFn] = queryListPaymentMethods(shopId, includeInactive);
 
 	const query = useQuery(queryKey, queryFn);
 
