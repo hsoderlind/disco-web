@@ -7,6 +7,7 @@ import { Sidebar } from './components/sidebar';
 import { useNavigate } from '../../../hooks/useNavigate';
 import { OrderTotalRepository } from '../../../services/order/OrderTotalRepository';
 import { EditOutlined } from '@ant-design/icons';
+import { Outlet } from 'react-router-dom';
 
 export { ErrorBoundary };
 
@@ -21,7 +22,7 @@ export function Component() {
 	return (
 		<ContentLayout>
 			<Sidebar selectedItems={['order-totals']} />
-			<MainContentLayout>
+			<MainContentLayout title='Order total'>
 				<Row gutter={[16, 0]}>
 					<Col xs={24} md={12}>
 						{!isFetching && !isLoading && (!orderTotals || orderTotals.size === 0) && (
@@ -54,6 +55,9 @@ export function Component() {
 								);
 							}}
 						/>
+					</Col>
+					<Col xs={24} md={12}>
+						<Outlet />
 					</Col>
 				</Row>
 			</MainContentLayout>

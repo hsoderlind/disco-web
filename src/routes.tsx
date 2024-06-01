@@ -40,7 +40,9 @@ const routes = createBrowserRouter(
 						</Route>
 						<Route path='orders' handle={{ menuKey: 'orders' }}>
 							<Route path='order-totals' handle={{ menuKey: 'orders/order-totals' }}>
-								<Route path='' lazy={() => import('./pages/order/order-total')} />
+								<Route path='' lazy={() => import('./pages/order/order-total')}>
+									<Route path=':name' lazy={() => import('./pages/order/order-total/edit')} />
+								</Route>
 								<Route path='modules' lazy={() => import('./pages/order/order-total/modules')} />
 							</Route>
 						</Route>

@@ -21,8 +21,8 @@ export const baseOrderTotalRepositorySchema = vsb.object({
 	description: vsb.string().nullable().optional(),
 	sort_order: vsb.number().int().min(0),
 	active: vsb.boolean(),
-	admin_component: vsb.string(),
-	configuration: vsb.array(vsb.any()),
+	admin_component: vsb.string().nullable().optional(),
+	configuration: vsb.array(vsb.any()).nullable().optional(),
 });
 
 export const orderTotalRepositorySchema = baseOrderTotalRepositorySchema.extend({

@@ -13,4 +13,16 @@ export class OrderTotalRepository extends Model<OrderTotalRepositorySchema, 'nam
 
 		return instance;
 	}
+
+	static async find(name: string, shopId: number) {
+		const model = this.make({ name }, shopId);
+		const endpoint = model.getEndpoint(this.ACTION_READ);
+
+		model.getHttpClient().setHeaders({'x-shop-id': shopId});
+
+
+		const response = await model.getHttpClient().get<OrderTotalRepositorySchema>(`${endpoint}/${name}`);
+
+		return model.fill(response.data);
+	}
 }
