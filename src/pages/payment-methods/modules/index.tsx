@@ -84,7 +84,7 @@ export function Component() {
 									</Tooltip>
 								) : null,
 								model.get('installed') ? (
-									<Tooltip title='Installera'>
+									<Tooltip title='Avinstallera'>
 										<Button
 											type='link'
 											icon={<RiInstallLine style={{ fontSize: '1.25rem' }} />}
@@ -103,7 +103,10 @@ export function Component() {
 									</Tooltip>
 								)
 							]}>
-							<Card.Meta description={<Typography.Text>{model.get<string>('description')}</Typography.Text>} />
+							<Card.Meta
+								style={{ minHeight: '44px' }}
+								description={<Typography.Text>{model.get<string>('description')}</Typography.Text>}
+							/>
 							<Descriptions
 								className='mt-5'
 								layout='vertical'

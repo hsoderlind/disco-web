@@ -38,7 +38,8 @@ const TRANSLATIONS: Record<string, string> = {
 	tax: 'Moms',
 	tradera: 'Tradera',
 	'user management': 'Användarhantering',
-	'payment methods': 'Betalningsmetoder'
+	'payment methods': 'Betalningsmetoder',
+	'order total modules': 'Order total-moduler'
 };
 
 export function Component() {

@@ -35,6 +35,10 @@ const SettingsMenu: FC = () => {
 					key: 'payment-methods'
 				},
 				{
+					label: 'Order total',
+					key: 'orders/order-totals'
+				},
+				{
 					label: 'Discogs',
 					key: 'discogs'
 				},

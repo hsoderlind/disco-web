@@ -6,7 +6,7 @@ import { Card, Col, Row } from 'antd';
 export const CardList = <TDataSource extends AnyArray = AnyArray, TItem = ExtractArrayType<TDataSource>>({
 	renderItem,
 	colProps,
-	column = 1,
+	column = 3,
 	dataSource,
 	loading = false,
 	rowProps
