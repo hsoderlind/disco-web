@@ -9,7 +9,7 @@ import { ProductSpecialPriceType, productSpecialPriceSchema } from '../product-s
 import { ProductSpecialPriceCollection } from '../product-special-price/ProductSpecialPriceCollection';
 import { ProductFileType, productFileSchema } from '../product-file/types';
 import { ProductFileCollection } from '../product-file/ProductFileCollection';
-import { ProductImageType, productImageSchema } from '../product-image/types';
+import { ProductImageType } from '../product-image/types';
 import { ProductImageCollection } from '../product-image/ProductImageCollection';
 import { ProductStockType, productStockSchema } from '../product-stock/types';
 import { ProductStock } from '../product-stock/ProductStock';
@@ -18,6 +18,7 @@ import { ProductAttributeCollection } from '../product-attribute/ProductAttribut
 import { BarcodeCollection } from '../barcode/BarcodeCollection';
 import { TaxType } from '../tax/types';
 import { Tax } from '../tax/Tax';
+import {Upload} from '../../components/forms/controls/upload/types';
 
 const vsb = app.getValidationSchemaBuilder();
 
@@ -40,7 +41,7 @@ export const productSchema = vsb.object({
 	barcodes: vsb.array(barcodeSchema).optional(),
 	product_attributes: vsb.array(productAttributeSchema).optional(),
 	special_prices: vsb.array(productSpecialPriceSchema).optional(),
-	images: vsb.array(productImageSchema).optional(),
+	images: vsb.array(vsb.instanceof(Upload)).optional(),
 	files: vsb.array(productFileSchema).optional(),
 	stock: productStockSchema
 });

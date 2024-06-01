@@ -10,7 +10,7 @@ import { useProductImageContext } from './hooks/useProductImageContext';
 import { File } from '../../../../services/file/File';
 import { Image } from '../../../../components/image/Image';
 
-const InternalImageCard: FC<ImageCardProps> = ({ id, model }) => {
+const InternalImageCard: FC<ImageCardProps> = ({ id, model, index }) => {
 	const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 	const [progress, setProgress] = useState(model.get<number>('uploadProgress'));
 	const [isUploaded, setIsUploaded] = useState(model.get<boolean>('isUploaded'));
@@ -25,7 +25,7 @@ const InternalImageCard: FC<ImageCardProps> = ({ id, model }) => {
 	};
 
 	const removeImage = () => {
-		remove(model);
+		remove(index);
 		model.delete();
 	};
 
