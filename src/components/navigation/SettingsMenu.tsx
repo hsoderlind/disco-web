@@ -19,39 +19,64 @@ const SettingsMenu: FC = () => {
 			theme: 'light',
 			children: [
 				{
-					label: 'Butiksprofil',
-					key: 'profile'
+					label: 'Butik & bolag',
+					key: 'g1',
+					type: 'group',
+					children: [
+						{
+							label: 'Butiksprofil',
+							key: 'profile'
+						},
+						{
+							label: 'Företagsuppgifter',
+							key: 'company'
+						},
+						{
+							label: 'Användare',
+							key: 'users'
+						}
+					]
 				},
 				{
-					label: 'Företagsuppgifter',
-					key: 'company'
+					label: 'Försäljning & kassa',
+					key: 'g2',
+					children: [
+						{
+							label: 'Betalningssätt',
+							key: 'payment-methods'
+						},
+						{
+							label: 'Order total',
+							key: 'orders/order-totals'
+						}
+					]
 				},
 				{
-					label: 'Användare',
-					key: 'users'
-				},
-				{
-					label: 'Betalningssätt',
-					key: 'payment-methods'
-				},
-				{
-					label: 'Order total',
-					key: 'orders/order-totals'
-				},
-				{
-					label: 'Discogs',
-					key: 'discogs'
+					label: 'Försäljningskanaler',
+					key: 'g3',
+					children: [
+						{
+							label: 'Discogs',
+							key: 'discogs'
+						}
+					]
 				},
 				{
 					type: 'divider'
 				},
 				{
 					label: 'Prenumeration',
-					key: 'subscription'
-				},
-				{
-					label: 'Fakturor',
-					key: 'invoices'
+					key: 'g4',
+					children: [
+						{
+							label: 'Prenumerationer',
+							key: 'subscription'
+						},
+						{
+							label: 'Fakturor',
+							key: 'invoices'
+						}
+					]
 				}
 			]
 		}
