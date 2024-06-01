@@ -21,7 +21,9 @@ import {
 export const Sidebar: FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const section = searchParams.get('section');
-	const { formState: errors } = useFormContext<ProductSchemaType>();
+	const {
+		formState: { errors }
+	} = useFormContext<ProductSchemaType>();
 
 	const hasSectionErrors = (fieldsToCheck: Array<keyof ProductSchemaType>) => {
 		return Object.keys(errors).some((key) => fieldsToCheck.includes(key as keyof ProductSchemaType));

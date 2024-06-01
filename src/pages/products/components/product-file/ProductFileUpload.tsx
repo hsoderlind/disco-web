@@ -5,18 +5,20 @@ import { CloudUploadOutlined } from '@ant-design/icons';
 import { UploadHero } from '../../../../components/forms/controls/upload/UploadHero';
 import { ProductFileUploadContext } from './ProductFileUploadContext';
 import { ProductFileUploadList } from './ProductFileUploadList';
-import { useProductFileStore } from './store';
 import { Typography } from 'antd';
+import { useFieldArray, useFormContext } from 'react-hook-form';
+import { ProductSchemaType } from '../../../../services/product/types';
 
 export const ProductFileUpload: FC = () => {
-	const store = useProductFileStore();
+	const { control } = useFormContext<ProductSchemaType>();
+	const { append, remove, move } = useFieldArray({ control, name: 'files' });
 	const value: ProductFileUploadContextType = {
-		remove: store.remove,
-		move: store.move
+		remove,
+		move
 	};
 
 	const handleDrop: OnDropCb = (acceptedFiles) => {
-		store.add(acceptedFiles);
+		append(acceptedFiles);
 	};
 
 	return (
@@ -32,7 +34,7 @@ export const ProductFileUpload: FC = () => {
 						infoText='Dra och släpp fil(er) här eller klicka för att ladda upp'
 					/>
 				</div>
-				<ProductFileUploadList models={store.models} />
+				<ProductFileUploadList />
 			</div>
 		</ProductFileUploadContext.Provider>
 	);

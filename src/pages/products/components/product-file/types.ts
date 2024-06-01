@@ -1,11 +1,8 @@
 import { Upload } from "../../../../components/forms/controls/upload/types";
 import { DraggableAttributes } from "@dnd-kit/core";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+import { UseFieldArrayRemove } from "react-hook-form";
 
-
-export type ProductFileUploadListProps = {
-	models: Upload[];
-}
 
 export type SortableItemProps = {
 	id: string;
@@ -23,7 +20,7 @@ export type ProductFileUploadListItemProps = {
 
 export type ProductFileUploadContextType = {
 	move: (fromIndex: number, toIndex: number) => void;
-	remove: (model: Upload) => void;
+	remove: UseFieldArrayRemove;
 }
 
 export type ProductFileStore = {

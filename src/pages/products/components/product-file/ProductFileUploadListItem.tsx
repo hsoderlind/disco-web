@@ -9,7 +9,7 @@ import classes from './product-file-upload-list.module.scss';
 import { useProductFileUploadContext } from './hooks/useProductFileUploadContext';
 
 const InteralProductFileUploadListItem = forwardRef<HTMLDivElement, ProductFileUploadListItemProps>(
-	({ attributes, listeners, model, ...props }, ref) => {
+	({ attributes, listeners, model, index, ...props }, ref) => {
 		const { remove } = useProductFileUploadContext();
 		const [progress, setProgress] = useState(0);
 		model.getUploadProgress(setProgress);
@@ -36,7 +36,7 @@ const InteralProductFileUploadListItem = forwardRef<HTMLDivElement, ProductFileU
 						okText: 'Ja',
 						cancelText: 'Nej',
 						onOk: async () => {
-							remove(model);
+							remove(index);
 							await model.get<File>('model').delete();
 						}
 					});

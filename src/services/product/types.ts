@@ -7,7 +7,7 @@ import { ProductConditions, ProductConditionsUnion } from "./ProductConditions";
 import { Category } from '../category/Category';
 import { ProductSpecialPriceType, productSpecialPriceSchema } from '../product-special-price/types';
 import { ProductSpecialPriceCollection } from '../product-special-price/ProductSpecialPriceCollection';
-import { ProductFileType, productFileSchema } from '../product-file/types';
+import { ProductFileType } from '../product-file/types';
 import { ProductFileCollection } from '../product-file/ProductFileCollection';
 import { ProductImageType } from '../product-image/types';
 import { ProductImageCollection } from '../product-image/ProductImageCollection';
@@ -42,7 +42,7 @@ export const productSchema = vsb.object({
 	product_attributes: vsb.array(productAttributeSchema).optional(),
 	special_prices: vsb.array(productSpecialPriceSchema).optional(),
 	images: vsb.array(vsb.instanceof(Upload)).optional(),
-	files: vsb.array(productFileSchema).optional(),
+	files: vsb.array(vsb.instanceof(Upload)).optional(),
 	stock: productStockSchema
 });
 
