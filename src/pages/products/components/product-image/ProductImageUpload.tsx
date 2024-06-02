@@ -10,7 +10,10 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { ProductSchemaType } from '../../../../services/product/types';
 
 export const ProductImageUpload: FC = () => {
-	const { control } = useFormContext<ProductSchemaType>();
+	const {
+		control,
+		formState: { errors }
+	} = useFormContext<ProductSchemaType>();
 	const { append, move, remove } = useFieldArray<ProductSchemaType>({
 		name: 'images',
 		control
@@ -35,6 +38,7 @@ export const ProductImageUpload: FC = () => {
 					onDrop={handleDrop}
 					icon={<CloudUploadOutlined />}
 					infoText='Dra och släpp bild(er) här eller klicka för att ladda upp'
+					error={errors.images}
 				/>
 				<ProductImageList />
 			</div>

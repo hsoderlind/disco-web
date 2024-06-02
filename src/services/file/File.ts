@@ -8,7 +8,7 @@ export class File extends Model<FileType, 'id'> {
 	}
 
 	async download() {
-		const response = await this.httpClient.get<Blob>(`${this.getEndpoint()}/${this.getKey()}?storage_resolver=${this.get('storage_resolver')}`, {responseType: 'blob'})
+		const response = await this.httpClient.get<Blob>(`${this.getEndpoint(File.ACTION_READ)}/${this.getKey()}?storage_resolver=${this.get('storage_resolver')}`, {responseType: 'blob'})
 		
 		if (response.data) {
 			return URL.createObjectURL(response.data);
@@ -16,14 +16,13 @@ export class File extends Model<FileType, 'id'> {
 	}
 
 	async getSignedUrl() {
-		const response = await this.httpClient.get<string>(`${this.getEndpoint()}/${this.getKey()}/signed-url?storage_resolver=${this.get('storage_resolver')}`);
+		const response = await this.httpClient.get<string>(`${this.getEndpoint(File.ACTION_READ)}/${this.getKey()}/signed-url?storage_resolver=${this.get('storage_resolver')}`);
 		return response?.data;
 	}
 
 	async delete() {
-		const endpoint = this.getEndpoint();
-		const key = this.getKey();
-		await this.httpClient.delete(`${endpoint}/${key}?storage_resolver=${this.get('storage_resolver')}`);
+		const endpoint = this.getEndpoint(File.ACTION_DELETE);
+		await this.httpClient.delete(`${endpoint}?storage_resolver=${this.get('storage_resolver')}`);
 		this.cleanUp();
 		return true;
 	}

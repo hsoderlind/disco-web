@@ -10,7 +10,11 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { ProductSchemaType } from '../../../../services/product/types';
 
 export const ProductFileUpload: FC = () => {
-	const { control } = useFormContext<ProductSchemaType>();
+	const {
+		control,
+		formState: { errors }
+	} = useFormContext<ProductSchemaType>();
+	console.log(errors);
 	const { append, remove, move } = useFieldArray({ control, name: 'files' });
 	const value: ProductFileUploadContextType = {
 		remove,
@@ -32,6 +36,7 @@ export const ProductFileUpload: FC = () => {
 						onDrop={handleDrop}
 						icon={<CloudUploadOutlined />}
 						infoText='Dra och släpp fil(er) här eller klicka för att ladda upp'
+						error={errors.files}
 					/>
 				</div>
 				<ProductFileUploadList />

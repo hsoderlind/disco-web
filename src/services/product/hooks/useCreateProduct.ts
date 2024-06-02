@@ -1,12 +1,10 @@
-import { ProductSchemaType, ProductType } from './../types';
+import { ProductSchemaType } from './../types';
 import { Product } from "../Product"
 
 export const useCreateProduct = (shopId: number) => {
 	const queryFn = async (formValues: ProductSchemaType) => {
-		const productData: Partial<ProductType> = {
-			...formValues
-		};
-		const product = new Product(productData, shopId);
+		const product = new Product({}, shopId);
+		product.fillWithFormValues(formValues);
 		return await product.create();
 	}
 

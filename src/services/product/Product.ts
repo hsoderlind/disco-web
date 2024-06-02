@@ -11,6 +11,13 @@ import { ProductAttributeCollection } from '../product-attribute/ProductAttribut
 import { ProductSpecialPrice } from '../product-special-price/ProductSpecialPrice';
 import { ProductSpecialPriceType } from '../product-special-price/types';
 import { ProductSpecialPriceCollection } from '../product-special-price/ProductSpecialPriceCollection';
+import { File } from '../file/File';
+import { ProductFileCollection } from '../product-file/ProductFileCollection';
+import { Upload } from '../../components/forms/controls/upload/types';
+import { FileType } from '../file/types';
+import { ProductFileType } from '../product-file/types';
+import { ProductImageCollection } from '../product-image/ProductImageCollection';
+import { ProductImageType } from '../product-image/types';
 
 export class Product extends Model<ProductType, 'id'> {
 	static readonly GET_PRODUCT_URI = '/api/product';
@@ -85,11 +92,22 @@ export class Product extends Model<ProductType, 'id'> {
 	}
 
 	fillWithFormValues(values: ProductSchemaType) {
+		const files: ProductType['files'] = Array.isArray(values.files) ? values.files.map((file) => ({
+			sort_order: file.get('sort_order'),
+			meta: file.get<File>('model')
+		})) : undefined; 
+
+		const images: ProductType['images'] = Array.isArray(values.images) ? values.images.map((image) => ({
+			use_as_cover: false,
+			sort_order: image.get('sort_order'),
+			meta: image.get<File>('model')
+		})) : undefined;
+
 		const attributes: Partial<ProductType> = {
 			condition: values.condition,
 			cost_price: values.cost_price,
 			description: values.description,
-			files: values.files,
+			files,
 			manufacturer_id: values.manufacturer_id,
 			name: values.name,
 			price: values.price,
@@ -100,7 +118,7 @@ export class Product extends Model<ProductType, 'id'> {
 			barcodes: values.barcodes,
 			categories: values.categories,
 			tax_id: values.tax_id,
-			images: values.images,
+			images,
 			product_attributes: values.product_attributes,
 			special_prices: values.special_prices,
 			summary: values.summary,
@@ -111,6 +129,44 @@ export class Product extends Model<ProductType, 'id'> {
 	}
 
 	toFormValues() {
+		let files: ProductSchemaType['files'] | undefined;
+		if (this.get('files') instanceof ProductFileCollection) {
+			files = this.get<ProductFileCollection>('files').getItems().map((file) => new Upload({
+				isUploaded: true,
+				uploadProgress: 100,
+				sort_order: file.get<number>('sort_order'),
+				storageProvider: file.get<FileType>('meta').storage_resolver,
+				model: new File(file.get<FileType>('meta'), this.shopId)
+			}, this.shopId));
+		} else if (Array.isArray(this.get<ProductFileType[]>('files'))) {
+			files = this.get<ProductFileType[]>('files').map((file) => new Upload({
+				isUploaded: true,
+				uploadProgress: 100,
+				sort_order: file.sort_order,
+				storageProvider: (file.meta as FileType).storage_resolver,
+				model: new File(file.meta as FileType, this.shopId)
+			}, this.shopId))
+		}
+
+		let images: ProductSchemaType['images'] | undefined;
+		if (this.get('images') instanceof ProductImageCollection) {
+			images = this.get<ProductImageCollection>('images').getItems().map((image) => new Upload({
+				isUploaded: true,
+				uploadProgress: 100,
+				sort_order: image.get<number>('sort_order'),
+				storageProvider: image.get<FileType>('meta').storage_resolver,
+				model: new File(image.get<FileType>('meta'), this.shopId)
+			}, this.shopId));
+		} else if (Array.isArray(this.get<ProductImageType[]>('images'))) {
+			images = this.get<ProductImageType[]>('images').map((image) => new Upload({
+				isUploaded: true,
+				uploadProgress: 100,
+				sort_order: image.sort_order,
+				storageProvider: (image.meta as FileType).storage_resolver,
+				model: new File(image.meta as FileType, this.shopId)
+			}, this.shopId))
+		}
+
 		const values: ProductSchemaType = {
 			categories: this.categories().collect('id'),
 			condition: this.get('condition'),
@@ -119,12 +175,12 @@ export class Product extends Model<ProductType, 'id'> {
 			price: this.get('price'),
 			product_attributes: this.productAttributes().toJSON(),
 			state: this.get('state'),
-			stock: this.get('stock'),
+			stock: this.stock().toJSON(),
 			tax_id: this.tax().get('id'),
 			barcodes: this.get('barcodes'),
 			description: this.get('description'),
-			files: this.get('files'),
-			images: this.get('images'),
+			files,
+			images,
 			manufacturer_id: this.get('manufacturer_id'),
 			price_incl_vat: this.get('price_incl_vat'),
 			reference: this.get('reference'),

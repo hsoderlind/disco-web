@@ -4,7 +4,9 @@ import { ProductStockType } from "./types";
 
 export class ProductStock extends Model<ProductStockType, 'id'> {
 	constructor(data: Partial<ProductStockType>, shopId: number) {
-		data.available_at = dayjs(data.available_at);
+		if (data.available_at !== null) {
+			data.available_at = dayjs(data.available_at);
+		}
 		
 		super('id', data);
 

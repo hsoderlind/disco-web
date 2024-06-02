@@ -9,6 +9,11 @@
 		color 250ms ease-in-out,
 		border-color 250ms ease-in-out;
 
+	&--error {
+		border-color: var(--ant-color-error);
+		color: var(--ant-color-error);
+	}
+
 	&__content {
 		display: flex;
 		flex-direction: column;
@@ -22,18 +27,22 @@
 		}
 	}
 
+	&__error-message {
+		color: var(--ant-color-error);
+	}
+
 	> * {
 		outline: none;
 	}
 
-	&:hover {
+	&:not(&--error):hover {
 		border-color: var(--ant-color-primary-text-hover);
 		color: var(--ant-color-primary-text-hover);
 		outline: none;
 	}
 
-	&:focus,
-	&:focus-within {
+	&:not(&--error):focus,
+	&:not(&--error):focus-within {
 		border-color: var(--ant-color-primary-text);
 		color: var(--ant-color-primary-text);
 		outline: none;

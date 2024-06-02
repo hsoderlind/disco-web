@@ -6,6 +6,7 @@ import { Model } from '../../../../lib/model/Model';
 import { Collection } from '../../../../lib/model/Collection';
 import { FileType } from '../../../../services/file/types';
 import { Button } from 'antd';
+import { GlobalError } from '../../../../lib/validation/types';
 
 export type FileRejectionType = RDFileRejection & {
 	key: string;
@@ -126,6 +127,7 @@ export type CommonUploadProps = Omit<DropzoneOptions, 'onDrop' | 'onDropAccepted
 	onDrop?: OnDropCb;
 	onUploaded?: onUploadedCb;
 	onError?: OnErrorCb;
+	error?: GlobalError | GlobalError[];
 };
 
 export type UploadProps = CommonUploadProps & {
