@@ -34,6 +34,8 @@ export const isDayJs = z.instanceof(dayjs as unknown as typeof Dayjs);
 
 export const id = z.number().int().nonnegative();
 
+export const sortOrder = z.number().int().nonnegative();
+
 export const emptyRecord = z.record(z.never());
 
 export const emptyObject = z.object({});

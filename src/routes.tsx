@@ -45,6 +45,13 @@ const routes = createBrowserRouter(
 								</Route>
 								<Route path='modules' lazy={() => import('./pages/order/order-total/modules')} />
 							</Route>
+							<Route
+								path='order-statuses'
+								handle={{ menuKey: 'orders/order-statuses' }}
+								lazy={() => import('./pages/order/order-statuses')}>
+								<Route path='new' lazy={() => import('./pages/order/order-statuses/create')} />
+								<Route path=':id' lazy={() => import('./pages/order/order-statuses/edit')} />
+							</Route>
 						</Route>
 						<Route path='discogs'>
 							<Route path='search' lazy={() => import('./pages/discogs/search')} />

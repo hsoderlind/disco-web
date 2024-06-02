@@ -48,6 +48,10 @@ const SettingsMenu: FC = () => {
 						{
 							label: 'Order total',
 							key: 'orders/order-totals'
+						},
+						{
+							label: 'Orderstatus',
+							key: 'orders/order-statuses'
 						}
 					]
 				},
