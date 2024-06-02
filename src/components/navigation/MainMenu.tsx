@@ -45,7 +45,7 @@ const MainMenu: FC = () => {
 					key: 'products'
 				},
 				// {
-				// 	label: 'Kategorier',
+				// 	label: 'Produktgrupper',
 				// 	key: 'categories'
 				// },
 				// {
@@ -88,25 +88,29 @@ const MainMenu: FC = () => {
 			disabled: !hasShops || !selectedShop,
 			children: [
 				{
-					label: 'Skapa beställning',
+					label: 'Beställningar',
 					key: 'sales/create'
 				},
 				{
-					label: 'Nyinkomna beställningar',
-					key: 'sales?status=new'
-				},
-				{
-					label: 'Beställningar under process',
-					key: 'sales?status=processing'
-				},
-				{
-					label: 'Levererade beställningar',
-					key: 'sales?status=delivered'
-				},
-				{
-					label: 'Historiska beställningar',
-					key: 'sales?status=historic'
+					label: 'Reservationer',
+					key: 'sales/reservation'
 				}
+				// {
+				// 	label: 'Nyinkomna beställningar',
+				// 	key: 'sales?status=new'
+				// },
+				// {
+				// 	label: 'Beställningar under process',
+				// 	key: 'sales?status=processing'
+				// },
+				// {
+				// 	label: 'Levererade beställningar',
+				// 	key: 'sales?status=delivered'
+				// },
+				// {
+				// 	label: 'Historiska beställningar',
+				// 	key: 'sales?status=historic'
+				// }
 			]
 		},
 		{

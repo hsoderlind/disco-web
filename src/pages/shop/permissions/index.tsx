@@ -20,7 +20,7 @@ export { ErrorBoundary };
 
 const TRANSLATIONS: Record<string, string> = {
 	catalog: 'Katalog',
-	category: 'Kategorier',
+	category: 'Produktgrupper',
 	checkout: 'Kassan',
 	'company profile': 'Bolagsprofilen',
 	customers: 'Kunder',

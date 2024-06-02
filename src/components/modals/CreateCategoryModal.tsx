@@ -36,7 +36,7 @@ export const CreateCategoryModal: FC<CreateCategoryModalProps> = ({ open, onCanc
 
 	const mutation = useMutation<Category, ServerValidationError, CategorySchemaType>(mutationFn, {
 		onSuccess() {
-			app.addSuccessNotification({ description: 'Kategorin har nu skapats' });
+			app.addSuccessNotification({ description: 'Produktgruppen har nu skapats' });
 			onFinish?.();
 		},
 		onError(error) {

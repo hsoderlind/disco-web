@@ -32,7 +32,7 @@ export const EditCategoryModal: FC<EditCategoryModalProps> = ({ category, open, 
 
 	const mutation = useMutation<Category, ServerValidationError, CategorySchemaType>(mutationFn, {
 		onSuccess() {
-			app.addSuccessNotification({ description: 'Kategorin har nu uppdaterats.' });
+			app.addSuccessNotification({ description: 'Produktgruppen har nu uppdaterats.' });
 			onFinish?.();
 		},
 		onError(error) {

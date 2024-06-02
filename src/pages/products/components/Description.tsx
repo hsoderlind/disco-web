@@ -20,7 +20,7 @@ export const Description: FC = () => {
 					</FormItem>
 				</Col>
 				<Col xl={12}>
-					<FormItem control={control} name='categories' label='Kategori(er)'>
+					<FormItem control={control} name='categories' label='Produktgrupp(er)'>
 						<CategorySelect treeCheckable />
 					</FormItem>
 				</Col>
