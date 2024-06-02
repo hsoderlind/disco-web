@@ -1,11 +1,9 @@
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { RouteParams } from '../../../types/common';
-import { useLoadProduct } from '../../../services/product/hooks/useLoadProduct';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from '../../../hooks/useForm';
 import { ProductSchemaType, productSchema } from '../../../services/product/types';
 import { ProductStates } from '../../../services/product/ProductStates';
 import { Button, Dropdown, Form, MenuProps } from 'antd';
-import { useEffect } from 'react';
+import { Ref, useEffect, useRef } from 'react';
 import app from '../../../lib/application-builder/ApplicationBuilder';
 import { useUpdateProduct } from '../../../services/product/hooks/useUpdateProduct';
 import { useMutation } from '@tanstack/react-query';
@@ -27,19 +25,16 @@ import { ProductFileUpload } from '../components/product-file/ProductFileUpload'
 import { Stock } from '../components/Stock';
 import { DevTool } from '@hookform/devtools';
 import { loadProduct as loader } from '../../../services/product/loaders';
-import { useProductImageStore } from '../components/product-image/store';
-import { File } from '../../../services/file/File';
-import { useProductFileStore } from '../components/product-file/store';
+import { useLoaderData } from '../../../hooks/useLoaderData';
+import { FormInstance } from 'antd/lib/form/Form';
 
 const DEFAULT_SECTION = 'description';
 
 export { loader };
 
 export function Component() {
-	const { id } = useParams<RouteParams>();
-	const { data: product } = useLoadProduct(parseInt(id!));
-	const productImageStore = useProductImageStore();
-	const productFileStore = useProductFileStore();
+	const formRef = useRef<FormInstance<any>>();
+	const product = useLoaderData<Product>();
 	const mutationFn = useUpdateProduct(product!);
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams({ section: DEFAULT_SECTION });
@@ -67,35 +62,6 @@ export function Component() {
 		}
 	});
 	const onSubmit: SubmitHandler<ProductSchemaType> = (formValues) => {
-		if (productImageStore.models.length > 0) {
-			formValues.images = productImageStore.models.map((model) => ({
-				sort_order: model.get('sort_order'),
-				use_as_cover: false,
-				meta: {
-					id: model.get<File>('model').get('id'),
-					extension: model.get<File>('model').get('extension'),
-					filename: model.get<File>('model').get('filename'),
-					mimetype: model.get<File>('model').get('mimetype'),
-					size: model.get<File>('model').get('size'),
-					storage_resolver: model.get<File>('model').get('storage_resolver')
-				}
-			}));
-		}
-
-		if (productFileStore.models.length > 0) {
-			formValues.files = productFileStore.models.map((model) => ({
-				sort_order: model.get('sort_order'),
-				meta: {
-					id: model.get<File>('model').get('id'),
-					extension: model.get<File>('model').get('extension'),
-					filename: model.get<File>('model').get('filename'),
-					mimetype: model.get<File>('model').get('mimetype'),
-					size: model.get<File>('model').get('size'),
-					storage_resolver: model.get<File>('model').get('storage_resolver')
-				}
-			}));
-		}
-
 		return mutation.mutateAsync(formValues);
 	};
 
@@ -129,9 +95,19 @@ export function Component() {
 		}
 	}, [isValid, isError]);
 
+	useEffect(() => {
+		if (typeof product !== 'undefined') {
+			const entries = Object.entries(product.toFormValues());
+			entries.forEach(([key, value]) => {
+				setValue(key as keyof ProductSchemaType, value);
+				formRef.current?.setFieldValue(key, value);
+			});
+		}
+	}, [product, setValue]);
+
 	return (
 		<FormProvider {...methods}>
-			<Form layout='vertical'>
+			<Form ref={formRef as Ref<FormInstance<any>>} layout='vertical'>
 				<ContentLayout>
 					<Sidebar />
 					<MainContentLayout
