@@ -82,11 +82,11 @@ export const CategoryMenu = () => {
 		return (
 			<>
 				<div className='flex flex-column mb-3 pt-4 px-ant-space'>
-					<div className='label label-sm label-smooth'>Vald kategori:</div>
+					<div className='label label-sm label-smooth'>Vald produktgrupp:</div>
 					<div className='flex justify-between items-center flex-1'>
 						<span className='output output-rough output-xl'>{category.get<string>('name')}</span>
 						<span className='toolbar'>
-							<Tooltip title={!isTopCategory ? 'Redigera kategorin' : ''}>
+							<Tooltip title={!isTopCategory ? 'Redigera produktgruppen' : ''}>
 								<Button
 									type='link'
 									onClick={openEditModal}
@@ -96,16 +96,16 @@ export const CategoryMenu = () => {
 								/>
 							</Tooltip>
 							<Popconfirm
-								title='Radera kategorin'
-								description='Är du verkligen säker på att du vill radera denna kategori?'
+								title='Radera produktgruppen'
+								description='Är du verkligen säker på att du vill radera denna produktgrupp?'
 								okText='Ja'
 								cancelText='Nej'
 								onConfirm={() => onDeleteCategory()}>
-								<Tooltip title={!isTopCategory ? 'Radera kategorin' : ''}>
+								<Tooltip title={!isTopCategory ? 'Radera produktgruppen' : ''}>
 									<Button type='link' icon={<DeleteFilled />} size='middle' disabled={isTopCategory} danger />
 								</Tooltip>
 							</Popconfirm>
-							<Tooltip title='Ny kategori'>
+							<Tooltip title='Ny produktgrupp'>
 								<Button type='link' onClick={openCreateModal} icon={<PlusOutlined />} size='middle' />
 							</Tooltip>
 						</span>
