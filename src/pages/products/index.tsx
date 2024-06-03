@@ -31,6 +31,12 @@ export function Component() {
 
 	const [columnDefs] = useState<GridOptions<ProductType>['columnDefs']>([
 		{
+			field: 'id',
+			headerName: 'ID',
+			filter: true,
+			maxWidth: 80
+		},
+		{
 			field: 'name',
 			headerName: 'Namn',
 			filter: true
@@ -40,7 +46,8 @@ export function Component() {
 			headerName: 'Pris (exkl. moms)',
 			filter: true,
 			valueFormatter: (params) => Currency.format(params.value),
-			type: 'rightAligned'
+			type: 'rightAligned',
+			minWidth: 300
 		},
 		{
 			field: 'cost_price',
@@ -53,6 +60,11 @@ export function Component() {
 			field: 'state',
 			headerName: 'Status',
 			valueFormatter: (params) => (params.value === ProductStates.PUBLISHED ? 'Publicerad' : 'Utkast')
+		},
+		{
+			field: 'reference',
+			headerName: 'Referens',
+			filter: true
 		},
 		{
 			field: 'stock.disposable_quantity',
