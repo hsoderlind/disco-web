@@ -1,4 +1,4 @@
-import { Button, Col, List, Row, Tooltip } from 'antd';
+import { Button, Col, List, Row, Tag, Tooltip } from 'antd';
 import { ContentLayout } from '../../../components/layout/content-layout/ContentLayout';
 import { MainContentLayout } from '../../../components/layout/content-layout/MainContentLayout';
 import { SidebarContentLayout } from '../../../components/layout/content-layout/SidebarContentLayout';
@@ -48,6 +48,11 @@ export function Component() {
 										</Tooltip>
 									]}>
 									<List.Item.Meta title={model.get<string>('name')} />
+									{model.get('is_default') ? (
+										<Tag bordered={true} color='green'>
+											Förvald
+										</Tag>
+									) : null}
 								</List.Item>
 							)}
 						/>
