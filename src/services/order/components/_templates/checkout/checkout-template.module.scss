@@ -1,0 +1,9 @@
+@use "../../../../../sass/utils/mixins" as m;
+
+.order-total {
+	@include m.flex;
+	@include m.flex-row;
+	@include m.justify-between;
+	@include m.py-4;
+	border-bottom: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
+}

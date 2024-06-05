@@ -269,6 +269,62 @@
 	padding-top: vars.$space-6;
 }
 
+@mixin pr-0 {
+	padding-right: vars.$space-0;
+}
+
+@mixin pr-1 {
+	padding-right: vars.$space-1;
+}
+
+@mixin pr-2 {
+	padding-right: vars.$space-2;
+}
+
+@mixin pr-3 {
+	padding-right: vars.$space-3;
+}
+
+@mixin pr-4 {
+	padding-right: vars.$space-4;
+}
+
+@mixin pr-5 {
+	padding-right: vars.$space-5;
+}
+
+@mixin pr-6 {
+	padding-right: vars.$space-6;
+}
+
+@mixin pl-0 {
+	padding-left: vars.$space-0;
+}
+
+@mixin pl-1 {
+	padding-left: vars.$space-1;
+}
+
+@mixin pl-2 {
+	padding-left: vars.$space-2;
+}
+
+@mixin pl-3 {
+	padding-left: vars.$space-3;
+}
+
+@mixin pl-4 {
+	padding-left: vars.$space-4;
+}
+
+@mixin pl-5 {
+	padding-left: vars.$space-5;
+}
+
+@mixin pl-6 {
+	padding-left: vars.$space-6;
+}
+
 @mixin px-0 {
 	padding-inline: vars.$space-0;
 }

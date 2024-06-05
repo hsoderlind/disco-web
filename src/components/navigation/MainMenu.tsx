@@ -84,32 +84,36 @@ const MainMenu: FC = () => {
 		},
 		{
 			label: 'Försäljning',
-			key: 'sales',
+			key: 'orders',
 			disabled: !hasShops || !selectedShop,
 			children: [
 				{
 					label: 'Beställningar',
-					key: 'sales/create'
+					key: 'orders'
+				},
+				{
+					label: 'Ny beställning',
+					key: 'orders/create'
 				},
 				{
 					label: 'Reservationer',
-					key: 'sales/reservation'
+					key: 'order/sreservation'
 				}
 				// {
 				// 	label: 'Nyinkomna beställningar',
-				// 	key: 'sales?status=new'
+				// 	key: 'orders?status=new'
 				// },
 				// {
 				// 	label: 'Beställningar under process',
-				// 	key: 'sales?status=processing'
+				// 	key: 'order?sstatus=processing'
 				// },
 				// {
 				// 	label: 'Levererade beställningar',
-				// 	key: 'sales?status=delivered'
+				// 	key: 'orders?status=delivered'
 				// },
 				// {
 				// 	label: 'Historiska beställningar',
-				// 	key: 'sales?status=historic'
+				// 	key: 'orders?status=historic'
 				// }
 			]
 		},

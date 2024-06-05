@@ -1,6 +1,6 @@
 import { Collection } from "../../lib/model/Collection";
 import { Product } from "./Product";
-import { ProductType } from "./types";
+import { Criteria, ProductType } from "./types";
 
 export class ProductCollection extends Collection<ProductType, 'id', Product> {
 	static readonly GET_PRODUCTS_URI = '/api/product';
@@ -10,15 +10,21 @@ export class ProductCollection extends Collection<ProductType, 'id', Product> {
 		ProductCollection.httpClient.setHeaders({'x-shop-id': shopId});
 	}
 
+	static createFromResponse(data: ProductType[], shopId: number) {
+		return new ProductCollection(data.map((item) => Product.make(item, shopId)), shopId);
+	}
+
 	static async fetchAll(shopId: number, category = 0) {
 		this.httpClient.setHeaders({'x-shop-id': shopId});
 		const response = await this.httpClient.get<ProductType[]>(`${this.GET_PRODUCTS_URI}?category=${category}`);
 
-		if (response.data) {
-			const products = response.data.map((productData) => new Product(productData, shopId));
-			return new ProductCollection(products, shopId);
-		}
+		return this.createFromResponse(response.data, shopId);
+	}
 
-		return new ProductCollection([], shopId);
+	static async listAsSummary(shopId: number, criteria?: Criteria) {
+		this.httpClient.setHeaders({'x-shop-id': shopId});
+		const response = await this.httpClient.get<ProductType[]>(`${this.GET_PRODUCTS_URI}/summary`, {params: criteria});
+
+		return this.createFromResponse(response.data, shopId);
 	}
 }

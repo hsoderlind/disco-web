@@ -17,6 +17,10 @@
 		@include m.justify-end;
 	}
 
+	&--items-space-between {
+		@include m.justify-between;
+	}
+
 	@include m.dark-theme {
 		background-color: vars.$clr-surface-900;
 		border-top-color: vars.$clr-border-dark;

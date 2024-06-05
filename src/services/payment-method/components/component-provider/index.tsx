@@ -1,14 +1,13 @@
 import { Suspense, lazy } from 'react';
 import { ComponentProviderProps } from './types';
 
-export const ComponentProvider = ({ componentPath }: ComponentProviderProps) => {
+export const ComponentProvider = ({ componentPath, componentProps }: ComponentProviderProps) => {
 	const Component = lazy(() => import(`../../${componentPath}`));
-	console.log('Component', Component);
 
 	return (
 		<div>
 			<Suspense fallback='Laddar...'>
-				<Component />
+				<Component {...componentProps} />
 			</Suspense>
 		</div>
 	);

@@ -4,6 +4,7 @@
 
 .data-grid {
 	overflow: hidden;
+	--ag-cell-horizontal-padding: 12px;
 
 	.ag-row .ag-cell {
 		display: flex;

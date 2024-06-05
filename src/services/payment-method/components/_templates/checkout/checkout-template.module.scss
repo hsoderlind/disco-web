@@ -1,0 +1,12 @@
+@use "../../../../../sass/utils/mixins" as m;
+
+.payment-method {
+	@include m.py-4;
+	border-bottom: var(--ant-line-width) var(--ant-line-type) var(--ant-color-border-secondary);
+
+	&__fee {
+		> * + * {
+			@include m.pl-3;
+		}
+	}
+}

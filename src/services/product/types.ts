@@ -57,6 +57,8 @@ export type ProductType = {
 	price: number;
 	price_incl_vat: number;
 	cost_price: number;
+	current_special_price?: number;
+	selling_price: number;
 	reference?: string;
 	supplier_reference?: string;
 	condition: ProductConditionsUnion;
@@ -72,3 +74,9 @@ export type ProductType = {
 	stock: Partial<ProductStockType> | ProductStock;
 	tax: Partial<TaxType> | Tax;
 };
+
+export type Criteria = {
+	category?: number;
+	includeSubcategories?: boolean;
+	state?: ProductStatesUnion;
+}
