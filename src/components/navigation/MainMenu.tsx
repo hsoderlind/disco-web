@@ -97,7 +97,7 @@ const MainMenu: FC = () => {
 				},
 				{
 					label: 'Reservationer',
-					key: 'order/sreservation'
+					key: 'orders/reservation'
 				}
 				// {
 				// 	label: 'Nyinkomna beställningar',
