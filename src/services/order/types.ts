@@ -75,28 +75,28 @@ export const createOrderAttributeSchema = orderAttributeSchema.omit({
 
 export type CreateOrderAttributeSchema = vsbInfer<typeof createOrderAttributeSchema>;
 
-export const createOrderItemSchema = orderItemSchema.extend({
-	itemAttributes: vsb.array(createOrderAttributeSchema).optional()
-});
+export const createOrderItemSchema = orderItemSchema;
 
 export type CreateOrderItemSchema = vsbInfer<typeof createOrderItemSchema>;
 
-export const createOrderTotalSchema = vsb.object({
-	name: vsb.string(),
+export const createOrderTotalSchema = vsb.record(vsb.string(), vsb.object({
 	entries: vsb.array(vsb.object({
 		label: vsb.string(),
 		value: vsb.number().int(),
 		sort_order: sortOrder
 	})),
 	sort_order: sortOrder
-});
+}));
 
 export type CreateOrderTotalSchema = vsbInfer<typeof createOrderTotalSchema>;
 
-export const createOrderSchema = orderSchema.extend({
+export const createOrderSchema = orderSchema.omit({
+	payment_method: true,
+	status: true
+}).extend({
 	payment_name: vsb.string(),
 	items: vsb.array(createOrderItemSchema).min(1, 'Ordern måste innehålla minst en orderrad'),
-	totals: vsb.array(createOrderTotalSchema),
+	totals: createOrderTotalSchema,
 	note: vsb.string().optional()
 });
 

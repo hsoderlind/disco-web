@@ -20,7 +20,6 @@ export function Component() {
 	const {
 		formState: { isDirty, isSubmitting, errors }
 	} = methods;
-	console.log('errors', errors);
 	const {
 		fields: orderItems,
 		append: appendOrderItem,
