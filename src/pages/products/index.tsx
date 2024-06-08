@@ -67,11 +67,11 @@ export function Component() {
 			filter: true
 		},
 		{
-			field: 'stock.disposable_quantity',
+			field: 'stock.available_quantity',
 			headerName: 'Disponibelt antal',
 			valueFormatter: (params) => {
 				const hasStock = !!params.data?.stock;
-				const approxDisposableQty = (params.data?.stock as ProductStockType)?.approx_disposable_quantity;
+				const approxDisposableQty = (params.data?.stock as ProductStockType)?.approx_available_quantity;
 				const disposableQty = params.value;
 				const qtysDiffers = disposableQty !== approxDisposableQty;
 				return !hasStock

@@ -48,7 +48,7 @@ export class Product extends Model<ProductType, 'id'> {
 
 	stock(): ProductStock {
 		if (!this.hasRelation('stock')) {
-			return this.hasOneRelation(new ProductStock(this.get('stock'), this.shopId), 'stock');
+			return this.hasOneRelation(ProductStock.make(this.get('stock'), this.shopId), 'stock');
 		}
 
 		return this.getHasOneRelation('stock');

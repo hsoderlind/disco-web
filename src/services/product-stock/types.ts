@@ -19,6 +19,6 @@ export const productStockSchema = vsb.object({
 export type ProductStockSchema = vsbInfer<typeof productStockSchema>;
 
 export type ProductStockType = Prettify<{
-	disposable_quantity: number;
-	approx_disposable_quantity: number;
+	available_quantity: number;
+	approx_available_quantity: number;
 } & ProductStockSchema>
