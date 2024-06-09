@@ -12,7 +12,7 @@ export const basicCustomerSchema = vsb.object({
 	id: vsb.number().int().nonnegative().optional(),
 	person_name: vsb.string().optional(),
 	company_name: vsb.string().optional(),
-	email: vsb.string().email(),
+	email: vsb.string().nullable().optional(),
 	ssn: vsb.string().refine(validateSsnOptional).optional(),
 	orgno: vsb.string().refine(validateOrgnumberOptional).optional(),
 	vatno: vsb.string().optional(),

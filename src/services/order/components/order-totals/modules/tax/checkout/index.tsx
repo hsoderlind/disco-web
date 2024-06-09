@@ -4,7 +4,7 @@ import { CheckoutComponentProps } from '../../types';
 import { CreateOrderSchema } from '../../../../../types';
 import { useEffect, useMemo } from 'react';
 
-const TaxCheckout = ({ title, sort_order }: CheckoutComponentProps) => {
+const TaxCheckout = ({ name, title, sort_order }: CheckoutComponentProps) => {
 	const { control, setValue } = useFormContext<CreateOrderSchema>();
 	const orderItems = useWatch({ control, name: 'items' });
 
@@ -14,6 +14,7 @@ const TaxCheckout = ({ title, sort_order }: CheckoutComponentProps) => {
 
 	useEffect(() => {
 		setValue('totals.tax', {
+			name,
 			entries: [
 				{
 					label: title,
@@ -23,7 +24,7 @@ const TaxCheckout = ({ title, sort_order }: CheckoutComponentProps) => {
 			],
 			sort_order
 		});
-	}, [vat, setValue, title, sort_order]);
+	}, [vat, setValue, title, sort_order, name]);
 
 	return <CheckoutTemplate title={title} value={vat} />;
 };

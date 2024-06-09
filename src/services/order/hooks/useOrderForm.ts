@@ -17,6 +17,7 @@ export const useOrderForm = (defaultValues?: UseFormProps<CreateOrderSchema>['de
 		schema: createOrderSchema
 	});
 	const formValues = useWatch({control: methods.control});
+	console.log('errors', methods.formState.errors)
 
 	const mutation = useCreateOrder({
 		onSuccess: () => {

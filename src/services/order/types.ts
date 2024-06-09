@@ -52,6 +52,7 @@ export type OrderTotalSchema = vsbInfer<typeof orderTotalSchema>;
 
 export const orderSchema = vsb.object({
 	id: id.optional(),
+	order_number: vsb.string(),
 	customer_id: id,
 	status: vsb.string(),
 	items: vsb.array(orderItemSchema).min(1),
@@ -80,6 +81,7 @@ export const createOrderItemSchema = orderItemSchema;
 export type CreateOrderItemSchema = vsbInfer<typeof createOrderItemSchema>;
 
 export const createOrderTotalSchema = vsb.record(vsb.string(), vsb.object({
+	name: vsb.string(),
 	entries: vsb.array(vsb.object({
 		label: vsb.string(),
 		value: vsb.number().int(),
@@ -91,6 +93,7 @@ export const createOrderTotalSchema = vsb.record(vsb.string(), vsb.object({
 export type CreateOrderTotalSchema = vsbInfer<typeof createOrderTotalSchema>;
 
 export const createOrderSchema = orderSchema.omit({
+	order_number: true,
 	payment_method: true,
 	status: true
 }).extend({
