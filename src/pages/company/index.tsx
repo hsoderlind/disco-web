@@ -65,6 +65,13 @@ export function Component() {
 							</FormItem>
 						</Col>
 					</Row>
+					<Row gutter={[16, 0]}>
+						<Col xs={24} md={12}>
+							<FormItem control={control} name='vat_number' label='Momsregistreringsnummer'>
+								<Input />
+							</FormItem>
+						</Col>
+					</Row>
 					<FormItem control={control} name='support_address.address1' label='Adressrad 1'>
 						<Input />
 					</FormItem>
