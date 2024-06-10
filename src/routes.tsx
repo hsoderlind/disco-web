@@ -38,6 +38,9 @@ const routes = createBrowserRouter(
 							</Route>
 							<Route path='modules' lazy={() => import('./pages/payment-methods/modules')} />
 						</Route>
+						<Route path='shipping-methods' handle={{ menuKey: 'shipping-methods' }}>
+							<Route path='modules' lazy={() => import('./pages/shipping-methods/modules')} />
+						</Route>
 						<Route path='orders' handle={{ menuKey: 'orders' }}>
 							<Route path='create' handle={{ menuKey: 'orders/create' }} lazy={() => import('./pages/order/create')} />
 							<Route path='order-totals' handle={{ menuKey: 'orders/order-totals' }}>

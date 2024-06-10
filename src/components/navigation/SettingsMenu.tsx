@@ -46,6 +46,10 @@ const SettingsMenu: FC = () => {
 							key: 'payment-methods'
 						},
 						{
+							label: 'Leveranssätt',
+							key: 'shipping-methods'
+						},
+						{
 							label: 'Order total',
 							key: 'orders/order-totals'
 						},
