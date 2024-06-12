@@ -21,16 +21,6 @@ export function Component() {
 	const shopId = useShopStore((state) => state.shop.id);
 	const [queryKey] = queryGetOrderTotalRepository(params.name!, shopId);
 	const { data: orderTotal, isLoading, isFetching } = useGetOrderTotal(params.name!);
-	const mutation = useUpdateOrderTotal(params.name!, {
-		onSuccess: () => {
-			app.addSuccessNotification({ description: 'Order total har nu uppdaterats' });
-			app.queryClient.invalidateQueries(queryKey);
-		},
-		onError: (error) => {
-			app.addErrorNotification({ description: error.message });
-			ExtractErrors.fromServerValidationErrorToFormErrors<BaseOrderTotalRepositorySchema>(error)(setError);
-		}
-	});
 	const {
 		control,
 		handleSubmit,
@@ -40,6 +30,16 @@ export function Component() {
 	} = useForm<BaseOrderTotalRepositorySchema>({
 		defaultValues: orderTotal?.toJSON(),
 		schema: baseOrderTotalRepositorySchema
+	});
+	const mutation = useUpdateOrderTotal(params.name!, {
+		onSuccess: () => {
+			app.addSuccessNotification({ description: 'Order total har nu uppdaterats' });
+			app.queryClient.invalidateQueries(queryKey);
+		},
+		onError: (error) => {
+			app.addErrorNotification({ description: error.message });
+			ExtractErrors.fromServerValidationErrorToFormErrors<BaseOrderTotalRepositorySchema>(error)(setError);
+		}
 	});
 
 	const onSubmit: SubmitHandler<BaseOrderTotalRepositorySchema> = (formValues) => mutation.mutateAsync(formValues);
