@@ -11,11 +11,12 @@ import { useInstallShippingModule } from '../../../services/shipping-method/hook
 import app from '../../../lib/application-builder/ApplicationBuilder';
 import { useUpdateShippingModule } from '../../../services/shipping-method/hooks/useUpdateShippingModule';
 import { useUninstallShippingModule } from '../../../services/shipping-method/hooks/useUninstallShippingModule';
+import { ShippingModule } from '../../../services/shipping-method/ShippingModule';
 
 export { ErrorBoundary };
 
 export function Component() {
-	const { data: modules, isFetching, isLoading } = useListShippingModules();
+	const { data: modules, isFetching, isLoading, refetch } = useListShippingModules();
 	const installMutation = useInstallShippingModule({
 		onSuccess: (module) => {
 			app.addSuccessNotification({ description: `Modulen "${module.get('title')}" har nu installerats.` });
@@ -29,6 +30,21 @@ export function Component() {
 	const uninstallMutation = useUninstallShippingModule({
 		onSuccess: () => app.addSuccessNotification({ description: 'Modulen har nu avinstallerats.' })
 	});
+
+	const installModule = (module: ShippingModule) => async () => {
+		await installMutation.mutateAsync(module.get('name'));
+		refetch();
+	};
+
+	const updateModule = (module: ShippingModule) => async () => {
+		updateMutation.mutateAsync(module.get('name'));
+		refetch();
+	};
+
+	const uninstallModule = (module: ShippingModule) => async () => {
+		await uninstallMutation.mutateAsync(module.get('name'));
+		refetch();
+	};
 
 	return (
 		<ContentLayout>
@@ -51,16 +67,28 @@ export function Component() {
 											<Button
 												type='link'
 												icon={<RxUpdate style={{ fontSize: '1.25rem', color: 'var(--ant-magenta-7)' }} />}
+												onClick={updateModule(model)}
+												loading={updateMutation.isLoading}
 											/>
 										</Tooltip>
 									) : null,
 									model.get('installed') ? (
 										<Tooltip title='Avinstallera'>
-											<Button type='link' icon={<RiInstallLine style={{ fontSize: '1.25rem' }} />} />
+											<Button
+												type='link'
+												icon={<RiUninstallLine style={{ fontSize: '1.25rem' }} />}
+												onClick={uninstallModule(model)}
+												loading={uninstallMutation.isLoading}
+											/>
 										</Tooltip>
 									) : (
 										<Tooltip title='Installera'>
-											<Button type='link' icon={<RiUninstallLine style={{ fontSize: '1.25rem' }} />} />
+											<Button
+												type='link'
+												icon={<RiInstallLine style={{ fontSize: '1.25rem' }} />}
+												onClick={installModule(model)}
+												loading={installMutation.isLoading}
+											/>
 										</Tooltip>
 									)
 								]}>
