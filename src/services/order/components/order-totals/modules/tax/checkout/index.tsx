@@ -7,10 +7,13 @@ import { useEffect, useMemo } from 'react';
 const TaxCheckout = ({ name, title, sort_order }: CheckoutComponentProps) => {
 	const { control, setValue } = useFormContext<CreateOrderSchema>();
 	const orderItems = useWatch({ control, name: 'items' });
+	const fees = useWatch({ control, name: 'fees' });
 
 	const vat = useMemo(() => {
-		return (orderItems ?? []).reduce((acc, item) => acc + item.vat * item.quantity, 0);
-	}, [orderItems]);
+		const itemsTotalVat = (orderItems ?? []).reduce((acc, item) => acc + item.vat * item.quantity, 0);
+		const feesTotalVat = (Object.values(fees ?? {}) ?? []).reduce((acc, fee) => acc + fee.vat, 0);
+		return itemsTotalVat + feesTotalVat;
+	}, [orderItems, fees]);
 
 	useEffect(() => {
 		setValue('totals.tax', {

@@ -7,10 +7,13 @@ import { useEffect, useMemo } from 'react';
 const SubTotalCheckout = ({ name, title, sort_order }: CheckoutComponentProps) => {
 	const { control, setValue } = useFormContext<CreateOrderSchema>();
 	const orderItems = useWatch({ control, name: 'items' });
+	const fees = useWatch({ control, name: 'fees' });
 
 	const subTotal = useMemo(() => {
-		return (orderItems ?? []).reduce((acc, item) => acc + item.total, 0);
-	}, [orderItems]);
+		const itemsTotal = (orderItems ?? []).reduce((acc, item) => acc + item.total, 0);
+		const feesTotal = (Object.values(fees ?? {}) ?? []).reduce((acc, fee) => acc + fee.value, 0);
+		return itemsTotal + feesTotal;
+	}, [orderItems, fees]);
 
 	useEffect(() => {
 		setValue('totals.subtotal', {

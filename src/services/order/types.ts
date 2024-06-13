@@ -104,6 +104,10 @@ export const createOrderSchema = orderSchema.omit({
 	shipping_name: vsb.string(),
 	items: vsb.array(createOrderItemSchema).min(1, 'Ordern måste innehålla minst en orderrad'),
 	totals: createOrderTotalSchema,
+	fees: vsb.record(vsb.string(), vsb.object({
+		value: vsb.number().int().min(0),
+		vat: vsb.number().int().min(0),
+	})),
 	note: vsb.string().optional()
 });
 

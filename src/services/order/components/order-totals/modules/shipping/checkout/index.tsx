@@ -58,33 +58,37 @@ export const ShippingCheckout = ({ name, title, sort_order }: CheckoutComponentP
 			],
 			sort_order
 		});
+		setValue('fees.shipping', {
+			value: shipping.fee,
+			vat: shipping.vat
+		});
 	}, [shipping, setValue, title, sort_order, name]);
 
 	return <CheckoutTemplate title={title} value={shipping.total} />;
 };
 
 type VatGroup = {
-	vat: number;
+	tax_value: number;
 	percentage: number;
 };
 
-type ReducedOrderItem = Pick<CreateOrderItemSchema, 'vat' | 'quantity'>;
+type ReducedOrderItem = Pick<CreateOrderItemSchema, 'tax_value' | 'quantity'>;
 
 function groupByVat(orderItems: ReducedOrderItem[]) {
 	const vatCount: Record<number, number> = {};
 	const totalItems = orderItems.reduce((acc, item) => acc + item.quantity, 0);
 
 	orderItems.forEach((item) => {
-		if (vatCount[item.vat]) {
-			vatCount[item.vat] += item.quantity;
+		if (vatCount[item.tax_value]) {
+			vatCount[item.tax_value] += item.quantity;
 		} else {
-			vatCount[item.vat] = item.quantity;
+			vatCount[item.tax_value] = item.quantity;
 		}
 	});
 
-	return Object.keys(vatCount).map((vat) => ({
-		vat: +vat,
-		percentage: (vatCount[+vat] / totalItems) * 100
+	return Object.keys(vatCount).map((taxValue) => ({
+		tax_value: +taxValue,
+		percentage: (vatCount[+taxValue] / totalItems) * 100
 	}));
 }
 
@@ -92,7 +96,7 @@ function calcShippingVat(shippingFee: number, vatGroups: VatGroup[]) {
 	let totalVat = 0;
 
 	vatGroups.forEach((group) => {
-		totalVat += (group.vat / 100) * (group.percentage / 100) * shippingFee;
+		totalVat += (group.tax_value / 100) * (group.percentage / 100) * shippingFee;
 	});
 
 	return totalVat;
