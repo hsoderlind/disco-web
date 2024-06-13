@@ -8,7 +8,7 @@ export const shippingModuleSchema = vsb.object({
 	title: vsb.string(),
 	description: vsb.string().nullable(),
 	admin_component: vsb.string(),
-	configuration: vsb.array(vsb.any()),
+	configuration: vsb.array(vsb.any()).or(vsb.null()).optional(),
 	installed: vsb.boolean(),
 	published_at: vsb.string(),
 	updated_at: vsb.string().nullable().optional(),
@@ -21,7 +21,7 @@ export const shippingMethodSchema = vsb.object({
 	title: vsb.string(),
 	fee: vsb.number().int().min(0),
 	description: vsb.string().nullable(),
-	configuration: vsb.array(vsb.any()),
+	configuration: vsb.array(vsb.any()).or(vsb.null()).optional(),
 	sort_order: sortOrder,
 	active: vsb.boolean()
 });

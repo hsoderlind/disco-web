@@ -4,11 +4,13 @@ import SubTotalCheckout from '../../../../services/order/components/order-totals
 import TaxCheckout from '../../../../services/order/components/order-totals/modules/tax/checkout';
 import TotalCheckout from '../../../../services/order/components/order-totals/modules/total/checkout';
 import { OrderTotalsCardProps } from './types';
+import { ShippingCheckout } from '../../../../services/order/components/order-totals/modules/shipping/checkout';
 
 const MAP_MODEL_TO_COMPONENT: Record<string, (...args: any[]) => JSX.Element> = {
 	subtotal: SubTotalCheckout,
 	tax: TaxCheckout,
-	total: TotalCheckout
+	total: TotalCheckout,
+	shipping: ShippingCheckout
 };
 
 export const OrderTotalsCard = ({ style }: OrderTotalsCardProps) => {

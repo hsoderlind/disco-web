@@ -1,5 +1,6 @@
 import app from "../../lib/application-builder/ApplicationBuilder";
 import { id, sortOrder, vsbInfer } from "../../lib/validation/validation-schema-builder";
+import { shippingMethodSchema } from "../shipping-method/types";
 
 const vsb = app.getValidationSchemaBuilder();
 
@@ -57,6 +58,7 @@ export const orderSchema = vsb.object({
 	status: vsb.string(),
 	items: vsb.array(orderItemSchema).min(1),
 	payment_method: orderPaymentSchema,
+	shipping_method: shippingMethodSchema,
 	totals: vsb.array(orderTotalSchema)
 });
 
@@ -85,6 +87,7 @@ export const createOrderTotalSchema = vsb.record(vsb.string(), vsb.object({
 	entries: vsb.array(vsb.object({
 		label: vsb.string(),
 		value: vsb.number().int(),
+		vat: vsb.number().int().optional(),
 		sort_order: sortOrder
 	})),
 	sort_order: sortOrder
@@ -98,6 +101,7 @@ export const createOrderSchema = orderSchema.omit({
 	status: true
 }).extend({
 	payment_name: vsb.string(),
+	shipping_name: vsb.string(),
 	items: vsb.array(createOrderItemSchema).min(1, 'Ordern måste innehålla minst en orderrad'),
 	totals: createOrderTotalSchema,
 	note: vsb.string().optional()

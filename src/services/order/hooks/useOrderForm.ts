@@ -33,6 +33,7 @@ export const useOrderForm = (defaultValues?: UseFormProps<CreateOrderSchema>['de
 
 	useEffect(() => {
 		orderForm.fill(formValues as CreateOrderSchema);
+		console.log('formValues', formValues);
 	}, [formValues, orderForm]);
 
 	return [methods, onSubmit, orderForm] as const;

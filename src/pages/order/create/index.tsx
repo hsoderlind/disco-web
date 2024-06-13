@@ -12,6 +12,7 @@ import { CustomerCard } from '../components/customer-card';
 import { FormItem } from 'react-hook-form-antd';
 import { PaymentsMethodsCard } from '../components/payment-methods-card';
 import { OrderTotalsCard } from '../components/order-totals-card';
+import { ShippingMethodsCard } from '../components/shipping-methods-card';
 
 export { ErrorBoundary };
 
@@ -98,6 +99,10 @@ export function Component() {
 								<PaymentsMethodsCard
 									className='mb-input'
 									style={{ borderColor: errors.payment_name ? 'var(--ant-color-error)' : undefined }}
+								/>
+								<ShippingMethodsCard
+									className='mb-input'
+									style={{ borderColor: errors.shipping_name ? 'var(--ant-color-error)' : undefined }}
 								/>
 								<OrderTotalsCard style={{ borderColor: errors.totals ? 'var(--ant-color-error)' : undefined }} />
 							</Col>
