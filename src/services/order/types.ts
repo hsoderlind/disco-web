@@ -25,6 +25,7 @@ export const orderItemSchema = vsb.object({
 	product_id: id,
 	tax_id: id,
 	product_name: vsb.string(),
+	item_number: vsb.string().nullable(),
 	price: vsb.number().int(),
 	total: vsb.number().int(),
 	vat: vsb.number().int(),

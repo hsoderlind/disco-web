@@ -35,9 +35,9 @@ export const OrderItemsTable = ({ items, update, remove }: OrderItemsTableProps)
 	const columnDefs = useMemo<DataGridProps<OrderItemSchema>['columnDefs']>(
 		() => [
 			{
-				field: 'product_id',
-				headerName: 'ID',
-				maxWidth: 65
+				field: 'item_number',
+				headerName: 'Art.nr',
+				maxWidth: 150
 			},
 			{
 				field: 'product_name',

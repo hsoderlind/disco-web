@@ -63,11 +63,12 @@ export function Component() {
 												appendOrderItem({
 													product_id: product.getKey(),
 													product_name: product.get('name'),
+													item_number: product.get<string>('item_number'),
 													price: product.get('selling_price'),
-													quantity: 1,
+													quantity: product.stock().get('min_order_quantity', 1),
 													tax_id: product.get('tax_id'),
 													tax_value: product.tax().get('value'),
-													total: product.get<number>('selling_price') * 1,
+													total: product.get<number>('selling_price') * product.stock().get('min_order_quantity', 1),
 													vat: product.get<number>('selling_price') * (product.tax().get<number>('value') / 100),
 													itemAttributes: []
 												})
