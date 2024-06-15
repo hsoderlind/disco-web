@@ -28,6 +28,7 @@ export const productSchema = vsb.object({
 	tax_id: vsb.number(),
 	supplier_id: vsb.number().optional(),
 	manufacturer_id: vsb.number().optional(),
+	item_number: vsb.string().optional(),
 	price: vsb.number().min(0),
 	price_incl_vat: vsb.number().optional(),	
 	cost_price: vsb.number().min(0),
@@ -54,6 +55,7 @@ export type ProductType = {
 	tax_id: number;
 	supplier_id?: number;
 	manufacturer_id?: number;
+	item_number?: string;
 	price: number;
 	price_incl_vat: number;
 	cost_price: number;

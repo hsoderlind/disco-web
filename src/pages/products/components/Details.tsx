@@ -43,6 +43,13 @@ export const Details: FC = () => {
 					</FormItem>
 				</Col>
 			</Row>
+			<Row gutter={[12, 0]}>
+				<Col sm={24} md={12}>
+					<FormItem control={control} name='item_number' label='Artikelnummer'>
+						<Input />
+					</FormItem>
+				</Col>
+			</Row>
 			<Divider />
 			<Typography.Title level={2}>Produktkoder</Typography.Title>
 			<div ref={parent}>
