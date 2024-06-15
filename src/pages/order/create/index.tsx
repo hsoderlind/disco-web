@@ -26,7 +26,7 @@ export function Component() {
 		append: appendOrderItem,
 		remove: removeOrderItem,
 		update: updateOrderItem
-	} = useFieldArray({ control: methods.control, name: 'items' });
+	} = useFieldArray({ control: methods.control, name: 'items', keyName: 'key' });
 
 	return (
 		<FormProvider {...methods}>

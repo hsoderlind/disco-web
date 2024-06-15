@@ -26,6 +26,7 @@ export function Component() {
 				<div />
 			</SidebarContentLayout>
 			<MainContentLayout
+				title='Orderstatus'
 				renderButtonBar={
 					<ButtonBar>
 						<Button type='primary' icon={<PlusOutlined />} onClick={newOrderStatus}>

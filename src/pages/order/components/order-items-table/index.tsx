@@ -12,7 +12,7 @@ import { CellEditRequestEvent } from 'ag-grid-community';
 export const OrderItemsTable = ({ items, update, remove }: OrderItemsTableProps) => {
 	const handleDeleteClick = useCallback(
 		(model: OrderItemSchema) => {
-			const index = items.findIndex((item) => item.id === model.id);
+			const index = items.findIndex((item) => item.product_id === model.product_id);
 
 			remove(index);
 		},
@@ -21,8 +21,8 @@ export const OrderItemsTable = ({ items, update, remove }: OrderItemsTableProps)
 
 	const handleCellEditRequest = useCallback(
 		(event: CellEditRequestEvent<OrderItemSchema, number>) => {
-			const index = items.findIndex((item) => item.id === event.data.id);
-			const newQuantity = event.newValue!;
+			const index = items.findIndex((item) => item.product_id === event.data.product_id);
+			const newQuantity = +event.newValue!;
 			update(index, {
 				...items[index],
 				quantity: newQuantity,
