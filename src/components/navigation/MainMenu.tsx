@@ -1,5 +1,5 @@
 import { Menu, MenuProps } from 'antd';
-import { FC } from 'react';
+import { FC, useMemo } from 'react';
 import { useShopsContext } from '../../contexts/shops/useShopsContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useMatches } from '../../hooks/useMatches';
@@ -10,7 +10,16 @@ const MainMenu: FC = () => {
 	const navigate = useNavigate();
 	const params = useParams();
 	const matches = useMatches();
-	const selectedKeys = matches.filter((match) => !!match.handle?.menuKey).map((match) => match.handle?.menuKey);
+	const selectedKeys = useMemo(() => {
+		let menuKey: string | undefined;
+		let index = 0;
+
+		while (typeof menuKey === 'undefined') {
+			menuKey = matches.at(--index)?.handle?.menuKey;
+		}
+
+		return menuKey;
+	}, [matches]);
 
 	const { hasShops, selectedShop } = useShopsContext();
 
@@ -124,7 +133,7 @@ const MainMenu: FC = () => {
 		}
 	];
 
-	return <Menu onClick={onClick} items={items} mode='horizontal' theme='dark' selectedKeys={selectedKeys} />;
+	return <Menu onClick={onClick} items={items} mode='horizontal' theme='dark' selectedKeys={[selectedKeys]} />;
 };
 
 export default MainMenu;
