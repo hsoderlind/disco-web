@@ -9,10 +9,11 @@ import { ServerValidationError } from '../../lib/error/types';
 import app from '../../lib/application-builder/ApplicationBuilder';
 import { ExtractErrors } from '../../lib/error/ExtractErrors';
 import { SubmitHandler } from 'react-hook-form';
-import { AutoComplete, Form, Input, InputNumber, Modal, Switch } from 'antd';
+import { AutoComplete, Form, Input, Modal, Switch } from 'antd';
 import FormItem from '../../lib/form/FormItem';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { DEFAULT_FORMAT, DEFAULT_FORMATS } from '../../services/barcode-type/formats';
+import { InputNumber } from '../forms/controls/input-number';
 
 export type CreateBarcodeTypeModalProps = {
 	open: boolean;

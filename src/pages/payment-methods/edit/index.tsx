@@ -6,7 +6,7 @@ import { useUpdatePaymentMethod } from '../../../services/payment-method/hooks/u
 import { queryListPaymentMethods } from '../../../services/payment-method/queries';
 import { PaymentMethodSchema, paymentMethodSchema } from '../../../services/payment-method/types';
 import { useShopStore } from '../../../services/shop/store';
-import { Button, Card, Form, Input, InputNumber, Switch } from 'antd';
+import { Button, Card, Form, Input, Switch } from 'antd';
 import { FormItem } from 'react-hook-form-antd';
 import { CheckOutlined, CloseOutlined, SaveOutlined } from '@ant-design/icons';
 import { ComponentProvider } from '../../../services/payment-method/components/component-provider';
@@ -16,6 +16,7 @@ import { loadPaymentMethod as loader } from '../../../services/payment-method/lo
 import { Ref, useEffect, useRef } from 'react';
 import { FormInstance } from 'antd/lib/form/Form';
 import { DevTool } from '@hookform/devtools';
+import { InputNumber } from '../../../components/forms/controls/input-number';
 
 export { loader };
 
@@ -82,7 +83,10 @@ export function Component() {
 						<Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} />
 					</FormItem>
 					{!!paymentMethod.get('admin_component') && (
-						<ComponentProvider componentPath={paymentMethod.get('admin_component')} />
+						<ComponentProvider
+							componentPath={paymentMethod.get('admin_component')}
+							componentProps={paymentMethod.toJSON()}
+						/>
 					)}
 				</Card>
 				<DevTool control={control} />

@@ -1,9 +1,10 @@
 import { ComponentProps, Ref, forwardRef, useEffect } from 'react';
 import { useGetTaxById } from '../../../services/tax/hooks/useGetTaxById';
 import { useQuery } from '@tanstack/react-query';
-import { Form, InputNumber } from 'antd';
+import { Form } from 'antd';
 import { FieldPath, FieldValues, useFormContext } from 'react-hook-form';
 import FormItem from '../../../lib/form/FormItem';
+import { InputNumber } from './input-number';
 
 export type GrossPriceOutputProps<TFieldValues extends FieldValues = FieldValues> = {
 	name: string;
@@ -32,7 +33,7 @@ const InternalGrossPriceOutput = <TFieldValues extends FieldValues = FieldValues
 
 	return (
 		<FormItem control={control} name={name} label={label}>
-			<InputNumber ref={ref} {...inputProps} decimalSeparator=',' readOnly />
+			<InputNumber ref={ref} {...inputProps} readOnly />
 		</FormItem>
 	);
 };

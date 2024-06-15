@@ -9,9 +9,10 @@ import { Category } from '../../services/category/Category';
 import { ServerValidationError } from '../../lib/error/types';
 import { ExtractErrors } from '../../lib/error/ExtractErrors';
 import { SubmitHandler } from 'react-hook-form';
-import { Form, Input, InputNumber, Modal } from 'antd';
+import { Form, Input, Modal } from 'antd';
 import FormItem from '../../lib/form/FormItem';
 import app from '../../lib/application-builder/ApplicationBuilder';
+import { InputNumber } from '../forms/controls/input-number';
 
 export type CreateCategoryModalProps = {
 	open: boolean;

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { ProductSchemaType } from '../../../services/product/types';
-import { Button, DatePicker, Divider, InputNumber, Row, Col, Typography, DescriptionsProps, Descriptions } from 'antd';
+import { Button, DatePicker, Divider, Row, Col, Typography, DescriptionsProps, Descriptions } from 'antd';
 import { GrossPriceOutput } from '../../../components/forms/controls/GrossPriceOutput';
 import FormItem from '../../../lib/form/FormItem';
 import { TaxSelect } from '../../../components/forms/controls/TaxSelect';
@@ -11,6 +11,7 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 import { Currency } from '../../../lib/number/Currency';
 import { Accounting } from '../../../lib/accounting';
 import { Num } from '../../../lib/number/Num';
+import { InputNumber } from '../../../components/forms/controls/input-number';
 
 export const Price: FC = () => {
 	const { control, watch } = useFormContext<ProductSchemaType>();
@@ -64,7 +65,7 @@ export const Price: FC = () => {
 				<Row gutter={[12, 0]}>
 					<Col xl={6}>
 						<FormItem control={control} name='cost_price' label='Nettopris'>
-							<InputNumber precision={2} addonAfter='kr' decimalSeparator=',' />
+							<InputNumber precision={2} addonAfter='kr' />
 						</FormItem>
 					</Col>
 				</Row>
@@ -73,7 +74,7 @@ export const Price: FC = () => {
 				<Row gutter={[12, 0]}>
 					<Col xl={6}>
 						<FormItem control={control} name='price' label='Nettopris'>
-							<InputNumber precision={2} addonAfter='kr' decimalSeparator=',' />
+							<InputNumber precision={2} addonAfter='kr' />
 						</FormItem>
 					</Col>
 					<Col xl={6}>
@@ -102,7 +103,7 @@ export const Price: FC = () => {
 									control={control}
 									name={`special_prices.${index}.special_price`}
 									label={index === 0 ? 'Nettopris' : ''}>
-									<InputNumber min={0} precision={2} addonAfter='kr' decimalSeparator=',' />
+									<InputNumber min={0} precision={2} addonAfter='kr' />
 								</FormItem>
 							</Col>
 							<Col xl={5}>

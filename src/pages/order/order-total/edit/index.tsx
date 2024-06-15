@@ -9,11 +9,12 @@ import { useForm } from '../../../../hooks/useForm';
 import { BaseOrderTotalRepositorySchema, baseOrderTotalRepositorySchema } from '../../../../services/order/types';
 import { SubmitHandler } from 'react-hook-form';
 import { useRef, Ref, useEffect } from 'react';
-import { Button, Card, Form, FormInstance, Input, InputNumber, Switch } from 'antd';
+import { Button, Card, Form, FormInstance, Input, Switch } from 'antd';
 import { CheckOutlined, CloseOutlined, SaveOutlined } from '@ant-design/icons';
 import { FormItem } from 'react-hook-form-antd';
 import { ComponentProvider } from '../../../../services/order/components/component-provider';
 import { ExtractErrors } from '../../../../lib/error/ExtractErrors';
+import { InputNumber } from '../../../../components/forms/controls/input-number';
 
 export function Component() {
 	const formRef = useRef<FormInstance<any>>();
@@ -78,7 +79,7 @@ export function Component() {
 					<Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} />
 				</FormItem>
 				{!!orderTotal?.get('admin_component') && (
-					<ComponentProvider componentPath={orderTotal?.get('admin_component')} />
+					<ComponentProvider componentPath={orderTotal?.get('admin_component')} componentProps={orderTotal.toJSON()} />
 				)}
 			</Card>
 		</Form>

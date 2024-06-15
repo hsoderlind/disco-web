@@ -1,4 +1,4 @@
-import { Button, Card, Form, FormInstance, Input, InputNumber, Switch } from 'antd';
+import { Button, Card, Form, FormInstance, Input, Switch } from 'antd';
 import { Ref, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { RouteParams } from '../../../types/common';
@@ -13,6 +13,7 @@ import { useForm } from '../../../hooks/useForm';
 import { SubmitHandler } from 'react-hook-form';
 import { CheckOutlined, CloseOutlined, SaveOutlined } from '@ant-design/icons';
 import { FormItem } from 'react-hook-form-antd';
+import { InputNumber } from '../../../components/forms/controls/input-number';
 
 export function Component() {
 	const formRef = useRef<FormInstance<any>>();

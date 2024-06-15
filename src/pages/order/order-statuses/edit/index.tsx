@@ -5,7 +5,7 @@ import { ExtractErrors } from '../../../../lib/error/ExtractErrors';
 import { queryListOrderStatuses } from '../../../../services/order-status/queries';
 import { OrderStatusSchema, orderStatusSchema } from '../../../../services/order-status/types';
 import { useShopStore } from '../../../../services/shop/store';
-import { Button, Card, Form, FormInstance, Input, InputNumber, List, Switch, Typography } from 'antd';
+import { Button, Card, Form, FormInstance, Input, List, Switch, Typography } from 'antd';
 import { FormItem } from 'react-hook-form-antd';
 import { CheckOutlined, CloseOutlined, SaveOutlined } from '@ant-design/icons';
 import { useNavigate } from '../../../../hooks/useNavigate';
@@ -17,6 +17,8 @@ import { useUpdateOrderStatus } from '../../../../services/order-status/hooks/us
 import { DevTool } from '@hookform/devtools';
 import { useListActions } from '../../../../services/order-status/hooks/useListActions';
 import { ActionRepository } from '../../../../services/order-status/ActionRepository';
+import { InputNumber } from '../../../../components/forms/controls/input-number';
+import { ValueType } from '../../../../components/forms/controls/input-number/types';
 
 export function Component() {
 	const navigate = useNavigate();
@@ -59,7 +61,7 @@ export function Component() {
 		}
 	};
 
-	const handleSortOrderChange = (model: ActionRepository) => (value: 0 | null) => {
+	const handleSortOrderChange = (model: ActionRepository) => (value: ValueType | null) => {
 		setValue('actions', updateSortOrder(getValues().actions, model.getKey(), value as number), {
 			shouldDirty: true,
 			shouldTouch: true

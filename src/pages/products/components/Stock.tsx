@@ -1,8 +1,9 @@
 import { useFormContext } from 'react-hook-form';
 import { ProductSchemaType } from '../../../services/product/types';
-import { Col, DatePicker, Input, InputNumber, Row, Switch, Typography } from 'antd';
+import { Col, DatePicker, Input, Row, Switch, Typography } from 'antd';
 import FormItem from '../../../lib/form/FormItem';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { InputNumber } from '../../../components/forms/controls/input-number';
 
 export const Stock = () => {
 	const { control } = useFormContext<ProductSchemaType>();
@@ -20,7 +21,7 @@ export const Stock = () => {
 			<Row gutter={[12, 0]}>
 				<Col sm={24} md={12}>
 					<FormItem control={control} name='stock.initial_quantity' label='Initialt lagersaldo'>
-						<InputNumber decimalSeparator=',' />
+						<InputNumber />
 					</FormItem>
 				</Col>
 			</Row>
@@ -66,7 +67,7 @@ export const Stock = () => {
 						name='stock.min_order_quantity'
 						label='Minsta beställningsantal'
 						tooltip='Ange det minsta antal som går att beställa av denna produkt.'>
-						<InputNumber decimalSeparator=',' />
+						<InputNumber />
 					</FormItem>
 				</Col>
 			</Row>

@@ -8,10 +8,11 @@ import { Tax } from '../../services/tax/Tax';
 import { ServerValidationError } from '../../lib/error/types';
 import { ExtractErrors } from '../../lib/error/ExtractErrors';
 import { SubmitHandler } from 'react-hook-form';
-import { Form, Input, InputNumber, Modal, Switch } from 'antd';
+import { Form, Input, Modal, Switch } from 'antd';
 import FormItem from '../../lib/form/FormItem';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import app from '../../lib/application-builder/ApplicationBuilder';
+import { InputNumber } from '../forms/controls/input-number';
 
 export type CreateTaxClassModalProps = {
 	open: boolean;
@@ -59,7 +60,7 @@ export const CreateTaxClassModal: FC<CreateTaxClassModalProps> = ({ open, onFini
 					<Input autoFocus autoComplete='off' />
 				</FormItem>
 				<FormItem control={control} name='value' label='Värde'>
-					<InputNumber addonBefore='+' addonAfter='%' min={0} decimalSeparator=',' />
+					<InputNumber addonBefore='+' addonAfter='%' min={0} />
 				</FormItem>
 				<FormItem control={control} name='priority' label='Prioritet'>
 					<InputNumber addonBefore='+' min={0} />

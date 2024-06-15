@@ -8,9 +8,10 @@ import { useAdjustCreditBalance } from '../../../../../../services/customer/hook
 import { CreditBalanceSchema, creditBalanceSchema } from '../../../../../../services/customer/types';
 import { CreditBalanceFormProps } from './types';
 import { FormItem } from 'react-hook-form-antd';
-import { Button, Form, Input, InputNumber, Select } from 'antd';
+import { Button, Form, Input, Select } from 'antd';
 import { AdjustmentTypes } from '../../../../../../services/customer/AdjustmentTypes';
 import { ButtonBar } from '../../../../../../components/forms/buttonbar';
+import { InputNumber } from '../../../../../../components/forms/controls/input-number';
 
 export const CreditBalanceForm = ({ onAfterAdjustment, onCancel }: CreditBalanceFormProps) => {
 	const customer = useLoaderData<Customer>();
