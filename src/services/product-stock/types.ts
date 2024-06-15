@@ -6,7 +6,7 @@ const vsb = app.getValidationSchemaBuilder();
 
 export const productStockSchema = vsb.object({
 	id: vsb.number().nonnegative().optional(),
-	sku: vsb.string().optional(),
+	sku: vsb.string().nullable().optional(),
 	initial_quantity: vsb.number(),
 	min_order_quantity: vsb.number(),
 	out_of_stock_message: vsb.string().max(255).optional(),

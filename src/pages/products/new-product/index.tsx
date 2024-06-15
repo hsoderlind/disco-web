@@ -24,7 +24,6 @@ import { Details } from '../components/Details';
 import { Description } from '../components/Description';
 import { ProductStates } from '../../../services/product/ProductStates';
 import { DevTool } from '@hookform/devtools';
-import { useEffect } from 'react';
 import { Sidebar } from '../components/Sidebar';
 
 const DEFAULT_SECTION = 'description';
@@ -66,9 +65,9 @@ export function Component() {
 		handleSubmit,
 		setError,
 		setValue,
-		formState: { isDirty, isSubmitting, isValid, errors }
+		formState: { isDirty, isSubmitting, errors }
 	} = methods;
-	const isError = Object.keys(errors).length > 0;
+	console.log('errors', errors);
 
 	const mutation = useMutation<Product, ServerValidationError, ProductSchemaType>(mutationFn, {
 		onSuccess(product) {
@@ -109,12 +108,6 @@ export function Component() {
 			// TODO: delete product
 		}
 	};
-
-	useEffect(() => {
-		if (!isValid && isError) {
-			app.showErrorMessage('Det förekommer fel i formuläret!');
-		}
-	}, [isValid, isError]);
 
 	return (
 		<FormProvider {...methods}>

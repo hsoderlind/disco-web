@@ -31,23 +31,23 @@ export function Component() {
 
 	const [columnDefs] = useState<GridOptions<ProductType>['columnDefs']>([
 		{
-			field: 'id',
-			headerName: 'ID',
+			field: 'item_number',
+			headerName: 'Art.nr',
 			filter: true,
-			maxWidth: 80
+			maxWidth: 100
 		},
 		{
 			field: 'name',
 			headerName: 'Namn',
-			filter: true
+			filter: true,
+			minWidth: 280
 		},
 		{
 			field: 'price',
 			headerName: 'Pris (exkl. moms)',
 			filter: true,
 			valueFormatter: (params) => Currency.format(params.value),
-			type: 'rightAligned',
-			minWidth: 300
+			type: 'rightAligned'
 		},
 		{
 			field: 'cost_price',

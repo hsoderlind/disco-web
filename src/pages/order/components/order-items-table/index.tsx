@@ -37,12 +37,12 @@ export const OrderItemsTable = ({ items, update, remove }: OrderItemsTableProps)
 			{
 				field: 'item_number',
 				headerName: 'Art.nr',
-				maxWidth: 150
+				maxWidth: 100
 			},
 			{
 				field: 'product_name',
 				headerName: 'Benämning',
-				maxWidth: 300
+				maxWidth: 280
 			},
 			{
 				field: 'price',
