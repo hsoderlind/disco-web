@@ -7,6 +7,10 @@ export class File extends Model<FileType, 'id'> {
 		this.httpClient.setHeaders({'x-shop-id': this.shopId});
 	}
 
+	getPublicDownloadUrl() {
+		return `${import.meta.env.VITE_API_BASE_URL}/file/${this.shopId}/${this.getKey()}`;
+	}
+
 	async download() {
 		const response = await this.httpClient.get<Blob>(`${this.getEndpoint(File.ACTION_READ)}/${this.getKey()}?storage_resolver=${this.get('storage_resolver')}`, {responseType: 'blob'})
 		

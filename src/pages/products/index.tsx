@@ -17,6 +17,10 @@ import { ButtonBar } from '../../components/forms/buttonbar';
 import { ProductStates } from '../../services/product/ProductStates';
 import { Num } from '../../lib/number/Num';
 import { ProductStockType } from '../../services/product-stock/types';
+import { File } from '../../services/file/File';
+import { CellRendererProps } from '../../components/data-grid/types';
+import { ProductImageType } from '../../services/product-image/types';
+import { FileType } from '../../services/file/types';
 
 export function Component() {
 	const [searchParams] = useSearchParams();
@@ -34,6 +38,21 @@ export function Component() {
 			field: 'item_number',
 			headerName: 'Art.nr',
 			filter: true,
+			maxWidth: 100
+		},
+		{
+			colId: 'cover_image',
+			headerName: '',
+			cellRenderer: (props: CellRendererProps<ProductType, never>) => {
+				if (!props.data.images) {
+					return null;
+				} else if (!(props.data.images as ProductImageType[])[0]) {
+					return null;
+				}
+
+				const file = new File((props.data.images as ProductImageType[])[0].meta as FileType, shopId);
+				return <img src={file.getPublicDownloadUrl()} alt={props.data.name} style={{ maxHeight: '50px' }} />;
+			},
 			maxWidth: 100
 		},
 		{
@@ -85,7 +104,8 @@ export function Component() {
 			cellRenderer: (props: { data: { id: number; name: string } }) => {
 				return <Button icon={<ArrowRightOutlined />} onClick={() => goToEditProduct(props.data.id, props.data.name)} />;
 			},
-			type: 'rightAligned'
+			type: 'rightAligned',
+			maxWidth: 80
 		}
 	]);
 
