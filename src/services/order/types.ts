@@ -1,6 +1,13 @@
+import { Dayjs } from "dayjs";
 import app from "../../lib/application-builder/ApplicationBuilder";
 import { id, sortOrder, vsbInfer } from "../../lib/validation/validation-schema-builder";
+import { CustomerType } from "../customer/types";
 import { shippingMethodSchema } from "../shipping-method/types";
+import { OrderStatusSchema } from "../order-status/types";
+import { MetadataSchema } from "../metadata/types";
+import { NoteSchema } from "../note/types";
+import { ReceiptType } from "../receipt/types";
+import { ActivitySchema } from "../activity/types";
 
 const vsb = app.getValidationSchemaBuilder();
 
@@ -64,6 +71,51 @@ export const orderSchema = vsb.object({
 });
 
 export type OrderSchema = vsbInfer<typeof orderSchema>;
+
+export type OrderPaymentType = {
+	id: number,
+	payment_method_name: string;
+	title: string;
+	transaction_id: string;
+};
+
+export type OrderShippingType = {
+	id: number;
+	shipping_method_repository_id: number;
+	shipping_method_name: string;
+	title: string;
+};
+
+export type OrderStatusHistoryType = {
+	id: number;
+	old_status_id: number | null;
+	old_status?: OrderStatusSchema;
+	new_status_id: number;
+	new_status: OrderStatusSchema;
+	note?: NoteSchema;
+	created_at: Dayjs;
+};
+
+export type OrderTotalType = {
+	name: string;
+	label: string;
+	value: number;
+	sort_order: number;
+}
+
+export type OrderType = {
+	customer: CustomerType;
+	payment: OrderPaymentType;
+	status_history: OrderStatusHistoryType[];
+	current_status: OrderStatusHistoryType;
+	totals: OrderTotalType[];
+	metadata: MetadataSchema[];
+	notes: NoteSchema[];
+	shipping: OrderShippingType;
+	receipt: ReceiptType;
+	created_at: Dayjs;
+	activities: ActivitySchema[];
+} & Omit<OrderSchema, 'totals'>;
 
 export const createOrderAttributeSchema = orderAttributeSchema.omit({
 	attribute_type_id: true,

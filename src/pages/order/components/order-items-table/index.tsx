@@ -9,21 +9,29 @@ import { Button, Tooltip } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { CellEditRequestEvent } from 'ag-grid-community';
 
-export const OrderItemsTable = ({ items, update, remove }: OrderItemsTableProps) => {
+export const OrderItemsTable = ({ items, update, remove, readonly = false, minRows = 3 }: OrderItemsTableProps) => {
 	const handleDeleteClick = useCallback(
 		(model: OrderItemSchema) => {
+			if (typeof items === 'undefined') {
+				return;
+			}
+
 			const index = items.findIndex((item) => item.product_id === model.product_id);
 
-			remove(index);
+			remove?.(index);
 		},
 		[items, remove]
 	);
 
 	const handleCellEditRequest = useCallback(
 		(event: CellEditRequestEvent<OrderItemSchema, number>) => {
+			if (typeof items === 'undefined') {
+				return;
+			}
+
 			const index = items.findIndex((item) => item.product_id === event.data.product_id);
 			const newQuantity = +event.newValue!;
-			update(index, {
+			update?.(index, {
 				...items[index],
 				quantity: newQuantity,
 				total: items[index]['price'] * newQuantity
@@ -68,7 +76,7 @@ export const OrderItemsTable = ({ items, update, remove }: OrderItemsTableProps)
 				headerName: 'Antal',
 				maxWidth: 100,
 				valueFormatter: (params) => Num.decimal(params.value as number),
-				editable: true,
+				editable: !readonly,
 				cellEditor: 'agNumberCellEditor',
 				cellEditorParams: {
 					showStepperButtons: true
@@ -93,14 +101,19 @@ export const OrderItemsTable = ({ items, update, remove }: OrderItemsTableProps)
 				headerName: '',
 				cellRenderer: (props: CellRendererProps<OrderItemSchema, never>) => (
 					<Tooltip title='Radera'>
-						<Button type='text' icon={<DeleteOutlined />} onClick={() => handleDeleteClick(props.data)} />
+						<Button
+							disabled={readonly}
+							type='text'
+							icon={<DeleteOutlined />}
+							onClick={() => handleDeleteClick(props.data)}
+						/>
 					</Tooltip>
 				),
 				type: 'rightAligned',
 				maxWidth: 80
 			}
 		],
-		[]
+		[handleDeleteClick, readonly]
 	);
 
 	return (
@@ -109,7 +122,7 @@ export const OrderItemsTable = ({ items, update, remove }: OrderItemsTableProps)
 			columnDefs={columnDefs}
 			rowData={items}
 			rowHeight={40}
-			containerHeight={`${(items?.length > 3 ? items.length : 3) * 54 + 54}px`}
+			containerHeight={`${((items ?? [])?.length > minRows ? (items ?? []).length : minRows) * 54 + 54}px`}
 			onCellEditRequest={handleCellEditRequest}
 			singleClickEdit
 			readOnlyEdit

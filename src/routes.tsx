@@ -46,6 +46,7 @@ const routes = createBrowserRouter(
 							<Route path='modules' lazy={() => import('./pages/shipping-methods/modules')} />
 						</Route>
 						<Route path='orders' handle={{ menuKey: 'orders' }}>
+							<Route index lazy={() => import('./pages/order')} />
 							<Route path='create' handle={{ menuKey: 'orders/create' }} lazy={() => import('./pages/order/create')} />
 							<Route path='order-totals' handle={{ menuKey: 'orders/order-totals' }}>
 								<Route path='' lazy={() => import('./pages/order/order-total')}>
@@ -60,6 +61,7 @@ const routes = createBrowserRouter(
 								<Route path='new' lazy={() => import('./pages/order/order-statuses/create')} />
 								<Route path=':id' lazy={() => import('./pages/order/order-statuses/edit')} />
 							</Route>
+							<Route path=':id' lazy={() => import('./pages/order/view')} />
 						</Route>
 						<Route path='discogs'>
 							<Route path='search' lazy={() => import('./pages/discogs/search')} />
