@@ -50,7 +50,7 @@ export const OrderItemsTable = ({ items, update, remove, readonly = false, minRo
 			{
 				field: 'product_name',
 				headerName: 'Benämning',
-				maxWidth: 280
+				minWidth: 300
 			},
 			{
 				field: 'price',

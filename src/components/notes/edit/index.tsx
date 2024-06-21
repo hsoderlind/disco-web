@@ -1,12 +1,12 @@
 import { SubmitHandler } from 'react-hook-form';
-import { useForm } from '../../../../../../hooks/useForm';
-import app from '../../../../../../lib/application-builder/ApplicationBuilder';
-import { ExtractErrors } from '../../../../../../lib/error/ExtractErrors';
-import { useUpdateNote } from '../../../../../../services/note/hooks/useUpdateNote';
-import { NoteSchema, noteSchema } from '../../../../../../services/note/types';
+import { useForm } from '../../../hooks/useForm';
+import app from '../../../lib/application-builder/ApplicationBuilder';
+import { ExtractErrors } from '../../../lib/error/ExtractErrors';
+import { useUpdateNote } from '../../../services/note/hooks/useUpdateNote';
+import { NoteSchema, noteSchema } from '../../../services/note/types';
 import { NoteEditProps } from './types';
 import { Form, Input, Modal } from 'antd';
-import FormItem from '../../../../../../lib/form/FormItem';
+import FormItem from '../../../lib/form/FormItem';
 
 export const NoteEdit = ({ note, open, onCancel, onUpdated, resource, resourceId }: NoteEditProps) => {
 	const id = note.getKey()!;

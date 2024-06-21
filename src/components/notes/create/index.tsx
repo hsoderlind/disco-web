@@ -1,17 +1,14 @@
 import { SubmitHandler } from 'react-hook-form';
-import { useForm } from '../../../../../../hooks/useForm';
-import { useLoaderData } from '../../../../../../hooks/useLoaderData';
-import { Customer } from '../../../../../../services/customer/Customer';
-import { useCreateNote } from '../../../../../../services/note/hooks/useCreateNote';
-import { NoteSchema, noteSchema } from '../../../../../../services/note/types';
+import { useForm } from '../../../hooks/useForm';
+import { useCreateNote } from '../../../services/note/hooks/useCreateNote';
+import { NoteSchema, noteSchema } from '../../../services/note/types';
 import { NoteCreateProps } from './types';
-import app from '../../../../../../lib/application-builder/ApplicationBuilder';
-import { ExtractErrors } from '../../../../../../lib/error/ExtractErrors';
+import app from '../../../lib/application-builder/ApplicationBuilder';
+import { ExtractErrors } from '../../../lib/error/ExtractErrors';
 import { Form, Input, Modal } from 'antd';
-import FormItem from '../../../../../../lib/form/FormItem';
+import FormItem from '../../../lib/form/FormItem';
 
-export const NoteCreate = ({ open, onCancel, onCreated }: NoteCreateProps) => {
-	const customer = useLoaderData<Customer>();
+export const NoteCreate = ({ open, onCancel, onCreated, resource, resourceId }: NoteCreateProps) => {
 	const {
 		control,
 		handleSubmit,
@@ -25,7 +22,7 @@ export const NoteCreate = ({ open, onCancel, onCreated }: NoteCreateProps) => {
 		schema: noteSchema
 	});
 
-	const mutation = useCreateNote('customer', customer.getKey()!, {
+	const mutation = useCreateNote(resource, resourceId!, {
 		onSuccess: (note) => {
 			app.addSuccessNotification({ description: 'Anteckningen har nu skapats.' });
 			onCreated?.(note);

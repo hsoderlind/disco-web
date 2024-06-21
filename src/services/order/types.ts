@@ -86,6 +86,16 @@ export type OrderShippingType = {
 	title: string;
 };
 
+export const createOrderStatusHistorySchema = vsb.object({
+	order_status_id: id,
+	note: vsb.string().optional(),
+	mail_content: vsb.string().optional()
+});
+
+export type CreateOrderStatusHistorySchema = {
+	order_id: number;
+} & vsbInfer<typeof createOrderStatusHistorySchema>;
+
 export type OrderStatusHistoryType = {
 	id: number;
 	old_status_id: number | null;

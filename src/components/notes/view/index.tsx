@@ -1,11 +1,11 @@
 import { Card, Popconfirm } from 'antd';
 import { NoteViewProps } from './types';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { useDeleteNote } from '../../../../../../services/note/hooks/useDeleteNote';
-import { useLoaderData } from '../../../../../../hooks/useLoaderData';
-import { Customer } from '../../../../../../services/customer/Customer';
-import app from '../../../../../../lib/application-builder/ApplicationBuilder';
-import { queryListNotes } from '../../../../../../services/note/queries';
+import { useDeleteNote } from '../../../services/note/hooks/useDeleteNote';
+import { useLoaderData } from '../../../hooks/useLoaderData';
+import { Customer } from '../../../services/customer/Customer';
+import app from '../../../lib/application-builder/ApplicationBuilder';
+import { queryListNotes } from '../../../services/note/queries';
 import { Dayjs } from 'dayjs';
 import { useState } from 'react';
 import { NoteEdit } from '../edit';

@@ -6,7 +6,7 @@ import { Sidebar } from './components/sidebar';
 import { Details } from './components/details';
 import { Addresses } from './components/addresses';
 import { CreditBalance } from './components/credit-balance';
-import { Notes } from './components/notes';
+import { Notes } from '../../../components/notes';
 import { Metadata } from '../../../components/metadata';
 import { useLoaderData } from '../../../hooks/useLoaderData';
 import { Customer } from '../../../services/customer/Customer';
@@ -31,7 +31,24 @@ export function Component() {
 			{section === 'details' && <Details />}
 			{section === 'addresses' && <Addresses />}
 			{section === 'credit-balance' && <CreditBalance />}
-			{section === 'notes' && <Notes />}
+			{section === 'notes' && (
+				<Notes
+					resource='customer'
+					resourceId={customer.getKey()!}
+					renderButtonBar={(params) => (
+						<>
+							<ButtonBar>
+								<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToCustomers} size='large'>
+									Kunder
+								</Button>
+								<Button type='primary' size='large' icon={<PlusOutlined />} onClick={params.openModal}>
+									Ny anteckning
+								</Button>
+							</ButtonBar>
+						</>
+					)}
+				/>
+			)}
 			{section === 'metadata' && (
 				<Metadata
 					resource='customer'

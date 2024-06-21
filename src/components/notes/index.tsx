@@ -1,30 +1,20 @@
 import { Button, Col, List, Row } from 'antd';
-import { MainContentLayout } from '../../../../../components/layout/content-layout/MainContentLayout';
-import { useLoaderData } from '../../../../../hooks/useLoaderData';
-import { Customer } from '../../../../../services/customer/Customer';
-import { useListNotes } from '../../../../../services/note/hooks/useListNotes';
-import { NoteType } from '../../../../../services/note/types';
-import { ButtonBar } from '../../../../../components/forms/buttonbar';
-import { ArrowLeftOutlined, PlusOutlined } from '@ant-design/icons';
-import { useNavigate } from '../../../../../hooks/useNavigate';
+import { MainContentLayout } from '../layout/content-layout/MainContentLayout';
+import { useListNotes } from '../../services/note/hooks/useListNotes';
+import { NoteType } from '../../services/note/types';
 import { useMemo, useState } from 'react';
 import { NoteCreate } from './create';
 import { NoteView } from './view';
 import { useSearchParams } from 'react-router-dom';
+import { NotesProps } from './types';
 
-export const Notes = () => {
+export const Notes = ({ renderButtonBar, resource, resourceId }: NotesProps) => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const selectedNoteId = searchParams.has('note') ? parseInt(searchParams.get('note')!) : undefined;
 	const [modalOpen, setModalOpen] = useState(false);
-	const navigate = useNavigate();
-	const customer = useLoaderData<Customer>();
-	const { data: notes, isLoading, isFetching, refetch } = useListNotes('customer', customer.getKey()!);
+	const { data: notes, isLoading, isFetching, refetch } = useListNotes(resource, resourceId);
 
 	const selectedNote = useMemo(() => notes?.find(selectedNoteId), [selectedNoteId, notes]);
-
-	const goToCustomers = () => {
-		navigate('../', 'Kunder');
-	};
 
 	const handleCreated = () => {
 		setModalOpen(false);
@@ -41,14 +31,12 @@ export const Notes = () => {
 			<MainContentLayout
 				title='Anteckningar'
 				renderButtonBar={
-					<ButtonBar>
-						<Button type='default' icon={<ArrowLeftOutlined />} onClick={goToCustomers} size='large'>
-							Kunder
-						</Button>
-						<Button type='primary' size='large' icon={<PlusOutlined />} onClick={() => setModalOpen(true)}>
-							Ny anteckning
-						</Button>
-					</ButtonBar>
+					<>
+						{renderButtonBar?.({
+							closeModal: () => setModalOpen(false),
+							openModal: () => setModalOpen(true)
+						})}
+					</>
 				}>
 				<Row gutter={[16, 0]}>
 					<Col sm={24} md={12}>
@@ -75,7 +63,13 @@ export const Notes = () => {
 					</Col>
 				</Row>
 			</MainContentLayout>
-			<NoteCreate open={modalOpen} onCancel={() => setModalOpen(false)} onCreated={handleCreated} />
+			<NoteCreate
+				resource={resource}
+				resourceId={resourceId}
+				open={modalOpen}
+				onCancel={() => setModalOpen(false)}
+				onCreated={handleCreated}
+			/>
 		</>
 	);
 };
